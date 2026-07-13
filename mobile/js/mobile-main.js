@@ -428,7 +428,7 @@ document.addEventListener('DOMContentLoaded', () => {
       { name: 'Pfizer', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo pfizer.svg', color: '#00a3e0', hoverGlow: 'rgba(0, 163, 224, 0.4)' },
       { name: 'Honda', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo honda.svg', color: '#ff0000', hoverGlow: 'rgba(255, 0, 0, 0.4)' },
       { name: 'PepsiCo', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo pepsico.svg', color: '#004b87', hoverGlow: 'rgba(0, 75, 135, 0.4)' },
-      { name: 'Sherwin-Williams', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo sw + suvinil.svg', color: '#005ea6', hoverGlow: 'rgba(0, 94, 166, 0.4)' },
+      { name: 'Sherwin-Williams', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo_sherwin_suvinil.svg', color: '#005ea6', hoverGlow: 'rgba(0, 94, 166, 0.4)' },
       { name: 'Sanofi', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo branca sanofi 1.svg', color: '#59d2fe', hoverGlow: 'rgba(89, 210, 254, 0.4)' },
       { name: 'Bridgestone', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo bridgestone 1.svg', color: '#ff0000', hoverGlow: 'rgba(255, 0, 0, 0.4)' },
       { name: 'Carrefour', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo carrefour.svg', color: '#004a97', hoverGlow: 'rgba(0, 74, 151, 0.4)' },
