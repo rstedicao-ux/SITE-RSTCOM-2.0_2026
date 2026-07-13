@@ -3260,32 +3260,52 @@ category: "convencao audiovisual"
     ];
 
     const positions = [
-      // Left side (8 positions) - frame the center to prevent overlap
-      { x: 4,  y: 10, depth: 1, device: 'desktop' },
-      { x: 18, y: 16, depth: 3, device: 'mobile' },
-      { x: 10, y: 28, depth: 2, device: 'tablet' },
-      { x: 28, y: 36, depth: 4, device: 'mobile' },
-      { x: 6,  y: 44, depth: 2, device: 'tablet' },
-      { x: 22, y: 52, depth: 5, device: 'mobile' },
-      { x: 12, y: 64, depth: 3, device: 'tablet' },
-      { x: 4,  y: 78, depth: 1, device: 'desktop' },
-      
-      // Right side (8 positions) - frame the center to prevent overlap
-      { x: 96, y: 10, depth: 2, device: 'tablet' },
-      { x: 82, y: 16, depth: 4, device: 'mobile' },
-      { x: 90, y: 28, depth: 1, device: 'desktop' },
-      { x: 72, y: 36, depth: 3, device: 'mobile' },
-      { x: 94, y: 44, depth: 5, device: 'mobile' },
-      { x: 78, y: 52, depth: 2, device: 'tablet' },
-      { x: 88, y: 64, depth: 4, device: 'mobile' },
-      { x: 96, y: 78, depth: 1, device: 'desktop' }
+      // ── TOP-LEFT CORNER cluster
+      { x: 2,  y: 3,  depth: 1, device: 'desktop' },
+      { x: 12, y: 7,  depth: 3, device: 'tablet' },
+      { x: 5,  y: 14, depth: 2, device: 'desktop' },
+
+      // ── LEFT SIDE mid
+      { x: 18, y: 22, depth: 4, device: 'mobile' },
+      { x: 6,  y: 34, depth: 2, device: 'tablet' },
+      { x: 20, y: 45, depth: 5, device: 'mobile' },
+      { x: 8,  y: 57, depth: 3, device: 'tablet' },
+
+      // ── BOTTOM-LEFT CORNER cluster
+      { x: 3,  y: 72, depth: 1, device: 'desktop' },
+      { x: 14, y: 82, depth: 4, device: 'mobile' },
+      { x: 4,  y: 92, depth: 2, device: 'tablet' },
+
+      // ── TOP-RIGHT CORNER cluster
+      { x: 98, y: 3,  depth: 2, device: 'tablet' },
+      { x: 86, y: 8,  depth: 4, device: 'mobile' },
+      { x: 95, y: 16, depth: 1, device: 'desktop' },
+
+      // ── RIGHT SIDE mid
+      { x: 74, y: 24, depth: 3, device: 'mobile' },
+      { x: 92, y: 36, depth: 5, device: 'mobile' },
+      { x: 76, y: 48, depth: 2, device: 'tablet' },
+      { x: 90, y: 60, depth: 4, device: 'mobile' },
+
+      // ── BOTTOM-RIGHT CORNER cluster
+      { x: 97, y: 74, depth: 1, device: 'desktop' },
+      { x: 82, y: 84, depth: 3, device: 'tablet' },
+      { x: 96, y: 93, depth: 2, device: 'desktop' },
+
+      // ── TOP CENTER (far edge)
+      { x: 38, y: 2,  depth: 5, device: 'mobile' },
+      { x: 60, y: 4,  depth: 3, device: 'tablet' },
+
+      // ── BOTTOM CENTER (far edge)
+      { x: 36, y: 94, depth: 4, device: 'mobile' },
+      { x: 62, y: 92, depth: 2, device: 'tablet' },
     ];
 
-    // Create DOM elements
+    // Create DOM elements — logos can cycle/wrap brands array for more logos than brands
     const logoItems = [];
-    brands.forEach((brand, idx) => {
-      if (idx >= positions.length) return;
-      const pos = positions[idx];
+    positions.forEach((pos, idx) => {
+      // Cycle through brands so all positions get a logo
+      const brand = brands[idx % brands.length];
       
       const item = document.createElement('div');
       item.className = `brand-logo-item logo-device-${pos.device}`;
@@ -3293,6 +3313,11 @@ category: "convencao audiovisual"
       item.style.top = `${pos.y}%`;
       item.style.zIndex = pos.depth;
       item.setAttribute('data-depth', pos.depth);
+
+      // Deep logos (depth 4-5) get an emergence effect — start small and grow in
+      if (pos.depth >= 4) {
+        item.style.animation = `logoEmerge ${1.8 + Math.random() * 1.2}s cubic-bezier(0.22,1,0.36,1) ${Math.random() * 2}s both`;
+      }
 
       // Wrapper for floating CSS animation
       const floatWrap = document.createElement('div');
@@ -3304,6 +3329,9 @@ category: "convencao audiovisual"
       floatWrap.style.animationName = 'logoFloat';
       floatWrap.style.animationDuration = duration;
       floatWrap.style.animationDelay = delay;
+      floatWrap.style.animationIterationCount = 'infinite';
+      floatWrap.style.animationTimingFunction = 'ease-in-out';
+      floatWrap.style.animationPlayState = 'running';
 
       // Inner transition elements
       const inner = document.createElement('div');
@@ -3311,8 +3339,8 @@ category: "convencao audiovisual"
       inner.style.setProperty('--hover-color-glow', brand.hoverGlow);
       inner.style.setProperty('--brand-color', brand.color);
       
-      // Cascading delays for entrance animation (indices % 4)
-      const groupDelay = ((idx % 4) * 150) + 'ms';
+      // Cascading delays for entrance animation — stagger all logos nicely
+      const groupDelay = ((idx % 8) * 120) + 'ms';
       inner.style.transitionDelay = groupDelay;
 
       if (brand.isInline) {
@@ -3821,4 +3849,127 @@ if (document.readyState === 'loading') {
 (function() {
   const yearEl = document.getElementById('copyrightYear');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
+})();
+
+/* ════════════════════════════════════════════════════
+   CURSOR CUSTOM — cursor seta + rastro colorido sutil
+   ════════════════════════════════════════════════════ */
+(function initPixelCursor() {
+  if (window.innerWidth <= 900) return; // Desabilitado em mobile/touch
+
+  // Esconde cursor nativo
+  document.documentElement.style.cursor = 'none';
+
+  // ── Cursor SVG — seta estilo padrão, mas pixelada/colorida
+  const cursorEl = document.createElement('div');
+  cursorEl.id = 'pixel-cursor';
+  cursorEl.innerHTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="image-rendering:pixelated; display:block;">
+      <!-- Seta de cursor padrão, estilo pixel -->
+      <polygon points="2,2 2,18 6,14 9,21 11,20 8,13 14,13" fill="white" stroke="black" stroke-width="1.5" stroke-linejoin="round"/>
+    </svg>
+  `;
+  cursorEl.style.cssText = `
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999999;
+    transform: translate(0, 0);
+    will-change: transform;
+  `;
+  document.body.appendChild(cursorEl);
+
+  // ── Canvas para o rastro de pixels (transparente — sem fundo preto)
+  const canvas = document.createElement('canvas');
+  canvas.id = 'pixel-trail-canvas';
+  canvas.style.cssText = `
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 9999997;
+  `;
+  document.body.appendChild(canvas);
+  const ctx = canvas.getContext('2d');
+
+  function resizeCanvas() {
+    // Salva pixels antes de redimensionar (evita apagar tudo)
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  // Paleta de cores vibrantes
+  const palette = [
+    '#FF2D55', '#FF9500', '#FFCC00', '#34C759',
+    '#00C6FF', '#5856D6', '#BF5AF2', '#4ECDC4'
+  ];
+
+  let particles = [];
+  let lastMx = -999, lastMy = -999;
+  const PIXEL_SIZE = 4; // pixels pequenos e discretos
+
+  document.addEventListener('mousemove', (e) => {
+    const mx = e.clientX;
+    const my = e.clientY;
+
+    // Posiciona cursor
+    cursorEl.style.transform = `translate(${mx}px, ${my}px)`;
+
+    // Rastro sutil: apenas 1-2 partículas, só a cada 6px de movimento
+    const dist = Math.hypot(mx - lastMx, my - lastMy);
+    if (dist > 6) {
+      const count = 1 + (dist > 14 ? 1 : 0); // máx 2 partículas
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: mx + (Math.random() - 0.5) * 8,
+          y: my + (Math.random() - 0.5) * 8,
+          size: PIXEL_SIZE,
+          color: palette[Math.floor(Math.random() * palette.length)],
+          alpha: 0.75,
+          decay: 0.045 + Math.random() * 0.02,
+          vx: (Math.random() - 0.5) * 0.8,
+          vy: -(Math.random() * 0.8 + 0.3)
+        });
+      }
+      lastMx = mx;
+      lastMy = my;
+    }
+  });
+
+  document.addEventListener('mouseleave', () => { cursorEl.style.opacity = '0'; });
+  document.addEventListener('mouseenter', () => { cursorEl.style.opacity = '1'; });
+
+  // ── Render loop — clearRect em vez de preencher com preto
+  function render() {
+    // Limpa APENAS as áreas onde havia partículas (performance + sem tela preta)
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+      p.alpha -= p.decay;
+
+      if (p.alpha <= 0) { particles.splice(i, 1); continue; }
+
+      ctx.save();
+      ctx.globalAlpha = p.alpha;
+      ctx.shadowColor = p.color;
+      ctx.shadowBlur = 6;
+      ctx.fillStyle = p.color;
+      // Snap para grid de pixels (look retro)
+      ctx.fillRect(
+        Math.round(p.x / PIXEL_SIZE) * PIXEL_SIZE,
+        Math.round(p.y / PIXEL_SIZE) * PIXEL_SIZE,
+        p.size, p.size
+      );
+      ctx.restore();
+    }
+
+    requestAnimationFrame(render);
+  }
+
+  render();
 })();
