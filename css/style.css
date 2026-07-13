@@ -807,6 +807,7 @@ body.loaded .hero {
               transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .brand-auth-cta:hover {
@@ -2171,6 +2172,7 @@ body.loaded .hero {
   padding: 20px 24px;
   background: rgba(255, 255, 255, .12);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-radius: 14px;
   border: 1px solid rgba(255, 255, 255, .2);
   transition: background var(--transition);
@@ -2237,6 +2239,7 @@ body.loaded .hero {
 .contato-form {
   background: rgba(255, 255, 255, .15);
   backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-radius: 24px;
   border: 1px solid rgba(255, 255, 255, .25);
   padding: 48px 40px;
@@ -2848,6 +2851,7 @@ body.loaded .hero {
   padding: 6px;
   transition: border-color var(--transition), box-shadow var(--transition);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .news-input-wrapper:focus-within {
