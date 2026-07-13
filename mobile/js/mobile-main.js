@@ -415,11 +415,81 @@ document.addEventListener('DOMContentLoaded', () => {
     card.addEventListener('click', () => openCaseModal(card));
   });
 
-  // Listener para cards da seção de perspectiva 3D (Nova Era)
-  const deckCards = document.querySelectorAll('.mobile-deck-card');
-  deckCards.forEach(card => {
-    card.addEventListener('click', () => openCaseModal(card));
-  });
+  /* ════════════════════════════════════════════
+     BRAND AUTHORITY FLOATING LOGOS
+     ════════════════════════════════════════════ */
+  const brandSection = document.querySelector('.brand-authority');
+  const logosContainer = document.getElementById('brandLogosContainer');
+
+  if (brandSection && logosContainer) {
+    const brands = [
+      { name: 'Libbs', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo libbs.svg', color: '#005a9c', hoverGlow: 'rgba(0, 90, 156, 0.4)' },
+      { name: 'Dongfeng', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo dongfeng.svg', color: '#e4002b', hoverGlow: 'rgba(228, 0, 43, 0.4)' },
+      { name: 'Pfizer', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo pfizer.svg', color: '#00a3e0', hoverGlow: 'rgba(0, 163, 224, 0.4)' },
+      { name: 'Honda', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo honda.svg', color: '#ff0000', hoverGlow: 'rgba(255, 0, 0, 0.4)' },
+      { name: 'PepsiCo', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo pepsico.svg', color: '#004b87', hoverGlow: 'rgba(0, 75, 135, 0.4)' },
+      { name: 'Sherwin-Williams', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo sw + suvinil.svg', color: '#005ea6', hoverGlow: 'rgba(0, 94, 166, 0.4)' },
+      { name: 'Sanofi', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo branca sanofi 1.svg', color: '#59d2fe', hoverGlow: 'rgba(89, 210, 254, 0.4)' },
+      { name: 'Bridgestone', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo bridgestone 1.svg', color: '#ff0000', hoverGlow: 'rgba(255, 0, 0, 0.4)' },
+      { name: 'Carrefour', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo carrefour.svg', color: '#004a97', hoverGlow: 'rgba(0, 74, 151, 0.4)' },
+      { name: 'Grunenthal', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo grunenthal.svg', color: '#009639', hoverGlow: 'rgba(0, 150, 57, 0.4)' },
+      { name: 'InfoMoney', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo infomoney.svg', color: '#002f6c', hoverGlow: 'rgba(0, 47, 108, 0.4)' },
+      { name: 'Takeda', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo takeda.svg', color: '#e31b23', hoverGlow: 'rgba(227, 27, 35, 0.4)' },
+      { name: 'Teva', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo teva.svg', color: '#0083ca', hoverGlow: 'rgba(0, 131, 202, 0.4)' },
+      { name: 'XP', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo xp 1.svg', color: '#ffcc00', hoverGlow: 'rgba(255, 204, 0, 0.4)' },
+      { name: 'Petrobras', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/LOGO PETROBRAS BRANCO 1.svg', color: '#008a4f', hoverGlow: 'rgba(0, 138, 79, 0.4)' },
+      { name: 'Logo 1', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo 1.svg', color: '#ffffff', hoverGlow: 'rgba(255, 255, 255, 0.3)' }
+    ];
+
+    // Filter to show 10 logos on mobile
+    const mobileBrands = brands.slice(0, 10);
+
+    // Create DOM elements
+    mobileBrands.forEach((brand, idx) => {
+      const item = document.createElement('div');
+      item.className = 'brand-logo-item';
+      item.style.zIndex = 1;
+
+      // Wrapper for floating CSS animation
+      const floatWrap = document.createElement('div');
+      floatWrap.className = 'brand-logo-float';
+
+      // Inner transition elements
+      const inner = document.createElement('div');
+      inner.className = 'brand-logo-inner';
+      inner.style.setProperty('--hover-color-glow', brand.hoverGlow);
+      inner.style.setProperty('--brand-color', brand.color);
+      
+      // Cascading delays for entrance animation
+      const groupDelay = ((idx % 3) * 100) + 'ms';
+      inner.style.transitionDelay = groupDelay;
+
+      if (brand.isInline) {
+        inner.innerHTML = brand.svg;
+      } else {
+        const img = document.createElement('img');
+        img.src = brand.src;
+        img.alt = brand.name;
+        img.loading = 'lazy';
+        inner.appendChild(img);
+      }
+
+      floatWrap.appendChild(inner);
+      item.appendChild(floatWrap);
+      logosContainer.appendChild(item);
+    });
+
+    // Intersection Observer for viewport entrance animation
+    const brandObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          brandSection.classList.add('in-view');
+          brandObserver.unobserve(brandSection);
+        }
+      });
+    }, { threshold: 0.1 });
+    brandObserver.observe(brandSection);
+  }
 
   if (caseModalClose) {
     caseModalClose.addEventListener('click', closeCaseModal);

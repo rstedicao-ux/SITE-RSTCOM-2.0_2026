@@ -1704,14 +1704,14 @@ function init() {
     }
 
     // Touch & Drag interaction handlers
-    let ctaDragMoved = false;
+    ctaViewport.ctaDragMoved = false;
     const handleStart = (e) => {
       if (e.type === 'mousedown') {
         e.preventDefault();
       }
       isDragging = true;
       dragStartX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
-      ctaDragMoved = false;
+      ctaViewport.ctaDragMoved = false;
       dragStartProgress = targetProgress;
       ctaViewport.style.cursor = 'grabbing';
       startAnimation();
@@ -1722,7 +1722,7 @@ function init() {
       const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
       const deltaX = clientX - dragStartX;
       if (Math.abs(deltaX) > 6) {
-        ctaDragMoved = true;
+        ctaViewport.ctaDragMoved = true;
       }
       const sensitivity = 360; // Pixels to scroll 1 slide
       targetProgress = dragStartProgress - (deltaX / sensitivity);
@@ -1757,7 +1757,7 @@ function init() {
     // Click to center cards
     ctaCards.forEach((card, idx) => {
       card.addEventListener('click', (e) => {
-        if (ctaDragMoved) {
+        if (ctaViewport.ctaDragMoved) {
           e.preventDefault();
           e.stopPropagation();
           return;
@@ -3198,76 +3198,249 @@ category: "convencao audiovisual"
 
 
 
-  // Attach click handlers to Nova Era section cards
-  const deckCards = document.querySelectorAll('.nova-deck-card');
-  deckCards.forEach(card => {
-    card.addEventListener('click', () => {
-      const titleText = card.querySelector('.deck-card-title')?.textContent || '';
-      const tagText = card.querySelector('.deck-card-tag')?.textContent || '';
-      const imgSrc = card.querySelector('.deck-card-img')?.getAttribute('src') || '';
-      
-      // Determine category based on title or tags
-      let categoryClass = 'outro';
-      const normalizedTitle = titleText.toLowerCase();
-      const normalizedTag = tagText.toLowerCase();
-      if (normalizedTitle.includes('summit') || normalizedTitle.includes('d2c')) categoryClass = 'captacao b2b';
-      else if (normalizedTag.includes('captacao') || normalizedTag.includes('captação')) categoryClass = 'captacao';
-      else if (normalizedTag.includes('tecnologia')) categoryClass = 'tecnologia';
-      else if (normalizedTag.includes('audiovisual')) categoryClass = 'audiovisual';
-      else if (normalizedTag.includes('estande')) categoryClass = 'estande';
-      else if (normalizedTag.includes('feira')) categoryClass = 'feira';
-      else if (normalizedTag.includes('conven')) categoryClass = 'convencao';
+  // Old Nova Era deck click handlers removed in favor of brand authority section
 
-      openCase(titleText, categoryClass, imgSrc, tagText);
-    });
-  });
-
-  // Attach click handlers to CTA coverflow cards
+  // Attach click handlers to CTA coverflow cards to scroll and filter the main cases grid
   const cta3dCards = document.querySelectorAll('.cta-3d-card');
   cta3dCards.forEach(card => {
     card.addEventListener('click', () => {
+      // Prevent scrolling/filtering if this click was a drag gesture release
+      const ctaViewport = document.getElementById('casesCtaViewport');
+      if (ctaViewport && ctaViewport.ctaDragMoved) {
+        ctaViewport.ctaDragMoved = false;
+        return;
+      }
+
       const idx = card.getAttribute('data-index');
-      const img = card.querySelector('img');
-      const imgSrc = img?.getAttribute('src') || '';
-      
-      let matchedSlug = "d2c-summit";
-      
-      if (idx === "0") matchedSlug = "d2c-summit";
-      else if (idx === "1") matchedSlug = "anbima";
-      else if (idx === "2") matchedSlug = "ernest-young";
-      else if (idx === "3") matchedSlug = "midea-febrava-2025";
-      else if (idx === "4") matchedSlug = "feicon-2025";
-      else if (idx === "5") matchedSlug = "grupo-sc";
-      
-      const data = casesDb[matchedSlug];
-      if (data) {
-        openCase(data.title, data.category, imgSrc, data.tag);
+      let filterCategory = "all";
+
+      if (idx === "0") filterCategory = "captacao";
+      else if (idx === "1") filterCategory = "audiovisual";
+      else if (idx === "2") filterCategory = "fair";
+      else if (idx === "3") filterCategory = "b2b";
+
+      // 1. Scroll smoothly to the cases section
+      const casesSection = document.getElementById('cases');
+      if (casesSection) {
+        casesSection.scrollIntoView({ behavior: 'smooth' });
+      }
+
+      // 2. Select and trigger click on the matching filter button
+      const filterBtn = document.querySelector(`.filter-btn[data-filter="${filterCategory}"]`);
+      if (filterBtn) {
+        filterBtn.click();
       }
     });
   });
 
-  // Preload Nova Era deck videos only when the section enters the viewport
-  const deckVideoObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const deckVideoCards = entry.target.querySelectorAll('.nova-deck-card--video');
-        deckVideoCards.forEach(item => {
-          const video = item.querySelector('.deck-card-video');
-          if (video && video.tagName === 'IFRAME' && !video.src) {
-            const vimeoId = video.dataset.vimeoId;
-            const vimeoHash = video.dataset.vimeoHash;
-            const hashParam = vimeoHash ? `h=${vimeoHash}&` : '';
-            video.src = `https://player.vimeo.com/video/${vimeoId}?${hashParam}background=1&autoplay=1&loop=1&muted=1`;
-          }
-        });
-        deckVideoObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0, rootMargin: '200px 0px' });
+  /* ════════════════════════════════════════════
+     BRAND AUTHORITY FLOATING LOGOS & FIELD EFFECT
+     ════════════════════════════════════════════ */
+  const brandSection = document.querySelector('.brand-authority');
+  const logosContainer = document.getElementById('brandLogosContainer');
 
-  const casosAvSection = document.getElementById('casos-av');
-  if (casosAvSection) {
-    deckVideoObserver.observe(casosAvSection);
+  if (brandSection && logosContainer) {
+    const brands = [
+      { name: 'Libbs', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo libbs.svg', color: '#005a9c', hoverGlow: 'rgba(0, 90, 156, 0.4)' },
+      { name: 'Dongfeng', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo dongfeng.svg', color: '#e4002b', hoverGlow: 'rgba(228, 0, 43, 0.4)' },
+      { name: 'Pfizer', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo pfizer.svg', color: '#00a3e0', hoverGlow: 'rgba(0, 163, 224, 0.4)' },
+      { name: 'Honda', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo honda.svg', color: '#ff0000', hoverGlow: 'rgba(255, 0, 0, 0.4)' },
+      { name: 'PepsiCo', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo pepsico.svg', color: '#004b87', hoverGlow: 'rgba(0, 75, 135, 0.4)' },
+      { name: 'Sherwin-Williams', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo sw + suvinil.svg', color: '#005ea6', hoverGlow: 'rgba(0, 94, 166, 0.4)' },
+      { name: 'Sanofi', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo branca sanofi 1.svg', color: '#59d2fe', hoverGlow: 'rgba(89, 210, 254, 0.4)' },
+      { name: 'Bridgestone', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo bridgestone 1.svg', color: '#ff0000', hoverGlow: 'rgba(255, 0, 0, 0.4)' },
+      { name: 'Carrefour', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo carrefour.svg', color: '#004a97', hoverGlow: 'rgba(0, 74, 151, 0.4)' },
+      { name: 'Grunenthal', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo grunenthal.svg', color: '#009639', hoverGlow: 'rgba(0, 150, 57, 0.4)' },
+      { name: 'InfoMoney', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo infomoney.svg', color: '#002f6c', hoverGlow: 'rgba(0, 47, 108, 0.4)' },
+      { name: 'Takeda', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo takeda.svg', color: '#e31b23', hoverGlow: 'rgba(227, 27, 35, 0.4)' },
+      { name: 'Teva', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo teva.svg', color: '#0083ca', hoverGlow: 'rgba(0, 131, 202, 0.4)' },
+      { name: 'XP', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo xp 1.svg', color: '#ffcc00', hoverGlow: 'rgba(255, 204, 0, 0.4)' },
+      { name: 'Petrobras', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/LOGO PETROBRAS BRANCO 1.svg', color: '#008a4f', hoverGlow: 'rgba(0, 138, 79, 0.4)' },
+      { name: 'Logo 1', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo 1.svg', color: '#ffffff', hoverGlow: 'rgba(255, 255, 255, 0.3)' }
+    ];
+
+    const positions = [
+      // Left side (8 positions) - frame the center to prevent overlap
+      { x: 4,  y: 10, depth: 1, device: 'desktop' },
+      { x: 18, y: 16, depth: 3, device: 'mobile' },
+      { x: 10, y: 28, depth: 2, device: 'tablet' },
+      { x: 28, y: 36, depth: 4, device: 'mobile' },
+      { x: 6,  y: 44, depth: 2, device: 'tablet' },
+      { x: 22, y: 52, depth: 5, device: 'mobile' },
+      { x: 12, y: 64, depth: 3, device: 'tablet' },
+      { x: 4,  y: 78, depth: 1, device: 'desktop' },
+      
+      // Right side (8 positions) - frame the center to prevent overlap
+      { x: 96, y: 10, depth: 2, device: 'tablet' },
+      { x: 82, y: 16, depth: 4, device: 'mobile' },
+      { x: 90, y: 28, depth: 1, device: 'desktop' },
+      { x: 72, y: 36, depth: 3, device: 'mobile' },
+      { x: 94, y: 44, depth: 5, device: 'mobile' },
+      { x: 78, y: 52, depth: 2, device: 'tablet' },
+      { x: 88, y: 64, depth: 4, device: 'mobile' },
+      { x: 96, y: 78, depth: 1, device: 'desktop' }
+    ];
+
+    // Create DOM elements
+    const logoItems = [];
+    brands.forEach((brand, idx) => {
+      if (idx >= positions.length) return;
+      const pos = positions[idx];
+      
+      const item = document.createElement('div');
+      item.className = `brand-logo-item logo-device-${pos.device}`;
+      item.style.left = `${pos.x}%`;
+      item.style.top = `${pos.y}%`;
+      item.style.zIndex = pos.depth;
+      item.setAttribute('data-depth', pos.depth);
+
+      // Wrapper for floating CSS animation
+      const floatWrap = document.createElement('div');
+      floatWrap.className = 'brand-logo-float';
+      
+      // Floating animation randomized duration & delay
+      const duration = (Math.random() * 10 + 8).toFixed(2) + 's';
+      const delay = -(Math.random() * 18).toFixed(2) + 's';
+      floatWrap.style.animationName = 'logoFloat';
+      floatWrap.style.animationDuration = duration;
+      floatWrap.style.animationDelay = delay;
+
+      // Inner transition elements
+      const inner = document.createElement('div');
+      inner.className = 'brand-logo-inner';
+      inner.style.setProperty('--hover-color-glow', brand.hoverGlow);
+      inner.style.setProperty('--brand-color', brand.color);
+      
+      // Cascading delays for entrance animation (indices % 4)
+      const groupDelay = ((idx % 4) * 150) + 'ms';
+      inner.style.transitionDelay = groupDelay;
+
+      if (brand.isInline) {
+        inner.innerHTML = brand.svg;
+      } else {
+        const img = document.createElement('img');
+        img.src = brand.src;
+        img.alt = brand.name;
+        img.loading = 'lazy';
+        inner.appendChild(img);
+      }
+
+      floatWrap.appendChild(inner);
+      item.appendChild(floatWrap);
+      logosContainer.appendChild(item);
+
+      logoItems.push({
+        element: item,
+        pctX: pos.x,
+        pctY: pos.y,
+        parallaxFactor: pos.depth * 0.015,
+        currentOffsetX: 0,
+        currentOffsetY: 0,
+        targetOffsetX: 0,
+        targetOffsetY: 0,
+        vx: 0,
+        vy: 0
+      });
+    });
+
+    // Intersection Observer for viewport entrance animation
+    const brandObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          brandSection.classList.add('in-view');
+          brandObserver.unobserve(brandSection);
+        }
+      });
+    }, { threshold: 0.15 });
+    brandObserver.observe(brandSection);
+
+    // Mouse interactions: Parallax & Magnetic Fields
+    let mouse = { x: 0, y: 0, relX: 0, relY: 0, inContainer: false };
+    
+    brandSection.addEventListener('mousemove', (e) => {
+      if (window.innerWidth <= 768) return; // Disable parallax/magnetism on mobile
+      const rect = brandSection.getBoundingClientRect();
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
+      mouse.relX = mouse.x - (rect.width / 2);
+      mouse.relY = mouse.y - (rect.height / 2);
+      mouse.inContainer = true;
+    });
+
+    brandSection.addEventListener('mouseleave', () => {
+      mouse.relX = 0;
+      mouse.relY = 0;
+      mouse.inContainer = false;
+    });
+
+    // Animation physics loop
+    const threshold = 180; // Distance in pixels to apply magnetic push
+    const maxPush = 28;    // Max push displacement in pixels
+    const stiffness = 0.08;
+    const damping = 0.75;
+    let isLoopRunning = false;
+
+    // Run only when visible for performance
+    const renderObserver = new IntersectionObserver((entries) => {
+      const isIntersecting = entries[0].isIntersecting;
+      if (isIntersecting && !isLoopRunning) {
+        isLoopRunning = true;
+        loop();
+      } else {
+        isLoopRunning = false;
+      }
+    }, { threshold: 0.05 });
+    renderObserver.observe(brandSection);
+
+    function loop() {
+      if (!isLoopRunning) return;
+
+      const rect = brandSection.getBoundingClientRect();
+      const w = rect.width;
+      const h = rect.height;
+
+      logoItems.forEach(logo => {
+        // 1. Parallax target
+        const px = mouse.relX * logo.parallaxFactor;
+        const py = mouse.relY * logo.parallaxFactor;
+
+        // 2. Magnetic push target
+        let pushX = 0;
+        let pushY = 0;
+
+        if (mouse.inContainer) {
+          // Pixel base position of logo
+          const logoX = (logo.pctX / 100) * w + logo.currentOffsetX;
+          const logoY = (logo.pctY / 100) * h + logo.currentOffsetY;
+
+          const dx = logoX - mouse.x;
+          const dy = logoY - mouse.y;
+          const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+
+          if (dist < threshold) {
+            const force = (threshold - dist) / threshold;
+            // Push away
+            pushX = (dx / dist) * maxPush * force;
+            pushY = (dy / dist) * maxPush * force;
+          }
+        }
+
+        logo.targetOffsetX = px + pushX;
+        logo.targetOffsetY = py + pushY;
+
+        // Spring equations
+        const ax = (logo.targetOffsetX - logo.currentOffsetX) * stiffness;
+        const ay = (logo.targetOffsetY - logo.currentOffsetY) * stiffness;
+        logo.vx = (logo.vx + ax) * damping;
+        logo.vy = (logo.vy + ay) * damping;
+        logo.currentOffsetX += logo.vx;
+        logo.currentOffsetY += logo.vy;
+
+        logo.element.style.transform = `translate3d(${logo.currentOffsetX.toFixed(2)}px, ${logo.currentOffsetY.toFixed(2)}px, 0)`;
+      });
+
+      requestAnimationFrame(loop);
+    }
   }
 
   // Modal CTA button action
@@ -3408,48 +3581,7 @@ category: "convencao audiovisual"
     }
   });
 
-  // Hover-to-play logic for video cards in Nova Era fanning deck
-  deckVideoCards.forEach(item => {
-    const video = item.querySelector('.deck-card-video');
-    if (video) {
-      item.addEventListener('mouseenter', () => {
-        item.classList.add('video-playing');
-        if (video.tagName === 'IFRAME') {
-          const vimeoId = video.dataset.vimeoId;
-          const vimeoHash = video.dataset.vimeoHash;
-          if (vimeoId) {
-            if (!video.src) {
-              const hashParam = vimeoHash ? `h=${vimeoHash}&` : '';
-              video.src = `https://player.vimeo.com/video/${vimeoId}?${hashParam}background=1&autoplay=1&loop=1&muted=1`;
-            } else if (typeof Vimeo !== 'undefined') {
-              const player = new Vimeo.Player(video);
-              player.play().catch(err => console.log("Vimeo play interrupted", err));
-            }
-          }
-        } else {
-          const videoSrc = video.dataset.videoSrc;
-          if (videoSrc && !video.src) {
-            video.src = videoSrc;
-          }
-          video.play().catch(err => console.log("Deck video play interrupted", err));
-        }
-      });
-
-      item.addEventListener('mouseleave', () => {
-        item.classList.remove('video-playing');
-        if (video.tagName === 'IFRAME') {
-          if (video.src && typeof Vimeo !== 'undefined') {
-            const player = new Vimeo.Player(video);
-            player.pause().catch(err => console.log("Vimeo pause interrupted", err));
-            player.setCurrentTime(0).catch(err => {});
-          }
-        } else {
-          video.pause();
-          video.currentTime = 0; // Reset video to first frame on mouse leave
-        }
-      });
-    }
-  });
+  // Old deck video hover handlers removed
 
   /* ════════════════════════════════════════════
      GALLERY LIGHTBOX INITIALIZATION

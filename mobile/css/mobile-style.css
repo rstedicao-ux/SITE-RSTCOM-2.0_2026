@@ -484,95 +484,229 @@ section {
   line-height: 1.5;
 }
 
-/* === NOVA ERA / DECK AUDIOVISUAL === */
-.nova-era {
-  background: #0D0D0D;
-}
-
-.nova-era-title {
-  margin-bottom: 24px;
-}
-
-.nova-era-lettering {
-  max-width: 240px;
-  height: auto;
-  display: inline-block;
-  vertical-align: middle;
-}
-
-.nova-era-swipe-container {
-  margin-left: -20px;
-  margin-right: -20px;
-  padding: 0 20px 20px 20px;
-  overflow-x: auto;
+/* === BRAND AUTHORITY (GRANDES MARCAS) === */
+.brand-authority {
+  position: relative;
+  padding: 100px 24px;
+  background-color: #ffffff; /* White background */
+  overflow: hidden;
   display: flex;
-  gap: 16px;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
+  justify-content: center;
+  align-items: center;
+  min-height: auto;
 }
 
-.nova-era-swipe-container::-webkit-scrollbar {
+.brand-auth-glow-1 {
   display: none;
 }
 
-.mobile-deck-card {
-  flex-shrink: 0;
-  width: 250px;
-  height: 330px;
-  border-radius: var(--radius);
-  overflow: hidden;
-  position: relative;
-  scroll-snap-align: center;
-  border: 1.5px solid var(--border-color);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+.brand-auth-glow-2 {
+  display: none;
 }
 
-.mobile-deck-img {
+.brand-auth-container {
+  max-width: 1400px;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: brightness(0.8);
-}
-
-.mobile-deck-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%);
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  padding: 16px;
+  gap: 40px;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+}
+
+.brand-auth-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  pointer-events: auto;
+  margin-bottom: 20px;
+}
+
+.brand-auth-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--bebas, 'Inter Local', sans-serif);
+  font-size: clamp(1.1rem, 2.2vw, 2.0rem);
+  line-height: 1.3;
+  color: #000000; /* Black text */
+  text-transform: uppercase;
+  margin: 0;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+.brand-auth-title .title-bold-italic {
+  font-weight: 800;
+  font-style: italic;
+}
+
+.brand-auth-title .title-small-resp {
+  font-weight: 300;
+  font-size: 0.82em;
+  letter-spacing: 0.5px;
+  opacity: 0.85;
+}
+
+.brand-auth-desc {
+  font-family: var(--font, sans-serif);
+  font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+  line-height: 1.6;
+  color: var(--white70, rgba(255, 255, 255, 0.7));
+  margin: 0;
+  max-width: 580px;
+  text-align: center;
+  font-weight: 400;
+  letter-spacing: 0.2px;
+}
+
+.brand-auth-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  background: #000000;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 100px;
+  color: #ffffff;
+  font-family: var(--font, sans-serif);
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: background 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(10px);
+}
+
+.brand-auth-cta:hover {
+  background: #222222;
+  color: #ffffff;
+  border-color: #222222;
+  transform: translateY(-2px);
+}
+
+.brand-auth-cta .cta-arrow {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.brand-auth-cta:hover .cta-arrow {
+  transform: translateX(4px);
+}
+
+/* Logos Container & Items */
+.brand-logos-container {
+  position: relative;
+  width: 100%;
+  height: auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  padding: 10px 0;
   z-index: 2;
 }
 
-.mobile-deck-tag {
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: var(--border-color);
-  letter-spacing: 1.5px;
-  margin-bottom: 6px;
-}
-
-.mobile-deck-title {
-  font-size: 1.1rem;
-  font-weight: 800;
-  line-height: 1.3;
-}
-
-.mobile-deck-play-btn {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.95);
+.brand-logo-item {
+  position: relative !important;
+  left: auto !important;
+  top: auto !important;
+  transform: none !important;
+  width: 100% !important;
+  height: 70px !important;
   display: flex;
-  align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-  z-index: 3;
+  align-items: center;
+}
+
+.brand-logo-float {
+  width: 100%;
+  height: 100%;
+}
+
+.brand-logo-inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100% !important;
+  height: 100% !important;
+  padding: 10px;
+  box-sizing: border-box;
+  opacity: 0;
+  filter: brightness(0) blur(6px);
+  transform: scale(0.95) translateY(12px);
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.brand-logo-inner img,
+.brand-logo-inner svg {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  color: var(--white);
+  transition: filter 0.5s cubic-bezier(0.16, 1, 0.3, 1), color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.brand-logo-item[data-depth="1"] .brand-logo-inner {
+  --base-opacity: 0.6;
+  --base-scale: 1;
+  --base-blur: blur(0px);
+}
+.brand-logo-item[data-depth="2"] .brand-logo-inner {
+  --base-opacity: 0.6;
+  --base-scale: 1;
+  --base-blur: blur(0px);
+}
+.brand-logo-item[data-depth="3"] .brand-logo-inner {
+  --base-opacity: 0.6;
+  --base-scale: 1;
+  --base-blur: blur(0px);
+}
+.brand-logo-item[data-depth="4"] .brand-logo-inner {
+  --base-opacity: 0.6;
+  --base-scale: 1;
+  --base-blur: blur(0px);
+}
+.brand-logo-item[data-depth="5"] .brand-logo-inner {
+  --base-opacity: 0.6;
+  --base-scale: 1;
+  --base-blur: blur(0px);
+}
+
+.brand-authority.in-view .brand-logo-inner {
+  opacity: var(--base-opacity);
+  filter: brightness(0) var(--base-blur);
+  transform: scale(var(--base-scale)) translateY(0);
+}
+
+.brand-logo-inner:hover {
+  opacity: 1 !important;
+  filter: brightness(0) blur(0px) drop-shadow(0 4px 12px rgba(0, 0, 0, 0.12)) !important;
+  transform: scale(calc(var(--base-scale) * 1.12)) !important;
+  transition: opacity 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+              filter 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+              transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+}
+
+.brand-logo-inner:hover svg {
+  color: #000000;
 }
 
 /* === SERVIÇOS === */
