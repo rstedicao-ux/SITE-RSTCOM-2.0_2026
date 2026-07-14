@@ -3240,235 +3240,63 @@ category: "convencao audiovisual"
   const logosContainer = document.getElementById('brandLogosContainer');
 
   if (brandSection && logosContainer) {
+    logosContainer.innerHTML = '';
+
     const brands = [
-      { name: 'Libbs', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo libbs.svg', color: '#005a9c', hoverGlow: 'rgba(0, 90, 156, 0.4)' },
-      { name: 'Dongfeng', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo dongfeng.svg', color: '#e4002b', hoverGlow: 'rgba(228, 0, 43, 0.4)' },
-      { name: 'Pfizer', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo pfizer.svg', color: '#00a3e0', hoverGlow: 'rgba(0, 163, 224, 0.4)' },
-      { name: 'Honda', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo honda.svg', color: '#ff0000', hoverGlow: 'rgba(255, 0, 0, 0.4)' },
-      { name: 'PepsiCo', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo pepsico.svg', color: '#004b87', hoverGlow: 'rgba(0, 75, 135, 0.4)' },
-      { name: 'Sherwin-Williams', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo_sherwin_suvinil.svg', color: '#005ea6', hoverGlow: 'rgba(0, 94, 166, 0.4)' },
-      { name: 'Sanofi', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo branca sanofi 1.svg', color: '#59d2fe', hoverGlow: 'rgba(89, 210, 254, 0.4)' },
-      { name: 'Bridgestone', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo bridgestone 1.svg', color: '#ff0000', hoverGlow: 'rgba(255, 0, 0, 0.4)' },
-      { name: 'Carrefour', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo carrefour.svg', color: '#004a97', hoverGlow: 'rgba(0, 74, 151, 0.4)' },
-      { name: 'Grunenthal', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo grunenthal.svg', color: '#009639', hoverGlow: 'rgba(0, 150, 57, 0.4)' },
-      { name: 'InfoMoney', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo infomoney.svg', color: '#002f6c', hoverGlow: 'rgba(0, 47, 108, 0.4)' },
-      { name: 'Takeda', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo takeda.svg', color: '#e31b23', hoverGlow: 'rgba(227, 27, 35, 0.4)' },
-      { name: 'Teva', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo teva.svg', color: '#0083ca', hoverGlow: 'rgba(0, 131, 202, 0.4)' },
-      { name: 'XP', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo xp 1.svg', color: '#ffcc00', hoverGlow: 'rgba(255, 204, 0, 0.4)' },
-      { name: 'Petrobras', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/LOGO PETROBRAS BRANCO 1.svg', color: '#008a4f', hoverGlow: 'rgba(0, 138, 79, 0.4)' },
-      { name: 'Logo 1', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo 1.svg', color: '#ffffff', hoverGlow: 'rgba(255, 255, 255, 0.3)' }
+      { name: 'Libbs', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo libbs.svg', color: '#005a9c' },
+      { name: 'Dongfeng', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo dongfeng.svg', color: '#e4002b' },
+      { name: 'Pfizer', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo pfizer.svg', color: '#00a3e0' },
+      { name: 'Honda', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo honda.svg', color: '#ff0000' },
+      { name: 'PepsiCo', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo pepsico.svg', color: '#004b87' },
+      { name: 'Sherwin-Williams', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo_sherwin_suvinil.svg', color: '#005ea6' },
+      { name: 'Sanofi', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo branca sanofi 1.svg', color: '#0d47a1' },
+      { name: 'Bridgestone', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo bridgestone 1.svg', color: '#ff0000' },
+      { name: 'Carrefour', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo carrefour.svg', color: '#004a97' },
+      { name: 'Grunenthal', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo grunenthal.svg', color: '#009639' },
+      { name: 'InfoMoney', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo infomoney.svg', color: '#002f6c' },
+      { name: 'Takeda', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo takeda.svg', color: '#e31b23' },
+      { name: 'Teva', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo teva.svg', color: '#0083ca' },
+      { name: 'XP', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo xp 1.svg', color: '#e5a900' },
+      { name: 'Petrobras', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/LOGO PETROBRAS BRANCO 1.svg', color: '#008a4f' },
+      { name: 'Logo 1', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo 1.svg', color: '#333333' }
     ];
 
-    const positions = [
-      // ── TOP-LEFT CORNER cluster
-      { x: 2,  y: 3,  depth: 1, device: 'desktop' },
-      { x: 12, y: 7,  depth: 3, device: 'tablet' },
-      { x: 5,  y: 14, depth: 2, device: 'desktop' },
+    const grid = document.createElement('div');
+    grid.className = 'brand-grid-layout';
 
-      // ── LEFT SIDE mid
-      { x: 18, y: 22, depth: 4, device: 'mobile' },
-      { x: 6,  y: 34, depth: 2, device: 'tablet' },
-      { x: 20, y: 45, depth: 5, device: 'mobile' },
-      { x: 8,  y: 57, depth: 3, device: 'tablet' },
+    brands.forEach(brand => {
+      const card = document.createElement('div');
+      card.className = 'brand-grid-card';
+      card.style.setProperty('--brand-hover-color', brand.color);
 
-      // ── BOTTOM-LEFT CORNER cluster
-      { x: 3,  y: 72, depth: 1, device: 'desktop' },
-      { x: 14, y: 82, depth: 4, device: 'mobile' },
-      { x: 4,  y: 92, depth: 2, device: 'tablet' },
+      // Spotlight glow overlay
+      const glow = document.createElement('div');
+      glow.className = 'brand-card-glow';
+      card.appendChild(glow);
 
-      // ── TOP-RIGHT CORNER cluster
-      { x: 98, y: 3,  depth: 2, device: 'tablet' },
-      { x: 86, y: 8,  depth: 4, device: 'mobile' },
-      { x: 95, y: 16, depth: 1, device: 'desktop' },
+      const img = document.createElement('img');
+      img.src = brand.src;
+      img.alt = brand.name;
+      img.className = 'brand-card-img';
+      img.loading = 'lazy';
 
-      // ── RIGHT SIDE mid
-      { x: 74, y: 24, depth: 3, device: 'mobile' },
-      { x: 92, y: 36, depth: 5, device: 'mobile' },
-      { x: 76, y: 48, depth: 2, device: 'tablet' },
-      { x: 90, y: 60, depth: 4, device: 'mobile' },
+      card.appendChild(img);
+      grid.appendChild(card);
 
-      // ── BOTTOM-RIGHT CORNER cluster
-      { x: 97, y: 74, depth: 1, device: 'desktop' },
-      { x: 82, y: 84, depth: 3, device: 'tablet' },
-      { x: 96, y: 93, depth: 2, device: 'desktop' },
+      // Track mouse to update spotlight radial gradient coordinates
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        glow.style.background = `radial-gradient(150px circle at ${x}px ${y}px, ${brand.color}18, transparent 80%)`;
+      });
 
-      // ── TOP CENTER (far edge)
-      { x: 38, y: 2,  depth: 5, device: 'mobile' },
-      { x: 60, y: 4,  depth: 3, device: 'tablet' },
-
-      // ── BOTTOM CENTER (far edge)
-      { x: 36, y: 94, depth: 4, device: 'mobile' },
-      { x: 62, y: 92, depth: 2, device: 'tablet' },
-    ];
-
-    // Create DOM elements — logos can cycle/wrap brands array for more logos than brands
-    const logoItems = [];
-    positions.forEach((pos, idx) => {
-      // Cycle through brands so all positions get a logo
-      const brand = brands[idx % brands.length];
-      
-      const item = document.createElement('div');
-      item.className = `brand-logo-item logo-device-${pos.device}`;
-      item.style.left = `${pos.x}%`;
-      item.style.top = `${pos.y}%`;
-      item.style.zIndex = pos.depth;
-      item.setAttribute('data-depth', pos.depth);
-
-      // Deep logos (depth 4-5) get an emergence effect — start small and grow in
-      if (pos.depth >= 4) {
-        item.style.animation = `logoEmerge ${1.8 + Math.random() * 1.2}s cubic-bezier(0.22,1,0.36,1) ${Math.random() * 2}s both`;
-      }
-
-      // Wrapper for floating CSS animation
-      const floatWrap = document.createElement('div');
-      floatWrap.className = 'brand-logo-float';
-      
-      // Floating animation randomized duration & delay
-      const duration = (Math.random() * 10 + 8).toFixed(2) + 's';
-      const delay = -(Math.random() * 18).toFixed(2) + 's';
-      floatWrap.style.animationName = 'logoFloat';
-      floatWrap.style.animationDuration = duration;
-      floatWrap.style.animationDelay = delay;
-      floatWrap.style.animationIterationCount = 'infinite';
-      floatWrap.style.animationTimingFunction = 'ease-in-out';
-      floatWrap.style.animationPlayState = 'running';
-
-      // Inner transition elements
-      const inner = document.createElement('div');
-      inner.className = 'brand-logo-inner';
-      inner.style.setProperty('--hover-color-glow', brand.hoverGlow);
-      inner.style.setProperty('--brand-color', brand.color);
-      
-      // Cascading delays for entrance animation — stagger all logos nicely
-      const groupDelay = ((idx % 8) * 120) + 'ms';
-      inner.style.transitionDelay = groupDelay;
-
-      if (brand.isInline) {
-        inner.innerHTML = brand.svg;
-      } else {
-        const img = document.createElement('img');
-        img.src = brand.src;
-        img.alt = brand.name;
-        img.loading = 'lazy';
-        inner.appendChild(img);
-      }
-
-      floatWrap.appendChild(inner);
-      item.appendChild(floatWrap);
-      logosContainer.appendChild(item);
-
-      logoItems.push({
-        element: item,
-        pctX: pos.x,
-        pctY: pos.y,
-        parallaxFactor: pos.depth * 0.015,
-        currentOffsetX: 0,
-        currentOffsetY: 0,
-        targetOffsetX: 0,
-        targetOffsetY: 0,
-        vx: 0,
-        vy: 0
+      card.addEventListener('mouseleave', () => {
+        glow.style.background = 'transparent';
       });
     });
 
-    // Intersection Observer for viewport entrance animation
-    const brandObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          brandSection.classList.add('in-view');
-          brandObserver.unobserve(brandSection);
-        }
-      });
-    }, { threshold: 0.15 });
-    brandObserver.observe(brandSection);
-
-    // Mouse interactions: Parallax & Magnetic Fields
-    let mouse = { x: 0, y: 0, relX: 0, relY: 0, inContainer: false };
-    
-    brandSection.addEventListener('mousemove', (e) => {
-      if (window.innerWidth <= 768) return; // Disable parallax/magnetism on mobile
-      const rect = brandSection.getBoundingClientRect();
-      mouse.x = e.clientX - rect.left;
-      mouse.y = e.clientY - rect.top;
-      mouse.relX = mouse.x - (rect.width / 2);
-      mouse.relY = mouse.y - (rect.height / 2);
-      mouse.inContainer = true;
-    });
-
-    brandSection.addEventListener('mouseleave', () => {
-      mouse.relX = 0;
-      mouse.relY = 0;
-      mouse.inContainer = false;
-    });
-
-    // Animation physics loop
-    const threshold = 180; // Distance in pixels to apply magnetic push
-    const maxPush = 28;    // Max push displacement in pixels
-    const stiffness = 0.08;
-    const damping = 0.75;
-    let isLoopRunning = false;
-
-    // Run only when visible for performance
-    const renderObserver = new IntersectionObserver((entries) => {
-      const isIntersecting = entries[0].isIntersecting;
-      if (isIntersecting && !isLoopRunning) {
-        isLoopRunning = true;
-        loop();
-      } else {
-        isLoopRunning = false;
-      }
-    }, { threshold: 0.05 });
-    renderObserver.observe(brandSection);
-
-    function loop() {
-      if (!isLoopRunning) return;
-
-      const rect = brandSection.getBoundingClientRect();
-      const w = rect.width;
-      const h = rect.height;
-
-      logoItems.forEach(logo => {
-        // 1. Parallax target
-        const px = mouse.relX * logo.parallaxFactor;
-        const py = mouse.relY * logo.parallaxFactor;
-
-        // 2. Magnetic push target
-        let pushX = 0;
-        let pushY = 0;
-
-        if (mouse.inContainer) {
-          // Pixel base position of logo
-          const logoX = (logo.pctX / 100) * w + logo.currentOffsetX;
-          const logoY = (logo.pctY / 100) * h + logo.currentOffsetY;
-
-          const dx = logoX - mouse.x;
-          const dy = logoY - mouse.y;
-          const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-
-          if (dist < threshold) {
-            const force = (threshold - dist) / threshold;
-            // Push away
-            pushX = (dx / dist) * maxPush * force;
-            pushY = (dy / dist) * maxPush * force;
-          }
-        }
-
-        logo.targetOffsetX = px + pushX;
-        logo.targetOffsetY = py + pushY;
-
-        // Spring equations
-        const ax = (logo.targetOffsetX - logo.currentOffsetX) * stiffness;
-        const ay = (logo.targetOffsetY - logo.currentOffsetY) * stiffness;
-        logo.vx = (logo.vx + ax) * damping;
-        logo.vy = (logo.vy + ay) * damping;
-        logo.currentOffsetX += logo.vx;
-        logo.currentOffsetY += logo.vy;
-
-        logo.element.style.transform = `translate3d(${logo.currentOffsetX.toFixed(2)}px, ${logo.currentOffsetY.toFixed(2)}px, 0)`;
-      });
-
-      requestAnimationFrame(loop);
-    }
+    logosContainer.appendChild(grid);
   }
 
   // Modal CTA button action
