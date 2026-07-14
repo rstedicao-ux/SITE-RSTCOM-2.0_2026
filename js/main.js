@@ -1052,7 +1052,6 @@ function init() {
         setTimeout(() => formSuccess.classList.remove('show'), 6000);
       });
     });
-    });
   }
 
 

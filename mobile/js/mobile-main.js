@@ -815,7 +815,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
     });
-    });
   }
 
   const validateEmail = (email) => {
