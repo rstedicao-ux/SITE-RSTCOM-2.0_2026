@@ -887,8 +887,15 @@ body.loaded .hero {
               transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.brand-grid-card:hover .brand-card-img {
+/* For colored logos: remove filter on hover */
+.brand-grid-card:not(.brand-grid-card--keep-black):hover .brand-card-img {
   filter: none;
+  transform: scale(1.06);
+}
+
+/* For black-only logos (Sherwin, InfoMoney, XP): keep them black on hover */
+.brand-grid-card.brand-grid-card--keep-black:hover .brand-card-img {
+  filter: brightness(0) opacity(0.85);
   transform: scale(1.06);
 }
 

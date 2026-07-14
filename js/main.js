@@ -3248,16 +3248,16 @@ category: "convencao audiovisual"
       { name: 'Pfizer', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo pfizer.svg', color: '#00a3e0' },
       { name: 'Honda', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo honda.svg', color: '#ff0000' },
       { name: 'PepsiCo', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo pepsico.svg', color: '#004b87' },
-      { name: 'Sherwin-Williams', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/LOGO SHERWIN-WILLIAMS.svg', color: '#005ea6' },
+      { name: 'Sherwin-Williams', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/LOGO SHERWIN-WILLIAMS.svg', color: '#005ea6', keepBlack: true },
       { name: 'Suvinil', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo suvinil.svg', color: '#f58220', style: 'max-height: 70%; max-width: 70%;' },
       { name: 'Sanofi', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo branca sanofi 1.svg', color: '#584293' },
       { name: 'Bridgestone', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo bridgestone 1.svg', color: '#d01216' },
       { name: 'Carrefour', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo carrefour.svg', color: '#004a97' },
       { name: 'Grunenthal', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo grunenthal.svg', color: '#009639' },
-      { name: 'InfoMoney', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo infomoney.svg', color: '#002f6c' },
+      { name: 'InfoMoney', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo infomoney.svg', color: '#002f6c', keepBlack: true },
       { name: 'Takeda', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo takeda.svg', color: '#e31b23' },
       { name: 'Teva', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo teva.svg', color: '#0083ca' },
-      { name: 'XP', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo xp 1.svg', color: '#e5a900' },
+      { name: 'XP', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo xp 1.svg', color: '#e5a900', keepBlack: true },
       { name: 'Petrobras', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/LOGO PETROBRAS BRANCO 1.svg', color: '#008a4f' }
     ];
 
@@ -3266,7 +3266,7 @@ category: "convencao audiovisual"
 
     brands.forEach(brand => {
       const card = document.createElement('div');
-      card.className = 'brand-grid-card';
+      card.className = 'brand-grid-card' + (brand.keepBlack ? ' brand-grid-card--keep-black' : '');
       card.style.setProperty('--brand-hover-color', brand.color);
 
       // Spotlight glow overlay
