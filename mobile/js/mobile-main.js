@@ -212,15 +212,39 @@ document.addEventListener('DOMContentLoaded', () => {
   const filterBtns = document.querySelectorAll('.filter-btn');
   const caseCards = document.querySelectorAll('.mobile-case-card');
 
+  const normalizeStr = (str) => {
+    if (!str) return '';
+    return str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  };
+
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       filterBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
-      const filterVal = btn.dataset.filter;
+      const filterVal = normalizeStr(btn.dataset.filter);
 
       caseCards.forEach(card => {
-        const cardCats = card.dataset.cat.split(' ');
+        const rawCats = card.dataset.cat ? card.dataset.cat.split(' ').map(c => normalizeStr(c.trim())) : [];
+        const cardCats = rawCats.flatMap(c => {
+          if (c === 'corporativos' || c === 'corporativo' || c === 'coporativo' || c === 'b2b') {
+            return ['b2b', 'corporativo'];
+          }
+          if (c === 'convencao' || c === 'convencoes' || c === 'convecao') {
+            return ['convencao'];
+          }
+          if (c === 'captacao') {
+            return ['captacao'];
+          }
+          if (c === 'tecnologia' || c === 'tecnologias') {
+            return ['tecnologia'];
+          }
+          if (c === 'feira' || c === 'feiras' || c === 'fair') {
+            return ['fair'];
+          }
+          return [c];
+        });
+
         if (filterVal === 'all' || cardCats.includes(filterVal)) {
           card.style.display = 'block';
           // Pequeno delay para animar opacidade
@@ -416,79 +440,69 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ════════════════════════════════════════════
-     BRAND AUTHORITY FLOATING LOGOS
+     BRAND AUTHORITY LOGOS COLUMNS (VERTICAL SCROLL)
      ════════════════════════════════════════════ */
   const brandSection = document.querySelector('.brand-authority');
   const logosContainer = document.getElementById('brandLogosContainer');
 
   if (brandSection && logosContainer) {
+    logosContainer.innerHTML = '';
+
     const brands = [
-      { name: 'Libbs', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo libbs.svg', color: '#005a9c', hoverGlow: 'rgba(0, 90, 156, 0.4)' },
-      { name: 'Dongfeng', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo dongfeng.svg', color: '#e4002b', hoverGlow: 'rgba(228, 0, 43, 0.4)' },
-      { name: 'Pfizer', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo pfizer.svg', color: '#00a3e0', hoverGlow: 'rgba(0, 163, 224, 0.4)' },
-      { name: 'Honda', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo honda.svg', color: '#ff0000', hoverGlow: 'rgba(255, 0, 0, 0.4)' },
-      { name: 'PepsiCo', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo pepsico.svg', color: '#004b87', hoverGlow: 'rgba(0, 75, 135, 0.4)' },
-      { name: 'Sherwin-Williams', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo_sherwin_suvinil.svg', color: '#005ea6', hoverGlow: 'rgba(0, 94, 166, 0.4)' },
-      { name: 'Sanofi', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo branca sanofi 1.svg', color: '#59d2fe', hoverGlow: 'rgba(89, 210, 254, 0.4)' },
-      { name: 'Bridgestone', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo bridgestone 1.svg', color: '#ff0000', hoverGlow: 'rgba(255, 0, 0, 0.4)' },
-      { name: 'Carrefour', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo carrefour.svg', color: '#004a97', hoverGlow: 'rgba(0, 74, 151, 0.4)' },
-      { name: 'Grunenthal', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo grunenthal.svg', color: '#009639', hoverGlow: 'rgba(0, 150, 57, 0.4)' },
-      { name: 'InfoMoney', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo infomoney.svg', color: '#002f6c', hoverGlow: 'rgba(0, 47, 108, 0.4)' },
-      { name: 'Takeda', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo takeda.svg', color: '#e31b23', hoverGlow: 'rgba(227, 27, 35, 0.4)' },
-      { name: 'Teva', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo teva.svg', color: '#0083ca', hoverGlow: 'rgba(0, 131, 202, 0.4)' },
-      { name: 'XP', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo xp 1.svg', color: '#ffcc00', hoverGlow: 'rgba(255, 204, 0, 0.4)' },
-      { name: 'Petrobras', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/LOGO PETROBRAS BRANCO 1.svg', color: '#008a4f', hoverGlow: 'rgba(0, 138, 79, 0.4)' },
-      { name: 'Logo 1', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo 1.svg', color: '#ffffff', hoverGlow: 'rgba(255, 255, 255, 0.3)' }
+      { name: 'Libbs', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo libbs.svg' },
+      { name: 'Dongfeng', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo dongfeng.svg' },
+      { name: 'Pfizer', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo pfizer.svg' },
+      { name: 'Honda', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo honda.svg' },
+      { name: 'PepsiCo', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo pepsico.svg' },
+      { name: 'Sherwin-Williams', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo_sherwin_suvinil.svg' },
+      { name: 'Sanofi', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo branca sanofi 1.svg' },
+      { name: 'Bridgestone', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo bridgestone 1.svg' },
+      { name: 'Carrefour', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo carrefour.svg' },
+      { name: 'Grunenthal', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo grunenthal.svg' },
+      { name: 'InfoMoney', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo infomoney.svg' },
+      { name: 'Takeda', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo takeda.svg' },
+      { name: 'Teva', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo teva.svg' },
+      { name: 'XP', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo xp 1.svg' },
+      { name: 'Petrobras', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/LOGO PETROBRAS BRANCO 1.svg' },
+      { name: 'Logo 1', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo 1.svg' }
     ];
 
-    // Filter to show 10 logos on mobile
-    const mobileBrands = brands.slice(0, 10);
+    const columnsWrapper = document.createElement('div');
+    columnsWrapper.className = 'brand-columns-wrapper';
 
-    // Create DOM elements
-    mobileBrands.forEach((brand, idx) => {
-      const item = document.createElement('div');
-      item.className = 'brand-logo-item';
-      item.style.zIndex = 1;
+    // Distribute into 4 columns (4 logos per column)
+    const columnsData = [
+      [brands[0], brands[1], brands[2], brands[3]],     // Col 1
+      [brands[4], brands[5], brands[6], brands[7]],     // Col 2
+      [brands[8], brands[9], brands[10], brands[11]],   // Col 3
+      [brands[12], brands[13], brands[14], brands[15]]  // Col 4
+    ];
 
-      // Wrapper for floating CSS animation
-      const floatWrap = document.createElement('div');
-      floatWrap.className = 'brand-logo-float';
+    columnsData.forEach((colBrands, colIdx) => {
+      const colDiv = document.createElement('div');
+      const isUp = colIdx % 2 === 0;
+      colDiv.className = `brand-column ${isUp ? 'brand-column--up' : 'brand-column--down'}`;
 
-      // Inner transition elements
-      const inner = document.createElement('div');
-      inner.className = 'brand-logo-inner';
-      inner.style.setProperty('--hover-color-glow', brand.hoverGlow);
-      inner.style.setProperty('--brand-color', brand.color);
-      
-      // Cascading delays for entrance animation
-      const groupDelay = ((idx % 3) * 100) + 'ms';
-      inner.style.transitionDelay = groupDelay;
+      // Duplicate list for seamless loop
+      const loopedBrands = [...colBrands, ...colBrands];
 
-      if (brand.isInline) {
-        inner.innerHTML = brand.svg;
-      } else {
+      loopedBrands.forEach(brand => {
+        const logoItem = document.createElement('div');
+        logoItem.className = 'brand-column-logo';
+
         const img = document.createElement('img');
         img.src = brand.src;
         img.alt = brand.name;
         img.loading = 'lazy';
-        inner.appendChild(img);
-      }
 
-      floatWrap.appendChild(inner);
-      item.appendChild(floatWrap);
-      logosContainer.appendChild(item);
+        logoItem.appendChild(img);
+        colDiv.appendChild(logoItem);
+      });
+
+      columnsWrapper.appendChild(colDiv);
     });
 
-    // Intersection Observer for viewport entrance animation
-    const brandObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          brandSection.classList.add('in-view');
-          brandObserver.unobserve(brandSection);
-        }
-      });
-    }, { threshold: 0.1 });
-    brandObserver.observe(brandSection);
+    logosContainer.appendChild(columnsWrapper);
   }
 
   if (caseModalClose) {

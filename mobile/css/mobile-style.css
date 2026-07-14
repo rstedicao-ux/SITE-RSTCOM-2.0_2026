@@ -129,15 +129,13 @@ ul {
 .nav-logo {
   display: flex;
   align-items: center;
-  height: 28px;
-  max-height: 28px;
-  width: 110px;
-  max-width: 110px;
+  height: 20px;
+  width: auto;
 }
 
 .nav-logo-img {
   height: 100%;
-  width: 100%;
+  width: auto;
   object-fit: contain;
 }
 
@@ -233,9 +231,9 @@ ul {
   min-height: 80vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  padding: 100px 20px 40px;
+  padding: 100px 20px 24px;
   overflow: hidden;
   text-align: center;
 }
@@ -355,15 +353,15 @@ ul {
 
 .clients-track {
   display: flex;
-  gap: 32px;
+  gap: 45px;
   width: max-content;
+  align-items: center;
   animation: scrollLogos 25s linear infinite;
 }
 
 .client-logo {
   flex-shrink: 0;
   height: 20px;
-  width: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -372,7 +370,9 @@ ul {
 .client-logo img {
   height: 100%;
   width: auto;
+  max-width: 90px;
   object-fit: contain;
+  filter: brightness(0) invert(1);
   opacity: 0.45;
 }
 
@@ -612,102 +612,70 @@ section {
 .brand-logos-container {
   position: relative;
   width: 100%;
-  height: auto;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  padding: 10px 0;
+  height: 280px;
+  overflow: hidden;
+  margin-top: 24px;
   z-index: 2;
 }
 
-.brand-logo-item {
-  position: relative !important;
-  left: auto !important;
-  top: auto !important;
-  transform: none !important;
-  width: 100% !important;
-  height: 70px !important;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.brand-logo-float {
-  width: 100%;
+.brand-columns-wrapper {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
   height: 100%;
+  width: 100%;
 }
 
-.brand-logo-inner {
+.brand-column {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  gap: 16px;
+  height: max-content;
+}
+
+.brand-column--up {
+  animation: scrollColUp 16s linear infinite;
+}
+
+.brand-column--down {
+  animation: scrollColDown 16s linear infinite;
+}
+
+.brand-column-logo {
+  height: 48px;
+  display: flex;
   align-items: center;
-  width: 100% !important;
-  height: 100% !important;
-  padding: 10px;
-  box-sizing: border-box;
-  opacity: 0;
-  filter: brightness(0) blur(6px);
-  transform: scale(0.95) translateY(12px);
-  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
-              filter 1.2s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  justify-content: center;
+  padding: 6px;
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
 }
 
-.brand-logo-inner img,
-.brand-logo-inner svg {
-  max-width: 100%;
+.brand-column-logo img {
   max-height: 100%;
-  width: auto;
-  height: auto;
+  max-width: 100%;
   object-fit: contain;
-  color: var(--white);
-  transition: filter 0.5s cubic-bezier(0.16, 1, 0.3, 1), color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: brightness(0);
+  opacity: 0.15;
 }
 
-.brand-logo-item[data-depth="1"] .brand-logo-inner {
-  --base-opacity: 0.6;
-  --base-scale: 1;
-  --base-blur: blur(0px);
-}
-.brand-logo-item[data-depth="2"] .brand-logo-inner {
-  --base-opacity: 0.6;
-  --base-scale: 1;
-  --base-blur: blur(0px);
-}
-.brand-logo-item[data-depth="3"] .brand-logo-inner {
-  --base-opacity: 0.6;
-  --base-scale: 1;
-  --base-blur: blur(0px);
-}
-.brand-logo-item[data-depth="4"] .brand-logo-inner {
-  --base-opacity: 0.6;
-  --base-scale: 1;
-  --base-blur: blur(0px);
-}
-.brand-logo-item[data-depth="5"] .brand-logo-inner {
-  --base-opacity: 0.6;
-  --base-scale: 1;
-  --base-blur: blur(0px);
+@keyframes scrollColUp {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
 }
 
-.brand-authority.in-view .brand-logo-inner {
-  opacity: var(--base-opacity);
-  filter: brightness(0) var(--base-blur);
-  transform: scale(var(--base-scale)) translateY(0);
-}
-
-.brand-logo-inner:hover {
-  opacity: 1 !important;
-  filter: brightness(0) blur(0px) drop-shadow(0 4px 12px rgba(0, 0, 0, 0.12)) !important;
-  transform: scale(calc(var(--base-scale) * 1.12)) !important;
-  transition: opacity 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-              filter 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-              transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  cursor: pointer;
-}
-
-.brand-logo-inner:hover svg {
-  color: #000000;
+@keyframes scrollColDown {
+  0% {
+    transform: translateY(-50%);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
 
 /* === SERVIÇOS === */
@@ -784,7 +752,16 @@ section {
   font-size: 0.95rem;
   font-weight: 700;
   line-height: 1.4;
+  margin-bottom: 4px;
+}
+
+.mobile-service-category {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--cyan);
   margin-bottom: 10px;
+  letter-spacing: 1px;
 }
 
 .mobile-service-desc {
@@ -1357,10 +1334,20 @@ textarea.form-input {
   text-align: center;
 }
 
-.footer-logo-img {
-  max-width: 180px;
-  height: auto;
-  margin: 0 auto 16px;
+.footer-logo {
+  font-weight: 900;
+  font-size: 2rem;
+  letter-spacing: -1px;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.footer-rst {
+  color: var(--white);
+}
+
+.footer-com {
+  color: rgba(255, 255, 255, .4);
 }
 
 .footer-desc {
