@@ -880,22 +880,15 @@ body.loaded .hero {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
-  filter: brightness(0) opacity(0.2);
+  filter: brightness(0) opacity(0.85);
   pointer-events: none;
   transform-style: preserve-3d;
   transition: filter 0.4s cubic-bezier(0.16, 1, 0.3, 1),
               transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* For colored logos: remove filter on hover */
-.brand-grid-card:not(.brand-grid-card--white-logo):hover .brand-card-img {
+.brand-grid-card:hover .brand-card-img {
   filter: none;
-  transform: scale(1.06);
-}
-
-/* For white logos: keep them black but increase opacity on hover */
-.brand-grid-card.brand-grid-card--white-logo:hover .brand-card-img {
-  filter: brightness(0) opacity(0.85);
   transform: scale(1.06);
 }
 
