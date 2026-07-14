@@ -62,7 +62,7 @@ export default async function handler(req, res) {
 
     if (authResult.error) {
       console.error('Odoo login failed with error:', authResult.error);
-      return res.status(401).json({ error: 'Odoo login failed', details: authResult.error.message || authResult.error });
+      return res.status(401).json({ error: 'Odoo login failed', details: authResult.error });
     }
 
     const uid = authResult.result;
