@@ -3243,22 +3243,22 @@ category: "convencao audiovisual"
     logosContainer.innerHTML = '';
 
     const brands = [
-      { name: 'Libbs', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo libbs.svg', color: '#005a9c' },
-      { name: 'Dongfeng', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo dongfeng.svg', color: '#e4002b' },
-      { name: 'Pfizer', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo pfizer.svg', color: '#00a3e0' },
-      { name: 'Honda', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo honda.svg', color: '#ff0000' },
-      { name: 'PepsiCo', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo pepsico.svg', color: '#004b87' },
-      { name: 'Sherwin-Williams', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/LOGO SHERWIN-WILLIAMS.svg', color: '#005ea6' },
-      { name: 'Suvinil', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo suvinil.svg', color: '#f58220' },
-      { name: 'Sanofi', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo branca sanofi 1.svg', color: '#584293' },
-      { name: 'Bridgestone', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo bridgestone 1.svg', color: '#d01216' },
-      { name: 'Carrefour', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo carrefour.svg', color: '#004a97' },
-      { name: 'Grunenthal', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo grunenthal.svg', color: '#009639' },
-      { name: 'InfoMoney', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo infomoney.svg', color: '#002f6c' },
-      { name: 'Takeda', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo takeda.svg', color: '#e31b23' },
-      { name: 'Teva', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo teva.svg', color: '#0083ca' },
-      { name: 'XP', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo xp 1.svg', color: '#e5a900' },
-      { name: 'Petrobras', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/LOGO PETROBRAS BRANCO 1.svg', color: '#008a4f' }
+      { name: 'Libbs', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo libbs.svg', color: '#005a9c', isWhite: true },
+      { name: 'Dongfeng', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo dongfeng.svg', color: '#e4002b', isWhite: false },
+      { name: 'Pfizer', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo pfizer.svg', color: '#00a3e0', isWhite: false },
+      { name: 'Honda', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo honda.svg', color: '#ff0000', isWhite: true },
+      { name: 'PepsiCo', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo pepsico.svg', color: '#004b87', isWhite: true },
+      { name: 'Sherwin-Williams', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/LOGO SHERWIN-WILLIAMS.svg', color: '#005ea6', isWhite: false },
+      { name: 'Suvinil', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo suvinil.svg', color: '#f58220', isWhite: false, style: 'max-height: 70%; max-width: 70%;' },
+      { name: 'Sanofi', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo branca sanofi 1.svg', color: '#584293', isWhite: false },
+      { name: 'Bridgestone', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo bridgestone 1.svg', color: '#d01216', isWhite: false },
+      { name: 'Carrefour', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo carrefour.svg', color: '#004a97', isWhite: false },
+      { name: 'Grunenthal', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo grunenthal.svg', color: '#009639', isWhite: true },
+      { name: 'InfoMoney', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo infomoney.svg', color: '#002f6c', isWhite: true },
+      { name: 'Takeda', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo takeda.svg', color: '#e31b23', isWhite: true },
+      { name: 'Teva', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo teva.svg', color: '#0083ca', isWhite: true },
+      { name: 'XP', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo xp 1.svg', color: '#e5a900', isWhite: true },
+      { name: 'Petrobras', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/LOGO PETROBRAS BRANCO 1.svg', color: '#008a4f', isWhite: true }
     ];
 
     const grid = document.createElement('div');
@@ -3266,7 +3266,8 @@ category: "convencao audiovisual"
 
     brands.forEach(brand => {
       const card = document.createElement('div');
-      card.className = 'brand-grid-card';
+      // Set class based on whether logo is white
+      card.className = 'brand-grid-card' + (brand.isWhite ? ' brand-grid-card--white-logo' : '');
       card.style.setProperty('--brand-hover-color', brand.color);
 
       // Spotlight glow overlay
@@ -3279,6 +3280,9 @@ category: "convencao audiovisual"
       img.alt = brand.name;
       img.className = 'brand-card-img';
       img.loading = 'lazy';
+      if (brand.style) {
+        img.style.cssText = brand.style;
+      }
 
       card.appendChild(img);
       grid.appendChild(card);
@@ -3305,7 +3309,8 @@ category: "convencao audiovisual"
         card.style.boxShadow = (-dx * 12).toFixed(2) + 'px ' + (-dy * 12).toFixed(2) + 'px 32px rgba(0,0,0,0.06), 0 12px 24px rgba(0,0,0,0.02)';
 
         // Inner logo depth translation (Parallax)
-        img.style.transform = 'translate3d(' + (dx * 8).toFixed(2) + 'px, ' + (dy * 8).toFixed(2) + 'px, 30px) scale(1.06)';
+        const baseTransform = brand.style ? brand.style + ' ' : '';
+        img.style.transform = baseTransform + 'translate3d(' + (dx * 8).toFixed(2) + 'px, ' + (dy * 8).toFixed(2) + 'px, 30px) scale(1.06)';
 
         // Spotlight glow follow
         glow.style.background = 'radial-gradient(150px circle at ' + x + 'px ' + y + 'px, ' + brand.color + '1c, transparent 80%)';
@@ -3315,7 +3320,7 @@ category: "convencao audiovisual"
         // Smoothly transition back to default state
         card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0) scale(1)';
         card.style.boxShadow = '';
-        img.style.transform = 'translate3d(0, 0, 0) scale(1)';
+        img.style.transform = brand.style ? brand.style : 'translate3d(0, 0, 0) scale(1)';
         glow.style.background = 'transparent';
       });
     });
