@@ -3248,17 +3248,17 @@ category: "convencao audiovisual"
       { name: 'Pfizer', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo pfizer.svg', color: '#00a3e0' },
       { name: 'Honda', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo honda.svg', color: '#ff0000' },
       { name: 'PepsiCo', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo pepsico.svg', color: '#004b87' },
-      { name: 'Sherwin-Williams', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo_sherwin_suvinil.svg', color: '#005ea6' },
-      { name: 'Sanofi', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo branca sanofi 1.svg', color: '#0d47a1' },
-      { name: 'Bridgestone', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo bridgestone 1.svg', color: '#ff0000' },
+      { name: 'Sherwin-Williams', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/LOGO SHERWIN-WILLIAMS.svg', color: '#005ea6' },
+      { name: 'Suvinil', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo suvinil.svg', color: '#f58220' },
+      { name: 'Sanofi', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo branca sanofi 1.svg', color: '#584293' },
+      { name: 'Bridgestone', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo bridgestone 1.svg', color: '#d01216' },
       { name: 'Carrefour', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo carrefour.svg', color: '#004a97' },
       { name: 'Grunenthal', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo grunenthal.svg', color: '#009639' },
       { name: 'InfoMoney', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo infomoney.svg', color: '#002f6c' },
       { name: 'Takeda', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo takeda.svg', color: '#e31b23' },
       { name: 'Teva', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo teva.svg', color: '#0083ca' },
       { name: 'XP', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo xp 1.svg', color: '#e5a900' },
-      { name: 'Petrobras', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/LOGO PETROBRAS BRANCO 1.svg', color: '#008a4f' },
-      { name: 'Logo 1', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo 1.svg', color: '#333333' }
+      { name: 'Petrobras', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/LOGO PETROBRAS BRANCO 1.svg', color: '#008a4f' }
     ];
 
     const grid = document.createElement('div');
