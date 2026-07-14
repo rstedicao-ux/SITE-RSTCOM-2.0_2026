@@ -3275,7 +3275,7 @@ category: "convencao audiovisual"
       card.appendChild(glow);
 
       const img = document.createElement('img');
-      img.src = brand.src;
+      img.src = brand.src + '?v=3';
       img.alt = brand.name;
       img.className = 'brand-card-img';
       img.loading = 'lazy';

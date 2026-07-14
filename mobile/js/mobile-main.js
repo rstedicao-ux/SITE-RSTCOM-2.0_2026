@@ -491,7 +491,7 @@ document.addEventListener('DOMContentLoaded', () => {
         logoItem.className = 'brand-column-logo';
 
         const img = document.createElement('img');
-        img.src = brand.src;
+        img.src = brand.src + '?v=3';
         img.alt = brand.name;
         img.loading = 'lazy';
 
