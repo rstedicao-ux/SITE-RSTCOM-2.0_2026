@@ -3283,15 +3283,39 @@ category: "convencao audiovisual"
       card.appendChild(img);
       grid.appendChild(card);
 
-      // Track mouse to update spotlight radial gradient coordinates
+      // 3D Perspective Tilt & Parallax Mouse Move Event
       card.addEventListener('mousemove', (e) => {
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
-        glow.style.background = `radial-gradient(150px circle at ${x}px ${y}px, ${brand.color}18, transparent 80%)`;
+
+        const xc = rect.width / 2;
+        const yc = rect.height / 2;
+        const dx = (x - xc) / xc; // Range: -1 to 1
+        const dy = (y - yc) / yc; // Range: -1 to 1
+
+        // Max rotation: 10 degrees
+        const rotateX = (-dy * 10).toFixed(2);
+        const rotateY = (dx * 10).toFixed(2);
+
+        // Apply 3D tilt style
+        card.style.transform = 'perspective(1000px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) translateY(-5px) scale(1.03)';
+        
+        // Dynamic shadow shift opposite to the mouse
+        card.style.boxShadow = (-dx * 12).toFixed(2) + 'px ' + (-dy * 12).toFixed(2) + 'px 32px rgba(0,0,0,0.06), 0 12px 24px rgba(0,0,0,0.02)';
+
+        // Inner logo depth translation (Parallax)
+        img.style.transform = 'translate3d(' + (dx * 8).toFixed(2) + 'px, ' + (dy * 8).toFixed(2) + 'px, 30px) scale(1.06)';
+
+        // Spotlight glow follow
+        glow.style.background = 'radial-gradient(150px circle at ' + x + 'px ' + y + 'px, ' + brand.color + '1c, transparent 80%)';
       });
 
       card.addEventListener('mouseleave', () => {
+        // Smoothly transition back to default state
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0) scale(1)';
+        card.style.boxShadow = '';
+        img.style.transform = 'translate3d(0, 0, 0) scale(1)';
         glow.style.background = 'transparent';
       });
     });
