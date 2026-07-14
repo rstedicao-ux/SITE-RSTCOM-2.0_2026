@@ -3258,20 +3258,7 @@ category: "convencao audiovisual"
       { name: 'Takeda', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo takeda.svg', color: '#e31b23' },
       { name: 'Teva', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo teva.svg', color: '#0083ca' },
       { name: 'XP', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo xp 1.svg', color: '#e5a900', keepBlack: true },
-      { name: 'Petrobras', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/LOGO PETROBRAS BRANCO 1.svg', color: '#008a4f' },
-      
-      // New Brands
-      { name: 'Midea', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo midea.svg', color: '#0060a8' },
-      { name: 'Abras', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo abras.svg', color: '#005ba4' },
-      { name: 'Grupo SC', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo grupo sc.svg', color: '#003764' },
-      { name: 'Colgate', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo colgate.svg', color: '#e31b23' },
-      { name: 'Estácio', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo estacio.svg', color: '#005580' },
-      { name: 'Bosch', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo bosch.svg', color: '#e3001b' },
-      { name: 'Samsung', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo samsung.svg', color: '#034ea2' },
-      { name: 'Medison', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo medison.svg', color: '#004785' },
-      { name: 'Bauny', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo bauny.svg', color: '#222222' },
-      { name: 'Nuvemshop', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo nuvemshop.svg', color: '#2d3dfb' },
-      { name: 'Anbima', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo anbima.svg', color: '#004b8d' }
+      { name: 'Petrobras', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/LOGO PETROBRAS BRANCO 1.svg', color: '#008a4f' }
     ];
 
     const grid = document.createElement('div');
