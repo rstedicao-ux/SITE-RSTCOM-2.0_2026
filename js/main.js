@@ -3249,7 +3249,7 @@ category: "convencao audiovisual"
       { name: 'Honda', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo honda.svg', color: '#ff0000' },
       { name: 'PepsiCo', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo pepsico.svg', color: '#004b87' },
       { name: 'Sherwin-Williams', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/LOGO SHERWIN-WILLIAMS.svg', color: '#005ea6', keepBlack: true },
-      { name: 'Suvinil', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo suvinil.svg', color: '#f58220', style: 'max-height: 70%; max-width: 70%;' },
+      { name: 'Suvinil', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo suvinil.svg', color: '#f58220' },
       { name: 'Sanofi', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo branca sanofi 1.svg', color: '#584293' },
       { name: 'Bridgestone', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo bridgestone 1.svg', color: '#d01216' },
       { name: 'Carrefour', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo carrefour.svg', color: '#004a97' },
