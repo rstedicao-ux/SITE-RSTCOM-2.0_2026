@@ -176,7 +176,7 @@ export default async function handler(req, res) {
               ODOO_PASSWORD,
               'mailing.list',
               'search',
-              [[['name', '=', listName]]]
+              [[['name', 'ilike', 'Se inscreveram no site para receber as news']]]
             ]
           },
           id: Date.now() + 3
