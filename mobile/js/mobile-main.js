@@ -745,17 +745,22 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!negocio || negocio.value === "") { alert("Por favor, selecione seu tipo de negócio."); negocio?.focus(); return; }
       if (!mensagem || !mensagem.value.trim()) { alert("Por favor, insira sua mensagem."); mensagem?.focus(); return; }
 
-      // Assunto do e-mail
       const negocioText = negocio.options[negocio.selectedIndex]?.text || '';
       const assunto = `[Site RST Mobile] ${negocioText} — ${nome.value.trim()}`;
 
-      // Desabilita botão e muda texto
       if (submitBtn) {
         submitBtn.textContent = 'Enviando...';
         submitBtn.disabled = true;
       }
 
-      fetch("https://formsubmit.co/ajax/contato@rstcom.com.br", {
+      // Timeout helper
+      const fetchWithTimeout = (url, options, timeout = 7000) => {
+        const controller = new AbortController();
+        const id = setTimeout(() => controller.abort(), timeout);
+        return fetch(url, { ...options, signal: controller.signal }).finally(() => clearTimeout(id));
+      };
+
+      const emailPromise = fetchWithTimeout("https://formsubmit.co/ajax/contato@rstcom.com.br", {
         method: "POST",
         headers: { 
           'Content-Type': 'application/json',
@@ -771,29 +776,32 @@ document.addEventListener('DOMContentLoaded', () => {
           _replyto: email.value.trim(),
           _captcha: false
         })
-      })
-      .then(response => {
-        if (response.ok) {
-          // Send to Vercel Serverless Odoo Contact API in the background (non-blocking)
-          fetch("/api/contact", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-              name: nome.value.trim(),
-              email: email.value.trim(),
-              phone: telefone.value.trim(),
-              business: negocioText,
-              message: mensagem.value.trim()
-            })
-          })
-          .catch(odooErr => console.error("Non-blocking Odoo contact registration failed:", odooErr));
+      });
 
+      const odooPromise = fetchWithTimeout("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name: nome.value.trim(),
+          email: email.value.trim(),
+          phone: telefone.value.trim(),
+          business: negocioText,
+          message: mensagem.value.trim()
+        })
+      });
+
+      Promise.allSettled([emailPromise, odooPromise])
+      .then(results => {
+        const emailSuccess = results[0].status === 'fulfilled' && results[0].value.ok;
+        const odooSuccess = results[1].status === 'fulfilled' && results[1].value.ok;
+
+        if (emailSuccess || odooSuccess) {
           alert("Sua mensagem foi enviada com sucesso! Nossa equipe entrará em contato em breve.");
           contatoForm.reset();
         } else {
-          throw new Error("Erro no servidor");
+          throw new Error("Erro no envio");
         }
       })
       .catch(error => {
@@ -806,6 +814,7 @@ document.addEventListener('DOMContentLoaded', () => {
           submitBtn.disabled = false;
         }
       });
+    });
     });
   }
 

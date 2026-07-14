@@ -963,7 +963,6 @@ function init() {
 
       const submitBtn = document.getElementById('formSubmitBtn');
 
-      // Coleta os valores
       const nome      = (document.getElementById('formNome')?.value      || '').trim();
       const email     = (document.getElementById('formEmail')?.value     || '').trim();
       const telefone  = (document.getElementById('formTelefone')?.value  || '').trim();
@@ -971,7 +970,6 @@ function init() {
       const negocio   = negocioEl?.options[negocioEl.selectedIndex]?.text || '';
       const mensagem  = (document.getElementById('formMensagem')?.value  || '').trim();
 
-      // Validação mínima
       if (!nome || !email) {
         submitBtn.textContent = '⚠ Preencha nome e e-mail';
         submitBtn.style.background = 'rgba(255,80,80,0.9)';
@@ -982,37 +980,21 @@ function init() {
         return;
       }
 
-      // Monta o assunto
       const assunto = negocio && negocio !== 'Tipo de negócio'
         ? `[Site RST] ${negocio} — ${nome}`
         : `[Site RST] Novo contato — ${nome}`;
 
-      // Monta o corpo do e-mail de forma organizada
-      const corpo = [
-        `Olá, equipe RSTcom!`,
-        ``,
-        `Uma nova mensagem foi enviada pelo site:`,
-        ``,
-        `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
-        `👤 NOME:         ${nome}`,
-        `📧 E-MAIL:       ${email}`,
-        telefone ? `📞 TELEFONE:     ${telefone}` : null,
-        negocio  ? `🏢 TIPO DE NEGÓCIO: ${negocio}` : null,
-        `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
-        ``,
-        `💬 MENSAGEM:`,
-        ``,
-        mensagem || '(nenhuma mensagem adicional)',
-        ``,
-        `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
-        `Enviado via site rstcom.com.br`,
-      ].filter(l => l !== null).join('\n');
-
-      // Inicia envio via AJAX (FormSubmit.co)
       submitBtn.textContent = 'Enviando...';
       submitBtn.disabled = true;
 
-      fetch("https://formsubmit.co/ajax/contato@rstcom.com.br", {
+      // Timeout helper
+      const fetchWithTimeout = (url, options, timeout = 7000) => {
+        const controller = new AbortController();
+        const id = setTimeout(() => controller.abort(), timeout);
+        return fetch(url, { ...options, signal: controller.signal }).finally(() => clearTimeout(id));
+      };
+
+      const emailPromise = fetchWithTimeout("https://formsubmit.co/ajax/contato@rstcom.com.br", {
         method: "POST",
         headers: { 
           'Content-Type': 'application/json',
@@ -1028,31 +1010,34 @@ function init() {
           _replyto: email,
           _captcha: false
         })
-      })
-      .then(response => {
-        if (response.ok) {
-          // Send to Vercel Serverless Odoo Contact API in the background (non-blocking)
-          fetch("/api/contact", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-              name: nome,
-              email: email,
-              phone: telefone || "",
-              business: negocio || "",
-              message: mensagem || ""
-            })
-          })
-          .catch(odooErr => console.error("Non-blocking Odoo contact registration failed:", odooErr));
+      });
 
+      const odooPromise = fetchWithTimeout("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name: nome,
+          email: email,
+          phone: telefone || "",
+          business: negocio || "",
+          message: mensagem || ""
+        })
+      });
+
+      Promise.allSettled([emailPromise, odooPromise])
+      .then(results => {
+        const emailSuccess = results[0].status === 'fulfilled' && results[0].value.ok;
+        const odooSuccess = results[1].status === 'fulfilled' && results[1].value.ok;
+
+        if (emailSuccess || odooSuccess) {
           formSuccess.innerHTML = "✓ Sua mensagem foi enviada! Entraremos em contato em breve.";
           formSuccess.style.color = "#00c6ff";
           formSuccess.classList.add('show');
           form.reset();
         } else {
-          throw new Error("Erro no servidor");
+          throw new Error("Erro no envio");
         }
       })
       .catch(error => {
@@ -1066,6 +1051,7 @@ function init() {
         submitBtn.disabled = false;
         setTimeout(() => formSuccess.classList.remove('show'), 6000);
       });
+    });
     });
   }
 
