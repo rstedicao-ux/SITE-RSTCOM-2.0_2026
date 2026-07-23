@@ -3256,7 +3256,12 @@ category: "convencao audiovisual"
       { name: 'Medison', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo medison.svg', color: '#004785' },
       { name: 'Bauny', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo bauny.svg', color: '#222222' },
       { name: 'Nuvemshop', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo nuvemshop.svg', color: '#2d3dfb' },
-      { name: 'Anbima', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo anbima.svg', color: '#004b8d' }
+      { name: 'Anbima', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo anbima.svg', color: '#004b8d' },
+      { name: 'Venancio', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo venancio.svg', color: '#ff7700' },
+      { name: 'Finclass', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo finclass.svg', color: '#000000', keepBlack: true },
+      { name: 'Motorola', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo motorola.svg', color: '#000000', keepBlack: true },
+      { name: 'HBR', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo hbr.svg', color: '#000000', keepBlack: true },
+      { name: 'KPMG', src: 'assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo kpmg.svg', color: '#00338d' }
     ];
 
     const grid = document.createElement('div');

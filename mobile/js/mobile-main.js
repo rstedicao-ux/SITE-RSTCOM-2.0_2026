@@ -464,18 +464,35 @@ document.addEventListener('DOMContentLoaded', () => {
       { name: 'Teva', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo teva.svg' },
       { name: 'XP', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo xp 1.svg' },
       { name: 'Petrobras', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/LOGO PETROBRAS BRANCO 1.svg' },
-      { name: 'Logo 1', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo 1.svg' }
+      { name: 'Logo 1', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo 1.svg' },
+      // New Brands
+      { name: 'Midea', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo midea.svg' },
+      { name: 'Abras', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo abras.svg' },
+      { name: 'Grupo SC', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo grupo sc.svg' },
+      { name: 'Colgate', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo colgate.svg' },
+      { name: 'Estácio', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo estacio.svg' },
+      { name: 'Bosch', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo bosch.svg' },
+      { name: 'Samsung', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo samsung.svg' },
+      { name: 'Medison', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo medison.svg' },
+      { name: 'Bauny', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo bauny.svg' },
+      { name: 'Nuvemshop', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo nuvemshop.svg' },
+      { name: 'Anbima', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo anbima.svg' },
+      { name: 'Venancio', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo venancio.svg' },
+      { name: 'Finclass', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo finclass.svg' },
+      { name: 'Motorola', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo motorola.svg' },
+      { name: 'HBR', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo hbr.svg' },
+      { name: 'KPMG', src: '../assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo kpmg.svg' }
     ];
 
     const columnsWrapper = document.createElement('div');
     columnsWrapper.className = 'brand-columns-wrapper';
 
-    // Distribute into 4 columns (4 logos per column)
+    // Distribute into 4 columns (8 logos per column)
     const columnsData = [
-      [brands[0], brands[1], brands[2], brands[3]],     // Col 1
-      [brands[4], brands[5], brands[6], brands[7]],     // Col 2
-      [brands[8], brands[9], brands[10], brands[11]],   // Col 3
-      [brands[12], brands[13], brands[14], brands[15]]  // Col 4
+      brands.slice(0, 8),     // Col 1
+      brands.slice(8, 16),    // Col 2
+      brands.slice(16, 24),   // Col 3
+      brands.slice(24, 32)    // Col 4
     ];
 
     columnsData.forEach((colBrands, colIdx) => {
