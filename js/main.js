@@ -14,19 +14,20 @@
 function init() {
   window.preloaderFinished = false;
 
-  // Load hero background video immediately to hide latency behind the preloader
+  // Load hero background video using local MP4 file for faster loading
   const heroVideoBg = document.getElementById('heroVideoBg');
-  if (heroVideoBg) {
-    const vimeoSrc = heroVideoBg.getAttribute('data-vimeo-src');
-    if (vimeoSrc && !heroVideoBg.querySelector('iframe')) {
-      const iframe = document.createElement('iframe');
-      iframe.src = vimeoSrc;
-      iframe.frameBorder = "0";
-      iframe.allow = "autoplay; fullscreen; picture-in-picture";
-      iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
-      iframe.title = "DEMO REEL 10 ANOS RST";
-      heroVideoBg.appendChild(iframe);
-    }
+  if (heroVideoBg && !heroVideoBg.querySelector('video')) {
+    const video = document.createElement('video');
+    video.src = 'assets/HOME/VIDEO LOOPING/VÍDEO LOOPING - SITE RST JUL26_V1 (2).mp4';
+    video.autoplay = true;
+    video.loop = true;
+    video.muted = true;
+    video.playsInline = true;
+    video.setAttribute('playsinline', '');
+    video.style.width = '100%';
+    video.style.height = '100%';
+    video.style.objectFit = 'cover';
+    heroVideoBg.appendChild(video);
   }
 
   /* ════════════════════════════════════════════
@@ -3377,8 +3378,20 @@ category: "convencao audiovisual"
   }
 
   // Hover-to-play logic for video case cards in main grid
-  // + IntersectionObserver para pré-carregar vídeos antes de entrar no viewport
+  // O iframe do Vimeo é carregado UMA VEZ quando o card aparece na tela.
+  // Depois, usamos a API do Vimeo para pausar/tocar sem destruir o player.
   const videoCaseCards = document.querySelectorAll('.case-item--video');
+  const vimeoPlayers = new WeakMap(); // Armazena a instância da API por iframe
+
+  function getOrCreateVimeoPlayer(iframe) {
+    if (vimeoPlayers.has(iframe)) return vimeoPlayers.get(iframe);
+    if (typeof Vimeo !== 'undefined') {
+      const player = new Vimeo.Player(iframe);
+      vimeoPlayers.set(iframe, player);
+      return player;
+    }
+    return null;
+  }
 
   const videoVisibilityObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -3386,41 +3399,28 @@ category: "convencao audiovisual"
       if (!video) return;
 
       if (entry.isIntersecting) {
-        // Card entrou no viewport (ou está próximo): pré-carrega o vídeo imediatamente
-        if (video.tagName === 'IFRAME') {
+        // Card entrou no viewport: carrega o iframe pela primeira vez (se ainda não carregou)
+        if (video.tagName === 'IFRAME' && !video.src) {
           const vimeoId = video.dataset.vimeoId;
           const vimeoHash = video.dataset.vimeoHash;
-          if (vimeoId && !video.src) {
+          if (vimeoId) {
             const hashParam = vimeoHash ? `h=${vimeoHash}&` : '';
-            video.src = `https://player.vimeo.com/video/${vimeoId}?${hashParam}background=1&autoplay=1&loop=1&muted=1`;
-          }
-        } else {
-          const videoSrc = video.dataset.videoSrc || video.getAttribute('data-video-src');
-          if (videoSrc && !video.src) {
-            video.src = videoSrc;
+            video.src = `https://player.vimeo.com/video/${vimeoId}?${hashParam}background=1&autoplay=0&loop=1&muted=1`;
           }
         }
+        // Se o card está visível mas o mouse não está em cima, mantém pausado (já parou no mouseleave)
       } else {
-        // Card saiu do viewport: pausa e libera o src para economizar memória/banda
-        if (video.tagName === 'IFRAME') {
-          if (video.src) {
-            video.removeAttribute('src');
-          }
-        } else {
-          if (video.src && !video.paused) {
-            video.pause();
-          }
-          if (!entry.target.classList.contains('video-playing') && video.src) {
-            const savedSrc = video.dataset.videoSrc;
-            video.removeAttribute('src');
-            video.load();
-            if (savedSrc) video.dataset.videoSrc = savedSrc;
+        // Card saiu do viewport: pausa via API sem destruir o iframe
+        if (video.tagName === 'IFRAME' && video.src) {
+          const player = getOrCreateVimeoPlayer(video);
+          if (player) {
+            player.pause().catch(() => {});
           }
         }
         entry.target.classList.remove('video-playing');
       }
     });
-  }, { threshold: 0, rootMargin: '250px 0px' }); // 250px de margem para carregar antes de aparecer na tela
+  }, { threshold: 0, rootMargin: '150px 0px' });
 
   videoCaseCards.forEach(item => {
     const video = item.querySelector('.case-item-video');
@@ -3434,31 +3434,34 @@ category: "convencao audiovisual"
           const vimeoHash = video.dataset.vimeoHash;
           if (vimeoId) {
             if (!video.src) {
+              // Primeira vez: cria o iframe
               const hashParam = vimeoHash ? `h=${vimeoHash}&` : '';
               video.src = `https://player.vimeo.com/video/${vimeoId}?${hashParam}background=1&autoplay=1&loop=1&muted=1`;
-            } else if (typeof Vimeo !== 'undefined') {
-              const player = new Vimeo.Player(video);
-              player.play().catch(err => console.log("Vimeo play interrupted", err));
+            } else {
+              // Iframe já existe: apenas manda play via API
+              const player = getOrCreateVimeoPlayer(video);
+              if (player) {
+                player.play().catch(err => console.log('Vimeo play interrupted', err));
+              }
             }
           }
         } else {
           const videoSrc = video.dataset.videoSrc || video.getAttribute('data-video-src');
-          if (videoSrc && !video.src) {
-            video.src = videoSrc;
-          }
-          video.play().catch(err => console.log("Grid video play interrupted", err));
+          if (videoSrc && !video.src) video.src = videoSrc;
+          video.play().catch(err => console.log('Grid video play interrupted', err));
         }
       });
 
       item.addEventListener('mouseleave', () => {
         item.classList.remove('video-playing');
-        if (video.tagName === 'IFRAME') {
-          if (video.src && typeof Vimeo !== 'undefined') {
-            const player = new Vimeo.Player(video);
-            player.pause().catch(err => console.log("Vimeo pause interrupted", err));
-            player.setCurrentTime(0).catch(err => {});
+        if (video.tagName === 'IFRAME' && video.src) {
+          // Pausa via API sem destruir o iframe
+          const player = getOrCreateVimeoPlayer(video);
+          if (player) {
+            player.pause().catch(() => {});
+            player.setCurrentTime(0).catch(() => {});
           }
-        } else {
+        } else if (video.tagName !== 'IFRAME') {
           video.pause();
           video.currentTime = 0;
         }

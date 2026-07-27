@@ -1,0 +1,7 @@
+# Vídeos grandes — mantidos no servidor mas não versionados no GitHub (limite 100MB)
+assets/HOME/VIDEO LOOPING/*.mp4
+assets/HOME/VIDEO LOOPING/*.webm
+assets/HOME/VIDEO LOOPING/*.mov
+
+# Thumbs do Windows
+Thumbs.db
