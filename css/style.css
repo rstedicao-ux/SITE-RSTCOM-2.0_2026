@@ -2371,72 +2371,13 @@ body.loaded .hero {
 /* =============================================
    ANIMAÃ‡ÃƒO 1 â€” CURSOR MAGNÃ‰TICO
    ============================================= */
-.magnetic-cursor {
-  position: fixed;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  z-index: 99999999;
-  mix-blend-mode: difference;
-  transition: transform 0.1s ease;
-}
-
-.magnetic-cursor.cursor-dark-wrapper {
-  mix-blend-mode: normal !important;
-}
-
-.cursor-dot {
-  position: fixed;
-  width: 8px;
-  height: 8px;
-  background: #fff;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  transition: width .15s ease, height .15s ease, background .2s ease;
-  z-index: 99999999;
-  pointer-events: none;
-}
-
-.cursor-dot.cursor-dark {
-  background: #000000 !important;
-}
-
-.cursor-ring {
-  position: fixed;
-  width: 40px;
-  height: 40px;
-  border: 1.5px solid #fff;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  transition: width .22s ease, height .22s ease, border-color .2s ease, background .2s ease;
-  z-index: 99999999;
-  pointer-events: none;
-}
-
-.cursor-ring.cursor-dark {
-  border-color: #000000 !important;
-  background: rgba(0, 0, 0, 0.05) !important;
-}
-
-.cursor-ring.hover {
-  width: 68px;
-  height: 68px;
-  border-color: var(--coral);
-  background: rgba(244, 92, 116, .07);
-}
-
-.cursor-ring.click {
-  width: 20px;
-  height: 20px;
-  background: rgba(255, 255, 255, .2);
-}
-
-@media (hover: hover) and (pointer: fine) {
-  html,
-  body,
-  body * {
-    cursor: none !important;
-  }
+.magnetic-cursor,
+.cursor-dot,
+.cursor-ring,
+#pixel-cursor,
+#pixel-trail-canvas,
+.servicos-cursor-canvas {
+  display: none !important;
 }
 
 /* =============================================
