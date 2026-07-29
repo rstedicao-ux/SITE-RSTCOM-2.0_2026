@@ -2473,18 +2473,10 @@ category: "convencao audiovisual"
   }
 
   // ════════════════════════════════════════════
-  // Função para preparar dados do case (adiciona videoSrc ao media automaticamente)
+  // Função para preparar dados do case
   // ════════════════════════════════════════════
   function prepareCaseData(data) {
-    // Se houver videoSrc e não estiver já em media, adiciona automaticamente
-    if (data.videoSrc && data.videoSrc.trim() !== '' && !data.media.includes(data.videoSrc)) {
-      // Cria uma cópia do array para não modificar o original
-      const newMedia = [...data.media];
-      // Adiciona o vídeo ao final do array
-      newMedia.push(data.videoSrc);
-      // Retorna um novo objeto com o media atualizado
-      return { ...data, media: newMedia };
-    }
+    // Mantém a lista de mídia limpa apenas com caminhos válidos de imagens/vídeos locais
     return data;
   }
 
@@ -2558,7 +2550,6 @@ category: "convencao audiovisual"
       };
     }
 
-    // 🎯 IMPORTANTE: Preparar dados (adiciona videoSrc ao media se existir)
     data = prepareCaseData(data);
 
     // Keep record of category for Contact pre-filling
@@ -2603,12 +2594,6 @@ category: "convencao audiovisual"
         const pill = document.createElement('span');
         pill.className = 'case-tech-pill';
         pill.textContent = tech;
-        
-        // Add magnetic cursor hover hooks
-        if (typeof cursorRing !== 'undefined') {
-          pill.addEventListener('mouseenter', () => cursorRing.classList.add('hover'));
-          pill.addEventListener('mouseleave', () => cursorRing.classList.remove('hover'));
-        }
         caseModalTechPills.appendChild(pill);
       });
     }
@@ -2619,20 +2604,31 @@ category: "convencao audiovisual"
     // Render Gallery
     if (caseModalGalleryGrid) {
       caseModalGalleryGrid.innerHTML = '';
+      const galleryItemsForLightbox = [];
 
       // If case has a Vimeo video, add a Vimeo thumbnail tile first
       if (data.vimeoId) {
+        const vimeoMediaItem = {
+          type: 'vimeo',
+          vimeoId: data.vimeoId,
+          vimeoHash: data.vimeoHash,
+          title: data.title + ' - Vídeo'
+        };
+        galleryItemsForLightbox.push(vimeoMediaItem);
+
         const vimeoThumbItem = document.createElement('div');
         vimeoThumbItem.className = 'case-gallery-item case-gallery-vimeo';
-        vimeoThumbItem.title = 'Assistir vídeo';
+        vimeoThumbItem.title = 'Assistir vídeo no Lightbox';
         vimeoThumbItem.style.cssText = 'position:relative;cursor:pointer;background:#111;';
 
-        // Use Vimeo's thumbnail API
         const thumbImg = document.createElement('img');
         thumbImg.src = `https://vumbnail.com/${data.vimeoId}.jpg`;
         thumbImg.alt = data.title + ' - Vídeo';
         thumbImg.style.cssText = 'width:100%;height:100%;object-fit:cover;';
-        thumbImg.onerror = () => { thumbImg.src = 'assets/images/case-festival.jpg'; };
+        thumbImg.onerror = function() {
+          this.onerror = null;
+          this.src = (data.media && data.media[0]) ? data.media[0] : 'assets/images/case-festival.jpg';
+        };
 
         const playIcon = document.createElement('div');
         playIcon.style.cssText = `
@@ -2661,9 +2657,11 @@ category: "convencao audiovisual"
         vimeoThumbItem.addEventListener('mouseenter', () => { playIcon.style.transform = 'translate(-50%,-50%) scale(1.15)'; });
         vimeoThumbItem.addEventListener('mouseleave', () => { playIcon.style.transform = 'translate(-50%,-50%) scale(1)'; });
 
-        // Click: inject Vimeo iframe into hero and show it
+        // Click: opens Vimeo video in full-screen Lightbox AND updates hero
         vimeoThumbItem.addEventListener('click', () => {
-          // Remove any existing iframe
+          window.openLightbox(galleryItemsForLightbox, 0);
+
+          // Update hero video at top
           const old = caseModalHeroVideoWrapper ? caseModalHeroVideoWrapper.querySelector('iframe.vimeo-embed') : null;
           if (old) old.remove();
 
@@ -2689,10 +2687,17 @@ category: "convencao audiovisual"
 
         caseModalGalleryGrid.appendChild(vimeoThumbItem);
       }
+
       data.media.forEach(imgUrl => {
+        if (!imgUrl || typeof imgUrl !== 'string' || imgUrl.includes('vimeo.com')) return;
+
+        galleryItemsForLightbox.push(imgUrl);
+        const lightboxIndex = galleryItemsForLightbox.length - 1;
+
         const item = document.createElement('div');
         item.className = 'case-gallery-item';
-        
+        item.style.cursor = 'pointer';
+
         // Check if gallery item is a video
         if (imgUrl.endsWith('.mp4')) {
           const galleryVid = document.createElement('video');
@@ -2705,8 +2710,7 @@ category: "convencao audiovisual"
           galleryVid.style.height = '100%';
           galleryVid.style.objectFit = 'cover';
           item.appendChild(galleryVid);
-          
-          // Play inline video in gallery on hover
+
           item.addEventListener('mouseenter', () => {
             galleryVid.play().catch(err => console.log("Gallery play prevented", err));
           });
@@ -2715,59 +2719,25 @@ category: "convencao audiovisual"
             galleryVid.currentTime = 0;
           });
 
-          // Click on gallery video opens lightbox
           item.addEventListener('click', () => {
-            // Find the index of this video in data.media
-            const mediaIndex = data.media.indexOf(imgUrl);
-            window.openLightbox(data.media, mediaIndex >= 0 ? mediaIndex : 0);
-            
-            // Also update hero (for context)
-            if (caseModalHeroBg) {
-              caseModalHeroBg.style.backgroundImage = 'none';
-            }
-            if (caseModalHeroVideoWrapper) {
-              caseModalHeroVideoWrapper.classList.add('active');
-            }
-            if (videoNode) {
-              videoNode.src = imgUrl;
-              videoNode.currentTime = 0;
-              videoNode.play().catch(err => console.log("Hero play prevented", err));
-            }
+            window.openLightbox(galleryItemsForLightbox, lightboxIndex);
           });
         } else {
           const img = document.createElement('img');
           img.src = imgUrl;
           img.alt = data.title;
           img.loading = 'lazy';
+          img.onerror = function() {
+            this.onerror = null;
+            this.src = 'assets/images/case-festival.jpg';
+          };
           item.appendChild(img);
 
-          // Click on gallery image opens lightbox
           item.addEventListener('click', () => {
-            // Find the index of this image in data.media
-            const mediaIndex = data.media.indexOf(imgUrl);
-            window.openLightbox(data.media, mediaIndex >= 0 ? mediaIndex : 0);
-            
-            // Also update hero (for context)
-            if (caseModalHeroVideoWrapper) {
-              caseModalHeroVideoWrapper.classList.remove('active');
-            }
-            if (videoNode) {
-              videoNode.pause();
-            }
-            if (caseModalHeroBg) {
-              caseModalHeroBg.style.backgroundImage = `url("${imgUrl}")`;
-            }
+            window.openLightbox(galleryItemsForLightbox, lightboxIndex);
           });
         }
 
-        // Add magnetic cursor hover hooks
-        if (typeof cursorRing !== 'undefined') {
-          item.addEventListener('mouseenter', () => cursorRing.classList.add('hover'));
-          item.addEventListener('mouseleave', () => cursorRing.classList.remove('hover'));
-        }
-
-        caseModalGalleryGrid.appendChild(item);
-      });
     }
 
     // Render Hero background
@@ -3192,6 +3162,7 @@ category: "convencao audiovisual"
   const galleryLightboxContent = document.getElementById('galleryLightboxContent');
   const galleryLightboxImg = document.getElementById('galleryLightboxImg');
   const galleryLightboxVideo = document.getElementById('galleryLightboxVideo');
+  const galleryLightboxIframe = document.getElementById('galleryLightboxIframe');
   const galleryLightboxPrev = document.getElementById('galleryLightboxPrev');
   const galleryLightboxNext = document.getElementById('galleryLightboxNext');
   const galleryLightboxCurrent = document.getElementById('galleryLightboxCurrent');
@@ -3223,10 +3194,18 @@ category: "convencao audiovisual"
       galleryLightbox.classList.remove('active');
       document.body.style.overflow = '';
       
-      // Stop any playing videos
+      // Stop any playing videos or Vimeo iframes
       if (galleryLightboxVideo) {
         galleryLightboxVideo.pause();
         galleryLightboxVideo.src = '';
+        galleryLightboxVideo.style.display = 'none';
+      }
+      if (galleryLightboxIframe) {
+        galleryLightboxIframe.src = '';
+        galleryLightboxIframe.style.display = 'none';
+      }
+      if (galleryLightboxImg) {
+        galleryLightboxImg.style.display = 'none';
       }
       
       document.removeEventListener('keydown', handleLightboxKeyboard);
@@ -3238,24 +3217,44 @@ category: "convencao audiovisual"
     if (index < 0 || index >= lightboxMediaArray.length) return;
     
     lightboxCurrentIndex = index;
-    const mediaUrl = lightboxMediaArray[index];
-    const isVideo = mediaUrl.endsWith('.mp4') || mediaUrl.endsWith('.webm') || mediaUrl.endsWith('.mov');
+    const mediaItem = lightboxMediaArray[index];
 
-    // Hide both elements first
-    if (galleryLightboxImg) galleryLightboxImg.classList.remove('active');
-    if (galleryLightboxVideo) galleryLightboxVideo.classList.remove('active');
+    // Hide all 3 media elements first
+    if (galleryLightboxImg) { galleryLightboxImg.classList.remove('active'); galleryLightboxImg.style.display = 'none'; }
+    if (galleryLightboxVideo) { galleryLightboxVideo.classList.remove('active'); galleryLightboxVideo.style.display = 'none'; galleryLightboxVideo.pause(); galleryLightboxVideo.src = ''; }
+    if (galleryLightboxIframe) { galleryLightboxIframe.classList.remove('active'); galleryLightboxIframe.style.display = 'none'; galleryLightboxIframe.src = ''; }
 
-    if (isVideo) {
+    const isVimeoObj = typeof mediaItem === 'object' && mediaItem !== null && mediaItem.type === 'vimeo';
+    const isVimeoUrl = typeof mediaItem === 'string' && mediaItem.includes('vimeo.com');
+    const isVideoFile = typeof mediaItem === 'string' && (mediaItem.endsWith('.mp4') || mediaItem.endsWith('.webm') || mediaItem.endsWith('.mov'));
+
+    if (isVimeoObj || isVimeoUrl) {
+      let vId = isVimeoObj ? mediaItem.vimeoId : (mediaItem.match(/video\/(\d+)/) || [])[1];
+      let vHash = isVimeoObj ? mediaItem.vimeoHash : '';
+      if (vId && galleryLightboxIframe) {
+        const hashParam = vHash ? `?h=${vHash}&` : '?';
+        galleryLightboxIframe.src = `https://player.vimeo.com/video/${vId}${hashParam}badge=0&autopause=0&autoplay=1&muted=0&title=0&byline=0&portrait=0`;
+        galleryLightboxIframe.classList.add('active');
+        galleryLightboxIframe.style.display = 'block';
+      }
+    } else if (isVideoFile) {
       if (galleryLightboxVideo) {
-        galleryLightboxVideo.src = mediaUrl;
+        galleryLightboxVideo.src = mediaItem;
         galleryLightboxVideo.classList.add('active');
+        galleryLightboxVideo.style.display = 'block';
         galleryLightboxVideo.play().catch(err => console.log("Lightbox video play prevented", err));
       }
     } else {
       if (galleryLightboxImg) {
-        galleryLightboxImg.src = mediaUrl;
+        const imgSrc = typeof mediaItem === 'string' ? mediaItem : (mediaItem.src || mediaItem.url || 'assets/images/case-festival.jpg');
+        galleryLightboxImg.src = imgSrc;
         galleryLightboxImg.alt = `Galeria - Item ${index + 1}`;
+        galleryLightboxImg.onerror = function() {
+          this.onerror = null;
+          this.src = 'assets/images/case-festival.jpg';
+        };
         galleryLightboxImg.classList.add('active');
+        galleryLightboxImg.style.display = 'block';
       }
     }
 
@@ -3264,7 +3263,7 @@ category: "convencao audiovisual"
     if (galleryLightboxTotal) galleryLightboxTotal.textContent = lightboxMediaArray.length;
 
     // Update active thumbnail
-    const thumbs = galleryLightboxThumbnails.querySelectorAll('.gallery-lightbox-thumb');
+    const thumbs = galleryLightboxThumbnails ? galleryLightboxThumbnails.querySelectorAll('.gallery-lightbox-thumb') : [];
     thumbs.forEach((thumb, i) => {
       if (i === index) {
         thumb.classList.add('active');
@@ -3281,24 +3280,41 @@ category: "convencao audiovisual"
     
     galleryLightboxThumbnails.innerHTML = '';
     
-    lightboxMediaArray.forEach((mediaUrl, index) => {
+    lightboxMediaArray.forEach((mediaItem, index) => {
       const thumb = document.createElement('div');
       thumb.className = 'gallery-lightbox-thumb';
       if (index === lightboxCurrentIndex) thumb.classList.add('active');
 
-      const isVideo = mediaUrl.endsWith('.mp4') || mediaUrl.endsWith('.webm') || mediaUrl.endsWith('.mov');
+      const isVimeoObj = typeof mediaItem === 'object' && mediaItem !== null && mediaItem.type === 'vimeo';
+      const isVimeoUrl = typeof mediaItem === 'string' && mediaItem.includes('vimeo.com');
+      const isVideoFile = typeof mediaItem === 'string' && (mediaItem.endsWith('.mp4') || mediaItem.endsWith('.webm') || mediaItem.endsWith('.mov'));
       
-      if (isVideo) {
+      if (isVimeoObj || isVimeoUrl) {
+        let vId = isVimeoObj ? mediaItem.vimeoId : (mediaItem.match(/video\/(\d+)/) || [])[1];
+        const img = document.createElement('img');
+        img.src = `https://vumbnail.com/${vId}.jpg`;
+        img.alt = `Vídeo ${index + 1}`;
+        img.style.cssText = 'width:100%;height:100%;object-fit:cover;';
+        img.onerror = function() { this.src = 'assets/images/case-festival.jpg'; };
+        thumb.style.position = 'relative';
+        thumb.appendChild(img);
+
+        const playBadge = document.createElement('div');
+        playBadge.style.cssText = 'position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:20px;height:20px;background:rgba(0,198,255,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;pointer-events:none;';
+        playBadge.innerHTML = '<svg viewBox="0 0 24 24" fill="#fff" width="10" height="10"><path d="M8 5v14l11-7z"/></svg>';
+        thumb.appendChild(playBadge);
+      } else if (isVideoFile) {
         const video = document.createElement('video');
-        video.src = mediaUrl;
+        video.src = mediaItem;
         video.muted = true;
         video.style.cssText = 'width:100%;height:100%;object-fit:cover;';
         thumb.appendChild(video);
       } else {
         const img = document.createElement('img');
-        img.src = mediaUrl;
+        img.src = typeof mediaItem === 'string' ? mediaItem : (mediaItem.src || mediaItem.url || 'assets/images/case-festival.jpg');
         img.alt = `Thumbnail ${index + 1}`;
         img.style.cssText = 'width:100%;height:100%;object-fit:cover;';
+        img.onerror = function() { this.src = 'assets/images/case-festival.jpg'; };
         thumb.appendChild(img);
       }
 
