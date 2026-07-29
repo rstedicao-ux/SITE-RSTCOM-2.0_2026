@@ -14,11 +14,28 @@
 function init() {
   window.preloaderFinished = false;
 
-  // Load hero background video using local MP4 file for faster loading
+  // Load hero background video (tries local MP4 if available, with automatic fallback to Vimeo iframe)
   const heroVideoBg = document.getElementById('heroVideoBg');
-  if (heroVideoBg && !heroVideoBg.querySelector('video')) {
+  if (heroVideoBg && !heroVideoBg.querySelector('iframe') && !heroVideoBg.querySelector('video')) {
+    const vimeoSrc = heroVideoBg.getAttribute('data-vimeo-src');
+    const localMp4Path = 'assets/HOME/VIDEO LOOPING/VÍDEO LOOPING - SITE RST JUL26_V1 (2).mp4';
+
+    function loadVimeoIframe() {
+      if (heroVideoBg.querySelector('iframe')) return;
+      heroVideoBg.innerHTML = '';
+      if (vimeoSrc) {
+        const iframe = document.createElement('iframe');
+        iframe.src = vimeoSrc;
+        iframe.frameBorder = "0";
+        iframe.allow = "autoplay; fullscreen; picture-in-picture";
+        iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+        iframe.title = "DEMO REEL 10 ANOS RST";
+        heroVideoBg.appendChild(iframe);
+      }
+    }
+
     const video = document.createElement('video');
-    video.src = 'assets/HOME/VIDEO LOOPING/VÍDEO LOOPING - SITE RST JUL26_V1 (2).mp4';
+    video.src = encodeURI(localMp4Path);
     video.autoplay = true;
     video.loop = true;
     video.muted = true;
@@ -27,7 +44,21 @@ function init() {
     video.style.width = '100%';
     video.style.height = '100%';
     video.style.objectFit = 'cover';
+
+    video.onerror = function() {
+      console.warn('Vídeo local não encontrado ou com erro. Carregando player Vimeo...');
+      loadVimeoIframe();
+    };
+
     heroVideoBg.appendChild(video);
+
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(function(err) {
+        console.warn('Autoplay do vídeo local impedido ou falhou:', err);
+        loadVimeoIframe();
+      });
+    }
   }
 
   /* ════════════════════════════════════════════

@@ -284,7 +284,8 @@ body.loaded .hero {
   pointer-events: none;
 }
 
-.hero-video-bg iframe {
+.hero-video-bg iframe,
+.hero-video-bg video {
   width: 100vw;
   height: 56.25vw;
   min-height: 100vh;
@@ -294,6 +295,7 @@ body.loaded .hero {
   left: 50%;
   transform: translate(-50%, -50%);
   pointer-events: none;
+  object-fit: cover;
 }
 
 .hero-video-bg-2 {
