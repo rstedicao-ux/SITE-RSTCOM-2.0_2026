@@ -2738,6 +2738,8 @@ category: "convencao audiovisual"
           });
         }
 
+        caseModalGalleryGrid.appendChild(item);
+      });
     }
 
     // Render Hero background
