@@ -1916,10 +1916,10 @@ body.loaded .hero {
 }
 
 .cta-title-gradient {
-  color: #a81bb6;
-  background: none;
-  -webkit-text-fill-color: initial;
-  background-clip: border-box;
+  background: linear-gradient(135deg, #00c6ff 0%, #0072ff 40%, #7f00ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   display: inline-block;
 }
 
@@ -1938,45 +1938,6 @@ body.loaded .hero {
   align-items: center;
   justify-content: center;
   margin-bottom: 30px;
-}
-
-.cases-cta-nav {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-  color: #a81bb6;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 20;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, color 0.25s ease;
-}
-
-.cases-cta-nav svg {
-  width: 20px;
-  height: 20px;
-}
-
-.cases-cta-nav:hover {
-  background: #a81bb6;
-  color: #ffffff;
-  box-shadow: 0 12px 30px rgba(168, 27, 182, 0.35);
-  transform: translateY(-52%);
-}
-
-.cases-cta-nav--prev {
-  left: -20px;
-}
-
-.cases-cta-nav--next {
-  right: -20px;
 }
 
 .cases-cta-cards-grid {
@@ -2001,18 +1962,33 @@ body.loaded .hero {
   cursor: pointer;
 }
 
-.cta-service-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(168, 27, 182, 0.12);
-  border-color: rgba(168, 27, 182, 0.3);
-}
+/* Card 0: Produção Audiovisual (Azul Elétrico) */
+.cta-service-card[data-index="0"] .cta-card-icon-badge { color: #0072FF; }
+.cta-service-card[data-index="0"] .cta-card-arrow { background: rgba(0, 114, 255, 0.08); color: #0072FF; }
+.cta-service-card[data-index="0"]:hover, .cta-service-card[data-index="0"].active { border-color: #0072FF; box-shadow: 0 15px 40px rgba(0, 114, 255, 0.22); transform: translateY(-6px); }
+.cta-service-card[data-index="0"]:hover .cta-card-icon-badge, .cta-service-card[data-index="0"].active .cta-card-icon-badge { background: #0072FF; color: #ffffff; }
+.cta-service-card[data-index="0"]:hover .cta-card-arrow, .cta-service-card[data-index="0"].active .cta-card-arrow { background: #0072FF; color: #ffffff; }
 
-.cta-service-card--featured,
-.cta-service-card.active {
-  border: 2px solid #a81bb6;
-  box-shadow: 0 15px 45px rgba(168, 27, 182, 0.18);
-  transform: translateY(-4px);
-}
+/* Card 1: Feiras e Ativações (Ciano / Turquesa) */
+.cta-service-card[data-index="1"] .cta-card-icon-badge { color: #00B4D8; }
+.cta-service-card[data-index="1"] .cta-card-arrow { background: rgba(0, 180, 216, 0.08); color: #00B4D8; }
+.cta-service-card[data-index="1"]:hover, .cta-service-card[data-index="1"].active { border-color: #00B4D8; box-shadow: 0 15px 40px rgba(0, 180, 216, 0.22); transform: translateY(-6px); }
+.cta-service-card[data-index="1"]:hover .cta-card-icon-badge, .cta-service-card[data-index="1"].active .cta-card-icon-badge { background: #00B4D8; color: #ffffff; }
+.cta-service-card[data-index="1"]:hover .cta-card-arrow, .cta-service-card[data-index="1"].active .cta-card-arrow { background: #00B4D8; color: #ffffff; }
+
+/* Card 2: Eventos Corporativos (Índigo / Violeta) */
+.cta-service-card[data-index="2"] .cta-card-icon-badge { color: #7F00FF; }
+.cta-service-card[data-index="2"] .cta-card-arrow { background: rgba(127, 0, 255, 0.08); color: #7F00FF; }
+.cta-service-card[data-index="2"]:hover, .cta-service-card[data-index="2"].active { border-color: #7F00FF; box-shadow: 0 15px 40px rgba(127, 0, 255, 0.22); transform: translateY(-6px); }
+.cta-service-card[data-index="2"]:hover .cta-card-icon-badge, .cta-service-card[data-index="2"].active .cta-card-icon-badge { background: #7F00FF; color: #ffffff; }
+.cta-service-card[data-index="2"]:hover .cta-card-arrow, .cta-service-card[data-index="2"].active .cta-card-arrow { background: #7F00FF; color: #ffffff; }
+
+/* Card 3: Captação & Streaming (Magenta Púrpura) */
+.cta-service-card[data-index="3"] .cta-card-icon-badge { color: #B5179E; }
+.cta-service-card[data-index="3"] .cta-card-arrow { background: rgba(181, 23, 158, 0.08); color: #B5179E; }
+.cta-service-card[data-index="3"]:hover, .cta-service-card[data-index="3"].active { border-color: #B5179E; box-shadow: 0 15px 40px rgba(181, 23, 158, 0.22); transform: translateY(-6px); }
+.cta-service-card[data-index="3"]:hover .cta-card-icon-badge, .cta-service-card[data-index="3"].active .cta-card-icon-badge { background: #B5179E; color: #ffffff; }
+.cta-service-card[data-index="3"]:hover .cta-card-arrow, .cta-service-card[data-index="3"].active .cta-card-arrow { background: #B5179E; color: #ffffff; }
 
 .cta-card-img-wrapper {
   position: relative;
@@ -2046,7 +2022,6 @@ body.loaded .hero {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #a81bb6;
   z-index: 15;
   transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
 }
@@ -2054,13 +2029,6 @@ body.loaded .hero {
 .cta-card-icon-badge svg {
   width: 22px;
   height: 22px;
-}
-
-.cta-service-card:hover .cta-card-icon-badge,
-.cta-service-card.active .cta-card-icon-badge {
-  transform: translateX(-50%) scale(1.08);
-  background: #a81bb6;
-  color: #ffffff;
 }
 
 .cta-card-body {
@@ -2085,8 +2053,6 @@ body.loaded .hero {
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  background: rgba(168, 27, 182, 0.06);
-  color: #a81bb6;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2096,13 +2062,6 @@ body.loaded .hero {
 .cta-card-arrow svg {
   width: 16px;
   height: 16px;
-}
-
-.cta-service-card:hover .cta-card-arrow,
-.cta-service-card.active .cta-card-arrow {
-  transform: translateX(4px);
-  background: #a81bb6;
-  color: #ffffff;
 }
 
 .cases-cta-dots {
@@ -2125,7 +2084,7 @@ body.loaded .hero {
 .cta-dot.active {
   width: 24px;
   border-radius: 10px;
-  background: #a81bb6;
+  background: linear-gradient(90deg, #0072FF, #7F00FF);
 }
 
 .cases-cta-btn-wrapper {
@@ -2138,20 +2097,21 @@ body.loaded .hero {
   align-items: center;
   gap: 10px;
   padding: 16px 42px;
-  background: #a81bb6;
+  background: linear-gradient(135deg, #0072FF 0%, #7F00FF 100%);
   border-radius: 100px;
   font-size: 1rem;
   font-weight: 800;
   color: #ffffff;
   text-decoration: none;
-  box-shadow: 0 10px 30px rgba(168, 27, 182, 0.28);
-  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  box-shadow: 0 10px 30px rgba(0, 114, 255, 0.35);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
 }
 
 .cases-cta-btn:hover {
   transform: translateY(-3px) scale(1.02);
-  background: #8e149c;
-  box-shadow: 0 16px 40px rgba(168, 27, 182, 0.4);
+  background: linear-gradient(135deg, #0056b3 0%, #6b00c7 100%);
+  box-shadow: 0 16px 40px rgba(0, 114, 255, 0.5);
+  opacity: 0.96;
 }
 
 @media (max-width: 1024px) {
