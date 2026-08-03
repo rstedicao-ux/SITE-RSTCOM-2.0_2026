@@ -4,32 +4,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RSTCOM — Produtora de Eventos e Audiovisual</title>
+  <title>RSTCOM — Produtora Audiovisual</title>
   <link rel="icon" type="image/svg+xml" href="assets/logo rstcom colorida.svg" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/logo rstcom colorida.svg" />
 
   <!-- SEO & Open Graph -->
   <meta name="description"
-    content="Na RSTCOM, transformamos a sua visão em realidade. Somos especialistas em criação, planejamento e execução de eventos corporativos, oferecendo soluções completas e inovadoras." />
-  <meta property="og:title" content="RSTCOM — Produtora de Eventos e Audiovisual" />
+    content="Na RSTCOM, transformamos a sua visão em realidade. Somos especialistas em criação, planejamento e execução de projetos audiovisuais, oferecendo soluções completas e inovadoras." />
+  <meta property="og:title" content="RSTCOM — Produtora Audiovisual" />
   <meta property="og:description"
-    content="Especialistas em criação, planejamento e execução de eventos corporativos com soluções audiovisuais inovadoras." />
+    content="Especialistas em criação, planejamento e execução com soluções audiovisuais inovadoras." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://rstcom.com.br/" />
   <meta property="og:image" content="https://rstcom.com.br/assets/logo rstcom colorida.svg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="RSTCOM — Produtora de Eventos e Audiovisual" />
+  <meta name="twitter:title" content="RSTCOM — Produtora Audiovisual" />
   <meta name="twitter:description"
     content="Especialistas em criação, planejamento e execução de eventos corporativos com soluções audiovisuais inovadoras." />
   <link rel="canonical" href="https://rstcom.com.br/" />
   <meta name="theme-color" content="#0a0a0a" />
 
-  <!-- Resource hints: resolve DNS e abre conexões antes que sejam necessárias -->
+  <!-- Resource hints & Preload do Vídeo Hero (Carregamento instantâneo) -->
   <link rel="preconnect" href="https://player.vimeo.com" crossorigin />
   <link rel="preconnect" href="https://f.vimeocdn.com" crossorigin />
   <link rel="preconnect" href="https://vod-progressive.akamaized.net" crossorigin />
+  <link rel="preload" as="document" href="https://player.vimeo.com/video/1209533407?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;background=1&amp;autoplay=1&amp;loop=1&amp;muted=1&amp;quality=540p" />
   <link rel="dns-prefetch" href="https://player.vimeo.com" />
   <link rel="dns-prefetch" href="https://f.vimeocdn.com" />
   <link rel="dns-prefetch" href="https://vod-progressive.akamaized.net" />
@@ -122,8 +123,9 @@
     <canvas class="hero-particles" id="heroParticles"></canvas>
     <div class="hero-bg">
       <div class="hero-video-bg" id="heroVideoBg"
-        data-vimeo-src="https://player.vimeo.com/video/1209533407?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;background=1&amp;autoplay=1&amp;loop=1&amp;muted=1&amp;quality=720p">
-        <!-- Iframe carregado dinamicamente para acelerar a abertura inicial do site -->
+        data-vimeo-src="https://player.vimeo.com/video/1209533407?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;background=1&amp;autoplay=1&amp;loop=1&amp;muted=1&amp;quality=540p">
+        <iframe src="https://player.vimeo.com/video/1209533407?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;background=1&amp;autoplay=1&amp;loop=1&amp;muted=1&amp;quality=540p"
+          frameborder="0" allow="autoplay; fullscreen; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" title="DEMO REEL 10 ANOS RST"></iframe>
       </div>
       <script src="https://player.vimeo.com/api/player.js" defer></script>
       <div class="hero-gradient"></div>
@@ -896,49 +898,118 @@ Com criatividade e tecnologia, posicionamos a Libbs na vanguarda do setor, geran
           </div>
         </div>
       </div>
+    </div>
+  </section>
 
-      <!-- CTA Section dentro de Cases -->
-      <div class="cases-cta-section">
-        <div class="cases-cta-bg">
-          <!-- Animated Orb Lights -->
-          <div class="orb-light orb-light-1"></div>
-          <div class="orb-light orb-light-2"></div>
-          <div class="orb-light orb-light-3"></div>
-          <div class="cases-cta-content">
-            <h2 class="cases-cta-title">Sua próxima grande ideia começa aqui.</h2>
-            <p class="cases-cta-sub">Transformamos ideias em experiências memoráveis.</p>
-            <div class="cases-cta-cards" id="casesCtaViewport">
-              <div class="cta-3d-card" data-index="0">
-                <img src="assets/SEÇÃO AUDIOVISUAL/D2C SUMMIT/WhatsApp Image 2025-09-30 at 10.34.11 (1).jpeg"
-                  alt="D2C Summit Nuvemshop" class="cta-3d-img" />
-                <div class="cta-3d-overlay">
-                  <h3 class="cta-3d-title">Captação &<br>Streaming</h3>
-                </div>
-              </div>
-              <div class="cta-3d-card" data-index="1">
-                <img src="assets/SEÇÃO AUDIOVISUAL/ANBIMA/WhatsApp Image 2025-12-19 at 13.55.06 (1).jpeg"
-                  alt="Encontro Anual ANBIMA" class="cta-3d-img" />
-                <div class="cta-3d-overlay">
-                  <h3 class="cta-3d-title">Produção<br>Audiovisual</h3>
-                </div>
-              </div>
-              <div class="cta-3d-card" data-index="2">
-                <img src="assets/SEÇÃO PRINCIPAIS CASES/MIDEA FEBRAVA 2025/rs=w_1280,h_853.webp"
-                  alt="Midea Febrava 2025" class="cta-3d-img" />
-                <div class="cta-3d-overlay">
-                  <h3 class="cta-3d-title">Feiras<br>E Ativações</h3>
-                </div>
-              </div>
-              <div class="cta-3d-card" data-index="3">
-                <img src="assets/SEÇÃO PRINCIPAIS CASES/GRUPO SC/capa.jpg" alt="Grupo SC" class="cta-3d-img" />
-                <div class="cta-3d-overlay">
-                  <h3 class="cta-3d-title">Eventos<br>Corporativos</h3>
-                </div>
-              </div>
+  <!-- ===================== SECTION: O QUE FAZEMOS ===================== -->
+  <section class="cases-cta-section" id="oque-fazemos">
+    <div class="cases-cta-container">
+      <div class="cases-cta-header">
+        <h2 class="cases-cta-title">Sua próxima grande ideia <span class="cta-title-gradient">começa aqui.</span></h2>
+        <p class="cases-cta-sub">Transformamos ideias em experiências memoráveis.</p>
+      </div>
+
+      <div class="cases-cta-carousel-wrapper">
+        <!-- Cards Container -->
+        <div class="cases-cta-cards-grid" id="casesCtaViewport">
+          <!-- Card 1: Produção Audiovisual -->
+          <div class="cta-service-card" data-index="0">
+            <div class="cta-card-img-wrapper">
+              <img src="assets/SEÇÃO AUDIOVISUAL/D2C SUMMIT/WhatsApp Image 2025-09-30 at 10.34.11 (1).jpeg" alt="Produção Audiovisual" class="cta-card-img" />
             </div>
-            <a href="#contato" class="cases-cta-btn" id="caseCtaBtn">Vamos conversar</a>
+            <div class="cta-card-icon-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M23 7l-7 5 7 5V7z"></path>
+                <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+              </svg>
+            </div>
+            <div class="cta-card-body">
+              <h3 class="cta-card-title">Produção<br>Audiovisual</h3>
+              <span class="cta-card-arrow">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </span>
+            </div>
+          </div>
+
+          <!-- Card 2: Feiras e Ativações -->
+          <div class="cta-service-card" data-index="1">
+            <div class="cta-card-img-wrapper">
+              <img src="assets/SEÇÃO PRINCIPAIS CASES/MIDEA FEBRAVA 2025/rs=w_1280,h_853.webp" alt="Feiras e Ativações" class="cta-card-img" />
+            </div>
+            <div class="cta-card-icon-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+            </div>
+            <div class="cta-card-body">
+              <h3 class="cta-card-title">Feiras e<br>Ativações</h3>
+              <span class="cta-card-arrow">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </span>
+            </div>
+          </div>
+
+          <!-- Card 3 (Featured): Eventos Corporativos -->
+          <div class="cta-service-card cta-service-card--featured active" data-index="2">
+            <div class="cta-card-img-wrapper">
+              <img src="assets/SEÇÃO PRINCIPAIS CASES/GRUPO SC/capa.jpg" alt="Eventos Corporativos" class="cta-card-img" />
+            </div>
+            <div class="cta-card-icon-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+            </div>
+            <div class="cta-card-body">
+              <h3 class="cta-card-title">Eventos<br>Corporativos</h3>
+              <span class="cta-card-arrow">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </span>
+            </div>
+          </div>
+
+          <!-- Card 4: Captação & Streaming -->
+          <div class="cta-service-card" data-index="3">
+            <div class="cta-card-img-wrapper">
+              <img src="assets/SEÇÃO AUDIOVISUAL/ANBIMA/WhatsApp Image 2025-12-19 at 13.55.06 (1).jpeg" alt="Captação & Streaming" class="cta-card-img" />
+            </div>
+            <div class="cta-card-icon-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4.93 4.93a10 10 0 0 1 14.14 0"></path>
+                <path d="M7.76 7.76a6 6 0 0 1 8.48 0"></path>
+                <circle cx="12" cy="12" r="2"></circle>
+                <path d="M12 14v7"></path>
+              </svg>
+            </div>
+            <div class="cta-card-body">
+              <h3 class="cta-card-title">Captação &<br>Streaming</h3>
+              <span class="cta-card-arrow">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </span>
+            </div>
           </div>
         </div>
+      </div>
+
+      <!-- Pagination dots -->
+      <div class="cases-cta-dots" id="casesCtaDots">
+        <span class="cta-dot" data-index="0"></span>
+        <span class="cta-dot" data-index="1"></span>
+        <span class="cta-dot active" data-index="2"></span>
+        <span class="cta-dot" data-index="3"></span>
+      </div>
+
+      <!-- CTA Button -->
+      <div class="cases-cta-btn-wrapper">
+        <a href="#contato" class="cases-cta-btn" id="caseCtaBtn">
+          Vamos conversar
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
       </div>
     </div>
   </section>

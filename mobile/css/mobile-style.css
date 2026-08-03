@@ -413,13 +413,14 @@ section {
 
 /* === QUEM SOMOS === */
 .quem-somos {
-  background: var(--dark);
+  background: #ffffff;
+  color: #0F0F1A;
 }
 
 .qs-description {
   font-size: 0.95rem;
   line-height: 1.6;
-  color: var(--white70);
+  color: #555566;
   margin-bottom: 30px;
 }
 
@@ -431,11 +432,12 @@ section {
 }
 
 .qs-stat-card {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: #f8f9fc;
+  border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: var(--radius);
   padding: 16px;
   text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
 }
 
 .qs-stat-num {
@@ -445,14 +447,14 @@ section {
   margin-bottom: 4px;
 }
 
-.qs-stat-num.coral { color: var(--coral); }
-.qs-stat-num.cyan { color: var(--cyan); }
-.qs-stat-num.yellow { color: var(--yellow); }
+.qs-stat-num.coral { color: #a81bb6; }
+.qs-stat-num.cyan { color: #f45c74; }
+.qs-stat-num.yellow { color: #a81bb6; }
 
 .qs-stat-label {
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--white70);
+  color: #666677;
   text-transform: uppercase;
   letter-spacing: .5px;
 }
@@ -466,8 +468,8 @@ section {
 .qs-item {
   display: flex;
   gap: 14px;
-  background: rgba(255, 255, 255, 0.01);
-  border: 1px solid rgba(255, 255, 255, 0.04);
+  background: #f8f9fc;
+  border: 1px solid rgba(0, 0, 0, 0.06);
   border-radius: var(--radius);
   padding: 14px;
 }
@@ -475,12 +477,12 @@ section {
 .qs-item-num {
   font-size: 0.9rem;
   font-weight: 800;
-  color: var(--cyan);
+  color: #a81bb6;
 }
 
 .qs-item-text {
   font-size: 0.88rem;
-  color: var(--white70);
+  color: #555566;
   line-height: 1.5;
 }
 

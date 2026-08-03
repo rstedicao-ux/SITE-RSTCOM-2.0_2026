@@ -262,22 +262,11 @@ function init() {
         heroCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         heroCtx.fillStyle = this.color + this.alpha + ')';
         heroCtx.fill();
-
-        // Glow
-        heroCtx.beginPath();
-        heroCtx.arc(this.x, this.y, this.size * 3, 0, Math.PI * 2);
-        const gradient = heroCtx.createRadialGradient(
-          this.x, this.y, 0, this.x, this.y, this.size * 3
-        );
-        gradient.addColorStop(0, this.color + (this.alpha * 0.3) + ')');
-        gradient.addColorStop(1, this.color + '0)');
-        heroCtx.fillStyle = gradient;
-        heroCtx.fill();
       }
     }
 
-    // Create particles
-    const COUNT = Math.min(80, Math.floor(heroCanvas.width * heroCanvas.height / 8000));
+    // Create particles (optimized count for 60fps video playback)
+    const COUNT = Math.min(35, Math.floor(heroCanvas.width * heroCanvas.height / 18000));
     for (let i = 0; i < COUNT; i++) {
       const p = new Particle();
       p.life = Math.random() * p.maxLife; // stagger starts
@@ -290,9 +279,10 @@ function init() {
         for (let j = i + 1; j < particles.length; j++) {
           const a = particles[i], b = particles[j];
           const dx = a.x - b.x, dy = a.y - b.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 100) {
-            const opacity = (1 - dist / 100) * 0.12;
+          const distSq = dx * dx + dy * dy;
+          if (distSq < 6400) { // 80^2
+            const dist = Math.sqrt(distSq);
+            const opacity = (1 - dist / 80) * 0.1;
             heroCtx.beginPath();
             heroCtx.strokeStyle = `rgba(255,255,255,${opacity})`;
             heroCtx.lineWidth = 0.5;
@@ -307,6 +297,13 @@ function init() {
     let isAnimating = false;
     function animateParticles() {
       if (!isAnimating || !window.preloaderFinished) return;
+      
+      // Pause particle calculations when hero section is scrolled out of view
+      if (window.scrollY > (heroCanvas.height || window.innerHeight)) {
+        animId = requestAnimationFrame(animateParticles);
+        return;
+      }
+
       heroCtx.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
       drawConnections();
       particles.forEach(p => { p.update(); p.draw(); });
@@ -1190,301 +1187,63 @@ function init() {
     // Start auto-rotation on load
     showService(serviceIds[0]);
     startAutoRotation();
-
-    // Initial positioning
-    render();
   }
 
   /* ════════════════════════════════════════════
-     ANIMAÇÃO EXTRA — CASES CTA 3D STACKED CAROUSEL
+     CASES CTA — CONTROLE DOS CARDS DE SERVIÇO
      ════════════════════════════════════════════ */
   const ctaViewport = document.getElementById('casesCtaViewport');
-  const ctaCards = Array.from(document.querySelectorAll('.cta-3d-card'));
+  const ctaCards = Array.from(document.querySelectorAll('.cta-service-card, .cta-3d-card'));
+  const ctaPrevBtn = document.getElementById('casesCtaPrev');
+  const ctaNextBtn = document.getElementById('casesCtaNext');
+  const ctaDots = Array.from(document.querySelectorAll('#casesCtaDots .cta-dot'));
 
-  if (ctaViewport && ctaCards.length > 0) {
+  if (ctaCards.length > 0) {
     const N = ctaCards.length;
-    let targetProgress = 0;
-    let currentProgress = 0;
-    let hoverProgress = 0; // 0 = stacked, 1 = spreaded (hovered)
-    let targetHover = 0;
-    let isDragging = false;
-    let dragStartX = 0;
-    let dragStartProgress = 0;
-    let animationFrameId = null;
+    let activeIndex = 2; // Default: Eventos Corporativos (Card index 2)
 
-    // Piecewise coordinate system based on relative diff and hoverProgress
-    function getCardStyles(diff, h) {
-      // Stacked State coordinates (h = 0)
-      let tx_s = 0, ty_s = 0, tz_s = 0;
-      let rx_s = 0, ry_s = 0, rz_s = 0;
-      let op_s = 0;
-      let zi_s = 0;
-
-      // Spreaded State coordinates (h = 1)
-      let tx_p = 0, ty_p = 0, tz_p = 0;
-      let rx_p = 0, ry_p = 0, rz_p = 0;
-      let op_p = 0;
-      let zi_p = 0;
-
-      // 1. Compute Stacked values
-      if (diff >= 0 && diff <= 3) {
-        tx_s = diff * 12;
-        ty_s = diff * 8;
-        tz_s = diff * -40;
-        rx_s = 4 - diff * 2;
-        ry_s = -8 + diff * 7;
-        rz_s = -4 + diff * 2;
-        op_s = 1 - diff * 0.15;
-        zi_s = Math.round(10 - diff * 2);
-      } else if (diff < 0) {
-        // Fly-out to the left when swiped/pulled
-        const t = Math.max(-1, diff); // cap fly-out range
-        tx_s = t * 320;
-        ty_s = t * -20;
-        tz_s = t * -50 + 50; // comes forward slightly then goes back
-        rx_s = 4 + t * 15;
-        ry_s = -8 + t * 45;
-        rz_s = -4 + t * 10;
-        op_s = 1 + diff; // fades out quickly as diff goes negative
-        zi_s = 12; // keep above others during swipe
-      } else {
-        // Cards far behind in the stack
-        tx_s = 36;
-        ty_s = 24;
-        tz_s = -120 - (diff - 3) * 30;
-        rx_s = -2;
-        ry_s = 13;
-        rz_s = 2;
-        op_s = Math.max(0, 0.55 - (diff - 3) * 0.2);
-        zi_s = 1;
-      }
-
-      // 2. Compute Spreaded (Coverflow) values
-      if (diff >= -2.5 && diff <= 2.5) {
-        // Horizontal distribution
-        tx_p = diff * 190;
-        ty_p = Math.abs(diff) * 12; // slight V-shape layout
-        tz_p = -Math.abs(diff) * 60 + 30; // center is closer to viewer
-        rx_p = 10 - Math.abs(diff) * 2;
-        ry_p = -diff * 22; // rotate outwards
-        rz_p = -diff * 4;
-        op_p = 1 - Math.max(0, Math.abs(diff) - 1.5) * 0.5; // fade outer cards
-        zi_p = Math.round(10 - Math.abs(diff) * 2);
-      } else {
-        // Hide off-screen cards
-        const sign = Math.sign(diff);
-        tx_p = sign * 500;
-        ty_p = 30;
-        tz_p = -250;
-        rx_p = 5;
-        ry_p = -sign * 45;
-        rz_p = -sign * 10;
-        op_p = 0;
-        zi_p = 0;
-      }
-
-      // 3. Interpolate between Stacked (0) and Spreaded (1) using h
-      const tx = (1 - h) * tx_s + h * tx_p;
-      const ty = (1 - h) * ty_s + h * ty_p;
-      const tz = (1 - h) * tz_s + h * tz_p;
-      const rx = (1 - h) * rx_s + h * rx_p;
-      const ry = (1 - h) * ry_s + h * ry_p;
-      const rz = (1 - h) * rz_s + h * rz_p;
-      const opacity = Math.max(0, Math.min(1, (1 - h) * op_s + h * op_p));
-      const zIndex = Math.round((1 - h) * zi_s + h * zi_p);
-
-      // Only allow pointer-events on the center-ish card in coverflow,
-      // or the front-most card in stacked mode
-      let pointerEvents = 'none';
-      if (h > 0.5) {
-        if (Math.abs(diff) < 1.1) pointerEvents = 'auto';
-      } else {
-        if (Math.abs(diff) < 0.5) pointerEvents = 'auto';
-      }
-
-      return {
-        transform: `translate3d(${tx}px, ${ty}px, ${tz}px) rotateX(${rx}deg) rotateY(${ry}deg) rotateZ(${rz}deg)`,
-        opacity: opacity,
-        zIndex: zIndex,
-        pointerEvents: pointerEvents
-      };
-    }
-
-    function render() {
-      let normProgress = currentProgress % N;
-      if (normProgress < 0) normProgress += N;
-
+    function setActiveCtaCard(idx) {
+      activeIndex = (idx % N + N) % N;
       ctaCards.forEach((card, i) => {
-        let diff = i - normProgress;
-        // Find shortest path wrap-around
-        while (diff > N / 2) diff -= N;
-        while (diff < -N / 2) diff += N;
-
-        const styles = getCardStyles(diff, hoverProgress);
-        card.style.transform = styles.transform;
-        card.style.opacity = styles.opacity;
-        card.style.zIndex = styles.zIndex;
-        card.style.pointerEvents = styles.pointerEvents;
-
-        if (Math.abs(diff) < 0.5) {
-          card.classList.add('active');
+        if (i === activeIndex) {
+          card.classList.add('active', 'cta-service-card--featured');
         } else {
-          card.classList.remove('active');
+          card.classList.remove('active', 'cta-service-card--featured');
+        }
+      });
+
+      ctaDots.forEach((dot, i) => {
+        if (i === activeIndex) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
         }
       });
     }
 
-    function animate() {
-      // Smoothly interpolate currentProgress and hoverProgress
-      const progressDamp = isDragging ? 0.18 : 0.08;
-      currentProgress += (targetProgress - currentProgress) * progressDamp;
-      hoverProgress += (targetHover - hoverProgress) * 0.08;
-
-      render();
-
-      const progressDiff = Math.abs(targetProgress - currentProgress);
-      const hoverDiff = Math.abs(targetHover - hoverProgress);
-
-      if (progressDiff > 0.001 || hoverDiff > 0.001 || isDragging) {
-        animationFrameId = requestAnimationFrame(animate);
-      } else {
-        currentProgress = targetProgress;
-        hoverProgress = targetHover;
-        render();
-        animationFrameId = null;
-      }
+    if (ctaPrevBtn) {
+      ctaPrevBtn.addEventListener('click', () => {
+        setActiveCtaCard(activeIndex - 1);
+      });
     }
 
-    function startAnimation() {
-      if (!animationFrameId) {
-        animationFrameId = requestAnimationFrame(animate);
-      }
+    if (ctaNextBtn) {
+      ctaNextBtn.addEventListener('click', () => {
+        setActiveCtaCard(activeIndex + 1);
+      });
     }
 
-    function snapToNearest() {
-      targetProgress = Math.round(targetProgress);
-      // Infinite carousel indexing
-      targetProgress = (targetProgress % N + N) % N;
-      currentProgress = (currentProgress % N + N) % N;
-      startAnimation();
-    }
-
-    // Touch & Drag interaction handlers
-    ctaViewport.ctaDragMoved = false;
-    const handleStart = (e) => {
-      if (e.type === 'mousedown') {
-        e.preventDefault();
-      }
-      isDragging = true;
-      dragStartX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
-      ctaViewport.ctaDragMoved = false;
-      dragStartProgress = targetProgress;
-      ctaViewport.style.cursor = 'grabbing';
-      startAnimation();
-    };
-
-    const handleMove = (e) => {
-      if (!isDragging) return;
-      const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
-      const deltaX = clientX - dragStartX;
-      if (Math.abs(deltaX) > 6) {
-        ctaViewport.ctaDragMoved = true;
-      }
-      const sensitivity = 360; // Pixels to scroll 1 slide
-      targetProgress = dragStartProgress - (deltaX / sensitivity);
-    };
-
-    const handleEnd = () => {
-      if (!isDragging) return;
-      isDragging = false;
-      ctaViewport.style.cursor = 'grab';
-      snapToNearest();
-    };
-
-    ctaViewport.addEventListener('mousedown', handleStart);
-    window.addEventListener('mousemove', handleMove);
-    window.addEventListener('mouseup', handleEnd);
-
-    ctaViewport.addEventListener('touchstart', handleStart, { passive: true });
-    ctaViewport.addEventListener('touchmove', handleMove, { passive: true });
-    ctaViewport.addEventListener('touchend', handleEnd);
-
-    // Mouseenter / Mouseleave for fanning/spreading layout
-    ctaViewport.addEventListener('mouseenter', () => {
-      targetHover = 1;
-      startAnimation();
-    });
-
-    ctaViewport.addEventListener('mouseleave', () => {
-      targetHover = 0;
-      startAnimation();
-    });
-
-    // Click to center cards
-    ctaCards.forEach((card, idx) => {
-      card.addEventListener('click', (e) => {
-        if (ctaViewport.ctaDragMoved) {
-          e.preventDefault();
-          e.stopPropagation();
-          return;
-        }
-        let diff = idx - (targetProgress % N);
-        while (diff > N / 2) diff -= N;
-        while (diff < -N / 2) diff += N;
-
-        targetProgress = targetProgress + diff;
-        startAnimation();
+    ctaDots.forEach((dot, i) => {
+      dot.addEventListener('click', () => {
+        setActiveCtaCard(i);
       });
     });
 
-    // Mouse wheel support
-    let lastWheelTime = 0;
-    ctaViewport.addEventListener('wheel', (e) => {
-      e.preventDefault();
-      const now = performance.now();
-      if (now - lastWheelTime < 250) return;
-      lastWheelTime = now;
-
-      if (e.deltaX > 10 || e.deltaY > 10) {
-        targetProgress = Math.round(targetProgress) + 1;
-      } else if (e.deltaX < -10 || e.deltaY < -10) {
-        targetProgress = Math.round(targetProgress) - 1;
-      }
-      startAnimation();
-    }, { passive: false });
-
-    // Active Card 3D tilt on mouse hover
-    ctaViewport.addEventListener('mousemove', (e) => {
-      if (window.innerWidth <= 900) return;
-      if (isDragging) return;
-      const activeCard = ctaViewport.querySelector('.cta-3d-card.active');
-      if (!activeCard) return;
-
-      const rect = activeCard.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-
-      if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
-        const rotX = -((y - rect.height / 2) / rect.height) * 12;
-        const rotY = ((x - rect.width / 2) / rect.width) * 12;
-        
-        // Base transform coordinates for active center card
-        const baseH = hoverProgress;
-        const tx = baseH * 0; // center
-        const ty = baseH * 0;
-        const tz = (1 - baseH) * 0 + baseH * 30; // 30px offset when hovered
-        
-        activeCard.style.transform = `translate3d(${tx}px, ${ty}px, ${tz + 40}px) rotateX(${rotX + 4}deg) rotateY(${rotY}deg) scale(1.06)`;
-      } else {
-        // Render will restore the default position when target matches progress
-        if (Math.abs(targetProgress - currentProgress) < 0.01) {
-          render();
-        }
-      }
+    ctaCards.forEach((card, i) => {
+      card.addEventListener('click', () => {
+        setActiveCtaCard(i);
+      });
     });
-
-    // Initial render
-    render();
   }
 
   /* ════════════════════════════════════════════
