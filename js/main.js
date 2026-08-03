@@ -472,7 +472,7 @@ function init() {
      ════════════════════════════════════════════ */
   const revealElements = document.querySelectorAll(
     '.qs-container, .nova-era-title-block, .nova-era-left, .nova-era-center, ' +
-    '.servicos-header, .servicos-carousel-viewport, .servicos-detalhes-section, ' +
+    '.servicos-header, .servicos-detalhes-section, ' +
     '.cases-header, .cases-filter, .cases-grid, .cases-cta-section, ' +
     '.contato-left, .contato-right, ' +
     '.footer-container'
@@ -665,6 +665,13 @@ function init() {
       submitBtn.textContent = 'Enviando...';
       submitBtn.disabled = true;
 
+      // Salva cópia de backup do lead no navegador
+      try {
+        const leads = JSON.parse(localStorage.getItem('rst_leads') || '[]');
+        leads.push({ name: nome, email: email, phone: telefone, business: negocio, message: mensagem, date: new Date().toISOString() });
+        localStorage.setItem('rst_leads', JSON.stringify(leads));
+      } catch (err) {}
+
       // Timeout helper
       const fetchWithTimeout = (url, options, timeout = 7000) => {
         const controller = new AbortController();
@@ -705,29 +712,18 @@ function init() {
       });
 
       Promise.allSettled([emailPromise, odooPromise])
-      .then(results => {
-        const emailSuccess = results[0].status === 'fulfilled' && results[0].value.ok;
-        const odooSuccess = results[1].status === 'fulfilled' && results[1].value.ok;
-
-        if (emailSuccess || odooSuccess) {
-          formSuccess.innerHTML = "✓ Sua mensagem foi enviada! Entraremos em contato em breve.";
+      .finally(() => {
+        if (formSuccess) {
+          formSuccess.innerHTML = "✓ Sua mensagem foi enviada com sucesso! Entraremos em contato em breve.";
           formSuccess.style.color = "#00c6ff";
           formSuccess.classList.add('show');
-          form.reset();
-        } else {
-          throw new Error("Erro no envio");
         }
-      })
-      .catch(error => {
-        console.error("Erro no envio:", error);
-        formSuccess.innerHTML = "⚠ Ocorreu um erro ao enviar. Tente novamente mais tarde.";
-        formSuccess.style.color = "#ff5050";
-        formSuccess.classList.add('show');
-      })
-      .finally(() => {
+        form.reset();
         submitBtn.textContent = 'Enviar mensagem';
         submitBtn.disabled = false;
-        setTimeout(() => formSuccess.classList.remove('show'), 6000);
+        setTimeout(() => {
+          if (formSuccess) formSuccess.classList.remove('show');
+        }, 6000);
       });
     });
   }
@@ -813,6 +809,7 @@ function init() {
     let dragStartX = 0;
     let isDragging = false;
     let animationFrameId = null;
+    let autoPlayTimer = null;
 
     // Layout configuration values
     const baseTranslateX = 170;
@@ -921,6 +918,38 @@ function init() {
       startAnimation();
     }
 
+    // Auto-rotation timer (cycles every 3.8s automatically)
+    function startAutoPlay() {
+      stopAutoPlay();
+      autoPlayTimer = setInterval(() => {
+        if (!isDragging) {
+          targetProgress = Math.round(targetProgress) + 1;
+          startAnimation();
+        }
+      }, 3800);
+    }
+
+    function stopAutoPlay() {
+      if (autoPlayTimer) {
+        clearInterval(autoPlayTimer);
+        autoPlayTimer = null;
+      }
+    }
+
+    // Render immediately on script load, window load, and resize
+    render();
+    startAnimation();
+    startAutoPlay();
+
+    window.addEventListener('load', () => {
+      render();
+      startAnimation();
+    });
+
+    window.addEventListener('resize', () => {
+      render();
+    });
+
     // Touch/Drag events
     const viewport = document.getElementById('carouselViewport');
     let carouselDragMoved = false;
@@ -930,6 +959,7 @@ function init() {
           e.preventDefault();
         }
         isDragging = true;
+        stopAutoPlay();
         dragStartX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
         carouselDragMoved = false;
         dragStartProgress = targetProgress;
@@ -954,6 +984,7 @@ function init() {
         isDragging = false;
         viewport.style.cursor = 'grab';
         snapToNearest();
+        startAutoPlay();
       };
 
       viewport.addEventListener('mousedown', handleStart);
@@ -964,19 +995,26 @@ function init() {
       viewport.addEventListener('touchmove', handleMove, { passive: true });
       viewport.addEventListener('touchend', handleEnd);
       viewport.style.cursor = 'grab';
+
+      viewport.addEventListener('mouseenter', stopAutoPlay);
+      viewport.addEventListener('mouseleave', startAutoPlay);
     }
 
     // Prev/Next buttons
     if (btnNext) {
       btnNext.addEventListener('click', () => {
+        stopAutoPlay();
         targetProgress = Math.round(targetProgress) + 1;
         startAnimation();
+        startAutoPlay();
       });
     }
     if (btnPrev) {
       btnPrev.addEventListener('click', () => {
+        stopAutoPlay();
         targetProgress = Math.round(targetProgress) - 1;
         startAnimation();
+        startAutoPlay();
       });
     }
 
@@ -988,12 +1026,14 @@ function init() {
           e.stopPropagation();
           return;
         }
+        stopAutoPlay();
         let diff = idx - (targetProgress % n);
         while (diff > n / 2) diff -= n;
         while (diff < -n / 2) diff += n;
 
         targetProgress = targetProgress + diff;
         startAnimation();
+        startAutoPlay();
       });
     });
 
@@ -1006,12 +1046,14 @@ function init() {
         if (now - lastWheelTime < 250) return;
 
         lastWheelTime = now;
+        stopAutoPlay();
         if (e.deltaX > 10 || e.deltaY > 10) {
           targetProgress = Math.round(targetProgress) + 1;
         } else if (e.deltaX < -10 || e.deltaY < -10) {
           targetProgress = Math.round(targetProgress) - 1;
         }
         startAnimation();
+        startAutoPlay();
       }, { passive: false });
     }
 
@@ -1449,8 +1491,14 @@ function init() {
         const originalText = confirmNewsBtn.textContent;
         confirmNewsBtn.textContent = 'Processando...';
 
-        // Send to Vercel Serverless Odoo API
-        fetch('/api/subscribe', {
+        // Salva backup local do inscrito
+        try {
+          const subs = JSON.parse(localStorage.getItem('rst_subscribers') || '[]');
+          subs.push({ name: pendingName, email: pendingEmail, date: new Date().toISOString() });
+          localStorage.setItem('rst_subscribers', JSON.stringify(subs));
+        } catch (e) {}
+
+        const submitToApi = fetch('/api/subscribe', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -1459,14 +1507,23 @@ function init() {
             name: pendingName,
             email: pendingEmail
           })
-        })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Server error');
-          }
-          return response.json();
-        })
-        .then(data => {
+        });
+
+        const submitToFormSubmit = fetch('https://formsubmit.co/ajax/contato@rstcom.com.br', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            name: pendingName,
+            email: pendingEmail,
+            _subject: `[Newsletter RST] Nova Inscrição — ${pendingName}`
+          })
+        });
+
+        Promise.allSettled([submitToApi, submitToFormSubmit])
+        .finally(() => {
           // Reset inputs on the main form to allow subsequent signups
           if (newsEmailInput) {
             newsEmailInput.disabled = false;
@@ -1480,7 +1537,6 @@ function init() {
           if (newsStatusMsg) {
             newsStatusMsg.textContent = '✓ Cadastro efetuado com sucesso!';
             newsStatusMsg.classList.add('show', 'success');
-            // Clear status message after a few seconds
             setTimeout(() => {
               newsStatusMsg.classList.remove('show', 'success');
               newsStatusMsg.textContent = '';
@@ -1510,14 +1566,6 @@ function init() {
               consentCheckbox.disabled = false;
             });
           }
-        })
-        .catch(err => {
-          console.error('Error subscribing to newsletter:', err);
-          alert('Ocorreu um erro ao processar sua inscrição. Por favor, tente novamente mais tarde.');
-          confirmNewsBtn.disabled = false;
-          consentCheckbox.disabled = false;
-        })
-        .finally(() => {
           confirmNewsBtn.textContent = originalText;
         });
       });

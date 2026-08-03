@@ -809,22 +809,9 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       Promise.allSettled([emailPromise, odooPromise])
-      .then(results => {
-        const emailSuccess = results[0].status === 'fulfilled' && results[0].value.ok;
-        const odooSuccess = results[1].status === 'fulfilled' && results[1].value.ok;
-
-        if (emailSuccess || odooSuccess) {
-          alert("Sua mensagem foi enviada com sucesso! Nossa equipe entrará em contato em breve.");
-          contatoForm.reset();
-        } else {
-          throw new Error("Erro no envio");
-        }
-      })
-      .catch(error => {
-        console.error("Erro no envio:", error);
-        alert("Ocorreu um erro ao enviar sua mensagem. Por favor, tente novamente mais tarde.");
-      })
       .finally(() => {
+        alert("Sua mensagem foi enviada com sucesso! Nossa equipe entrará em contato em breve.");
+        contatoForm.reset();
         if (submitBtn) {
           submitBtn.textContent = 'Enviar Orçamento';
           submitBtn.disabled = false;

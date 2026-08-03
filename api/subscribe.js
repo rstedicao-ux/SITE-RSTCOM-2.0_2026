@@ -8,11 +8,17 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method Not Allowed' });
   }
 
-  const { name, email } = req.body;
+  let body = req.body;
+  if (typeof body === 'string') {
+    try {
+      body = JSON.parse(body);
+    } catch (e) {}
+  }
+  const { name, email } = body || {};
 
   // Simple validation
   if (!name || !email) {
-    return res.status(400).json({ error: 'Name and email are required.' });
+    return res.status(400).json({ error: 'Name and email are required.', received: req.body });
   }
 
   // Get credentials from Vercel Environment Variables
