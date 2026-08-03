@@ -769,6 +769,13 @@ document.addEventListener('DOMContentLoaded', () => {
         submitBtn.disabled = true;
       }
 
+      // Salva cópia de backup do lead no navegador
+      try {
+        const leads = JSON.parse(localStorage.getItem('rst_leads') || '[]');
+        leads.push({ name: nome.value.trim(), email: email.value.trim(), phone: telefone.value.trim(), business: negocioText, message: mensagem.value.trim(), date: new Date().toISOString() });
+        localStorage.setItem('rst_leads', JSON.stringify(leads));
+      } catch (err) {}
+
       // Timeout helper
       const fetchWithTimeout = (url, options, timeout = 7000) => {
         const controller = new AbortController();
