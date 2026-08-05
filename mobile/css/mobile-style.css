@@ -1739,6 +1739,59 @@ textarea.form-input {
   line-height: 1.6;
 }
 
+/* Botão Ampliar Vídeo no Modal */
+.case-modal-hero-video-wrapper {
+  position: relative;
+}
+
+.case-video-expand-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 15;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(10, 10, 10, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 198, 255, 0.4);
+  color: #ffffff;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+  transition: all 0.2s ease;
+}
+
+.case-video-expand-btn:active {
+  transform: scale(0.94);
+  background: #00c6ff;
+  color: #000000;
+  border-color: #00c6ff;
+}
+
+.case-gallery-video-badge {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(6px);
+  color: #00c6ff;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  border: 1px solid rgba(0, 198, 255, 0.3);
+}
+
 /* === GALLERY LIGHTBOX === */
 .gallery-lightbox {
   position: fixed;

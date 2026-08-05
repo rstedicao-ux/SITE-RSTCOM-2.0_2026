@@ -354,6 +354,26 @@ document.addEventListener('DOMContentLoaded', () => {
       iframe.frameBorder = '0';
       iframe.allow = 'autoplay; fullscreen; picture-in-picture';
       modalHeroVideoWrapper.appendChild(iframe);
+
+      // Injeta botão destacado "Ampliar Vídeo em Tela Cheia"
+      const expandBtn = document.createElement('button');
+      expandBtn.className = 'case-video-expand-btn';
+      expandBtn.type = 'button';
+      expandBtn.setAttribute('aria-label', 'Ampliar vídeo em tela cheia');
+      expandBtn.innerHTML = `
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14">
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <polyline points="9 21 3 21 3 15"></polyline>
+          <line x1="21" y1="3" x2="14" y2="10"></line>
+          <line x1="3" y1="21" x2="10" y2="14"></line>
+        </svg>
+        <span>Ampliar Vídeo</span>
+      `;
+      expandBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openLightbox(lightboxMediaList, 0);
+      });
+      modalHeroVideoWrapper.appendChild(expandBtn);
     } else {
       modalHeroVideoWrapper.classList.remove('active');
       modalHeroBg.style.backgroundImage = `url("${mainImg}")`;
@@ -373,12 +393,16 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       const vimeoThumb = document.createElement('div');
-      vimeoThumb.className = 'case-gallery-item';
+      vimeoThumb.className = 'case-gallery-item case-gallery-item--video';
       vimeoThumb.style.cssText = 'position:relative;cursor:pointer;';
       vimeoThumb.innerHTML = `
         <img src="https://vumbnail.com/${vimeoId}.jpg" alt="Assistir vídeo" onerror="this.src='${mainImg}'" />
         <div class="case-item-play-icon">
           <svg viewBox="0 0 24 24" fill="#0A0A0A" width="18" height="18"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div class="case-gallery-video-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+          <span>Ampliar</span>
         </div>
       `;
       vimeoThumb.addEventListener('click', () => {
