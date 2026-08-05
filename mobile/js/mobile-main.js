@@ -416,7 +416,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Adiciona apenas imagens reais do case (via data-media ou imagem principal real)
-    const rawDataMedia = card.dataset.media ? card.dataset.media.split(',').map(m => m.trim()).filter(Boolean) : [];
+    const rawDataMedia = card.dataset.media ? card.dataset.media.split('|').map(m => m.trim()).filter(Boolean) : [];
     if (rawDataMedia.length > 0) {
       rawDataMedia.forEach(imgUrl => {
         if (!lightboxMediaList.includes(imgUrl)) {
