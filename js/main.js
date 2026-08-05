@@ -1743,40 +1743,6 @@ video: true,
 videoSrc: "",
 category: "tecnologia"
 },
-    "expo-business-fair-2024": {
-client: "MultiExpo Group",
-date: "Julho 2024",
-location: "Transamerica Expo Center, SP",
-tag: "Feira",
-title: "Expo Business Fair 2024",
-desc: "Montagem completa de estandes imersivos para as principais marcas participantes. A RSTCOM projetou e montou ambientes que utilizaram telas touch screen e simuladores de realidade virtual.",
-challenge: "Montagem estrutural em tempo recorde de múltiplos estandes com tecnologia interativa integrada. Realizamos pré-montagem em nossa fábrica e calibração remota de software dias antes.",
-techs: ["Desenho 3D de Estandes", "Telas Touch Capacitivas", "Simuladores VR", "Cenografia Sustentável", "Iluminação LED Inteligente"],
-media: [
-"assets/images/case-fair.jpg",
-"assets/images/case-b2b.jpg",
-"assets/images/case-award.jpg"
-],
-video: false,
-category: "feira"
-},
-    "gala-de-premiacao-corporativa": {
-client: "Grupo Varejista Alpha",
-date: "Dezembro 2024",
-location: "Sala São Paulo, SP",
-tag: "Convenção",
-title: "Gala de Premiação Corporativa",
-desc: "Uma noite inesquecível de celebração e reconhecimento. A RSTCOM foi responsável por toda a infraestrutura técnica e de sonorização, garantindo qualidade acústica perfeita.",
-challenge: "Manter a integridade arquitetônica da histórica Sala São Paulo sem comprometer a acústica natural. Usamos caixas de som acústicas direcionais calibradas milimetricamente por software de predição sonora.",
-techs: ["Sonorização Direcional", "Predição Acústica EASE", "Iluminação Cênica Premium", "Painel LED P1.5", "Transmissão 4K"],
-media: [
-"assets/images/case-award.jpg",
-"assets/images/case-conference.jpg",
-"assets/images/case-led.jpg"
-],
-video: false,
-category: "convencao"
-},
     "midea-febrava-2025": {
 client: "Midea",
 date: "2025",
@@ -2287,7 +2253,7 @@ category: "convencao audiovisual"
         desc: element.dataset.desc || `O projeto ${titleText} foi planejado e executado pela RSTCOM com tecnologia de ponta e infraestrutura audiovisual completa. Desenvolvemos soluções personalizadas que garantiram o sucesso absoluto da experiência.`,
         challenge: element.dataset.challenge || "Integrar múltiplas tecnologias inovadoras sob um cronograma rigoroso. Nossa equipe técnica assegurou redundância de rede e operação contínua durante todo o projeto.",
         techs: (element.dataset.techs || "Painéis de LED,Sonorização de Alta Fidelidade,Cenografia Digital").split(",").map(t => t.trim()),
-        media: element.dataset.media ? element.dataset.media.split(",").map(t => t.trim()) : [imgSrc || "assets/images/case-festival.jpg"],
+        media: element.dataset.media ? element.dataset.media.split(",").map(t => t.trim()).filter(Boolean) : [imgSrc].filter(Boolean),
         vimeoId: element.dataset.vimeoId || "",
         video: !!element.dataset.vimeoId,
         videoSrc: element.dataset.vimeoId ? `https://player.vimeo.com/video/${element.dataset.vimeoId}` : "",
@@ -2315,11 +2281,7 @@ category: "convencao audiovisual"
         desc: `O projeto ${titleText} foi planejado e executado pela RSTCOM com tecnologia de ponta e infraestrutura audiovisual completa. Desenvolvemos soluções personalizadas que garantiram o sucesso absoluto da experiência.`,
         challenge: "Integrar múltiplas tecnologias inovadoras sob um cronograma rigoroso. Nossa equipe técnica assegurou redundância de rede e operação contínua durante todo o projeto.",
         techs: ["Painéis de LED", "Sonorização de Alta Fidelidade", "Cenografia Digital", "Redundância Técnica", "Direção de Imagem"],
-        media: [
-          imgSrc || "assets/images/case-festival.jpg",
-          "assets/images/case-led.jpg",
-          "assets/images/case-conference.jpg"
-        ],
+        media: [imgSrc].filter(Boolean),
         video: false,
         category: categoryClass || "outro"
       };

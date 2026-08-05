@@ -350,7 +350,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const hashParam = vimeoHash ? `?h=${vimeoHash}&` : '?';
       
       const iframe = document.createElement('iframe');
-      // muted=0 para o mobile poder tocar com audio ao clique do usuario
       iframe.src = `https://player.vimeo.com/video/${vimeoId}${hashParam}badge=0&autopause=0&autoplay=1&muted=0&playsinline=1&title=0&byline=0&portrait=0`;
       iframe.frameBorder = '0';
       iframe.allow = 'autoplay; fullscreen; picture-in-picture';
@@ -360,12 +359,19 @@ document.addEventListener('DOMContentLoaded', () => {
       modalHeroBg.style.backgroundImage = `url("${mainImg}")`;
     }
 
-    // Injeta Galeria Dinâmica
+    // Injeta Galeria Dinâmica (Apenas Mídias Reais do Projeto - Sem Imagens de IA)
     modalGalleryGrid.innerHTML = '';
     lightboxMediaList = [];
 
-    // Se tiver vídeo Vimeo, adiciona o thumbnail de play na galeria
+    // Se tiver vídeo Vimeo, inclui objeto de vídeo para o Lightbox abrir em tela cheia
     if (vimeoId) {
+      lightboxMediaList.push({
+        type: 'vimeo',
+        vimeoId: vimeoId,
+        vimeoHash: vimeoHash || '',
+        thumbUrl: `https://vumbnail.com/${vimeoId}.jpg`
+      });
+
       const vimeoThumb = document.createElement('div');
       vimeoThumb.className = 'case-gallery-item';
       vimeoThumb.style.cssText = 'position:relative;cursor:pointer;';
@@ -376,41 +382,32 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       `;
       vimeoThumb.addEventListener('click', () => {
-        // Recarrega o video principal no topo
-        modalHeroVideoWrapper.innerHTML = '';
-        const hashParam = vimeoHash ? `?h=${vimeoHash}&` : '?';
-        const iframe = document.createElement('iframe');
-        iframe.src = `https://player.vimeo.com/video/${vimeoId}${hashParam}badge=0&autopause=0&autoplay=1&muted=0&playsinline=1&title=0&byline=0&portrait=0`;
-        iframe.frameBorder = '0';
-        iframe.allow = 'autoplay; fullscreen; picture-in-picture';
-        modalHeroVideoWrapper.appendChild(iframe);
-        modalHeroVideoWrapper.classList.add('active');
-        // Scroll suave de volta para o topo do modal
-        caseModal.scrollTo({ top: 0, behavior: 'smooth' });
+        openLightbox(lightboxMediaList, 0);
       });
       modalGalleryGrid.appendChild(vimeoThumb);
     }
 
-    // Adiciona imagens extras (Mock dinâmico baseado em categorias reais do projeto)
-    const galleryMocks = {
-      'festival': ['../assets/images/case-festival.jpg', '../assets/images/case-led.jpg'],
-      'convencao': ['../assets/images/case-conference.jpg', '../assets/images/case-b2b.jpg'],
-      'feira': ['../assets/images/case-fair.jpg', '../assets/images/case-led.jpg'],
-      'tecnologia': ['../assets/images/case-led.jpg', '../assets/images/case-launch.jpg'],
-      'estande': ['../assets/images/case-fair.jpg', '../assets/images/case-conference.jpg']
-    };
+    // Adiciona apenas imagens reais do case (via data-media ou imagem principal real)
+    const rawDataMedia = card.dataset.media ? card.dataset.media.split(',').map(m => m.trim()).filter(Boolean) : [];
+    if (rawDataMedia.length > 0) {
+      rawDataMedia.forEach(imgUrl => {
+        if (!lightboxMediaList.includes(imgUrl)) {
+          lightboxMediaList.push(imgUrl);
+        }
+      });
+    } else if (mainImg && !lightboxMediaList.includes(mainImg)) {
+      lightboxMediaList.push(mainImg);
+    }
 
-    const extraImages = galleryMocks[activeModalCtaCategory] || ['../assets/images/case-festival.jpg', '../assets/images/case-led.jpg'];
-    
-    // Sempre adiciona a imagem principal
-    lightboxMediaList.push(mainImg);
-    extraImages.forEach(img => lightboxMediaList.push(img));
+    // Renderiza itens de imagem na galeria
+    lightboxMediaList.forEach((mediaItem, idx) => {
+      // Se for item de vídeo, já renderizamos o thumb com botão de play acima
+      if (typeof mediaItem === 'object' && mediaItem.type === 'vimeo') return;
 
-    lightboxMediaList.forEach((mediaUrl, idx) => {
       const item = document.createElement('div');
       item.className = 'case-gallery-item';
       item.style.cursor = 'pointer';
-      item.innerHTML = `<img src="${mediaUrl}" alt="Gallery Item" loading="lazy" />`;
+      item.innerHTML = `<img src="${mediaItem}" alt="Gallery Item" loading="lazy" />`;
       item.addEventListener('click', () => {
         openLightbox(lightboxMediaList, idx);
       });
@@ -569,10 +566,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ════════════════════════════════════════════
-     LIGHTBOX DE IMAGENS DA GALERIA
+     LIGHTBOX DE IMAGENS E VÍDEOS DA GALERIA
      ════════════════════════════════════════════ */
   const lightbox = document.getElementById('lightbox');
   const lightboxMedia = document.getElementById('lightboxMedia');
+  const lightboxIframe = document.getElementById('lightboxIframe');
   const lightboxClose = document.getElementById('lightboxClose');
   const lightboxPrev = document.getElementById('lightboxPrev');
   const lightboxNext = document.getElementById('lightboxNext');
@@ -589,14 +587,44 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const updateLightbox = () => {
-    const url = currentLightboxList[lightboxActiveIndex];
-    lightboxMedia.src = url;
-    lightboxCounter.textContent = `${lightboxActiveIndex + 1} / ${currentLightboxList.length}`;
+    const item = currentLightboxList[lightboxActiveIndex];
+    if (!item) return;
+
+    if (typeof item === 'object' && item.type === 'vimeo') {
+      if (lightboxMedia) {
+        lightboxMedia.style.display = 'none';
+        lightboxMedia.src = '';
+      }
+      if (lightboxIframe) {
+        lightboxIframe.style.display = 'block';
+        const hashParam = item.vimeoHash ? `?h=${item.vimeoHash}&` : '?';
+        lightboxIframe.src = `https://player.vimeo.com/video/${item.vimeoId}${hashParam}badge=0&autopause=0&autoplay=1&muted=0&playsinline=1&title=0&byline=0&portrait=0`;
+      }
+    } else {
+      if (lightboxIframe) {
+        lightboxIframe.style.display = 'none';
+        lightboxIframe.src = '';
+      }
+      if (lightboxMedia) {
+        lightboxMedia.style.display = 'block';
+        lightboxMedia.src = typeof item === 'string' ? item : (item.src || item.url || '');
+      }
+    }
+
+    if (lightboxCounter) {
+      lightboxCounter.textContent = `${lightboxActiveIndex + 1} / ${currentLightboxList.length}`;
+    }
   };
 
   const closeLightbox = () => {
     lightbox.classList.remove('active');
-    lightboxMedia.src = '';
+    if (lightboxMedia) {
+      lightboxMedia.src = '';
+    }
+    if (lightboxIframe) {
+      lightboxIframe.style.display = 'none';
+      lightboxIframe.src = '';
+    }
   };
 
   if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
