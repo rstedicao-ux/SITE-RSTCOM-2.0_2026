@@ -350,30 +350,34 @@ document.addEventListener('DOMContentLoaded', () => {
       const hashParam = vimeoHash ? `?h=${vimeoHash}&` : '?';
       
       const iframe = document.createElement('iframe');
-      iframe.src = `https://player.vimeo.com/video/${vimeoId}${hashParam}badge=0&autopause=0&autoplay=1&muted=0&playsinline=1&title=0&byline=0&portrait=0`;
+      iframe.src = `https://player.vimeo.com/video/${vimeoId}${hashParam}fullscreen=1&autoplay=1&muted=0&playsinline=1&title=0&byline=0&portrait=0`;
       iframe.frameBorder = '0';
       iframe.allow = 'autoplay; fullscreen; picture-in-picture';
       modalHeroVideoWrapper.appendChild(iframe);
 
-      // Injeta botão destacado "Ampliar Vídeo em Tela Cheia"
+      // Injeta barra de controle "Assistir em Tela Cheia" sobre a barrinha do vídeo
+      const controlBar = document.createElement('div');
+      controlBar.className = 'case-video-control-bar';
+
       const expandBtn = document.createElement('button');
       expandBtn.className = 'case-video-expand-btn';
       expandBtn.type = 'button';
-      expandBtn.setAttribute('aria-label', 'Ampliar vídeo em tela cheia');
+      expandBtn.setAttribute('aria-label', 'Assistir em tela cheia');
       expandBtn.innerHTML = `
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16">
           <polyline points="15 3 21 3 21 9"></polyline>
           <polyline points="9 21 3 21 3 15"></polyline>
           <line x1="21" y1="3" x2="14" y2="10"></line>
           <line x1="3" y1="21" x2="10" y2="14"></line>
         </svg>
-        <span>Ampliar Vídeo</span>
+        <span>Assistir em Tela Cheia</span>
       `;
       expandBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         openLightbox(lightboxMediaList, 0);
       });
-      modalHeroVideoWrapper.appendChild(expandBtn);
+      controlBar.appendChild(expandBtn);
+      modalHeroVideoWrapper.appendChild(controlBar);
     } else {
       modalHeroVideoWrapper.classList.remove('active');
       modalHeroBg.style.backgroundImage = `url("${mainImg}")`;

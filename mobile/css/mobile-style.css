@@ -1739,31 +1739,36 @@ textarea.form-input {
   line-height: 1.6;
 }
 
-/* Botão Ampliar Vídeo no Modal */
+/* Barra e Botão Ampliar Vídeo no Modal */
 .case-modal-hero-video-wrapper {
   position: relative;
 }
 
-.case-video-expand-btn {
+.case-video-control-bar {
   position: absolute;
-  top: 12px;
+  bottom: 12px;
   right: 12px;
-  z-index: 15;
+  z-index: 25;
+  display: flex;
+  align-items: center;
+}
+
+.case-video-expand-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  background: rgba(10, 10, 10, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(0, 198, 255, 0.4);
+  gap: 8px;
+  background: rgba(10, 10, 10, 0.9);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(0, 198, 255, 0.6);
   color: #ffffff;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  padding: 8px 16px;
+  border-radius: 24px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
   cursor: pointer;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
   transition: all 0.2s ease;
 }
 
