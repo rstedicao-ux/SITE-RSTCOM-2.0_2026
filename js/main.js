@@ -12,7 +12,9 @@
    ============================================= */
 
 function init() {
-  window.preloaderFinished = false;
+  window.preloaderFinished = true;
+  document.body.classList.add('loaded');
+  document.body.style.overflow = '';
 
   // Load hero background video (loads Vimeo iframe for fast streaming)
   const heroVideoBg = document.getElementById('heroVideoBg');
@@ -29,153 +31,9 @@ function init() {
     }
   }
 
-  /* ════════════════════════════════════════════
-     PRELOADER INTRO
-     ════════════════════════════════════════════ */
-  const preloader = document.getElementById('preloader');
-  const preloaderFill = document.getElementById('preloaderFill');
-  const canvas = document.getElementById('preloaderCanvas');
-
-  if (preloader && preloaderFill && canvas) {
-    document.body.style.overflow = 'hidden';
-    
-    const ctx = canvas.getContext('2d');
-    const dprScale = 0.5; // Render canvas at 50% internal resolution to guarantee 60fps on 4K/high-DPI screens
-    let width = canvas.width = Math.floor(window.innerWidth * dprScale);
-    let height = canvas.height = Math.floor(window.innerHeight * dprScale);
-
-    const handlePreloaderResize = () => {
-      width = canvas.width = Math.floor(window.innerWidth * dprScale);
-      height = canvas.height = Math.floor(window.innerHeight * dprScale);
-    };
-    window.addEventListener('resize', handlePreloaderResize);
-
-    const numStars = 40;
-    const stars = [];
-    const colors = [
-      '#ffffff', // White
-      '#00C6FF', // Cyan
-      '#F45C74', // Coral
-      '#3A7BD5', // Blue
-      '#FFE600'  // Yellow
-    ];
-
-    for (let i = 0; i < numStars; i++) {
-      stars.push({
-        x: (Math.random() - 0.5) * 1200,
-        y: (Math.random() - 0.5) * 1200,
-        z: Math.random() * 1000,
-        size: Math.random() * 2 + 0.5,
-        color: colors[Math.floor(Math.random() * colors.length)]
-      });
-    }
-
-    let warpSpeed = 1;
-    let isWarping = false;
-    let animationFrameId;
-
-    function draw() {
-      if (isWarping) {
-        ctx.fillStyle = 'rgba(10, 10, 10, 0.18)';
-      } else {
-        ctx.fillStyle = '#0A0A0A';
-      }
-      ctx.fillRect(0, 0, width, height);
-
-      const cx = width / 2;
-      const cy = height / 2;
-
-      stars.forEach(star => {
-        star.z -= warpSpeed;
-
-        if (star.z <= 0) {
-          star.z = 1000;
-          star.x = (Math.random() - 0.5) * 1200;
-          star.y = (Math.random() - 0.5) * 1200;
-        }
-
-        const k = 400 / star.z;
-        const px = star.x * k + cx;
-        const py = star.y * k + cy;
-
-        if (px >= 0 && px <= width && py >= 0 && py <= height) {
-          const r = star.size * k * 0.45;
-
-          if (isWarping) {
-            const prevK = 400 / (star.z + warpSpeed * 1.5);
-            const pppx = star.x * prevK + cx;
-            const pppy = star.y * prevK + cy;
-            ctx.beginPath();
-            ctx.strokeStyle = star.color;
-            ctx.lineWidth = Math.min(r, 4.5);
-            ctx.moveTo(px, py);
-            ctx.lineTo(pppx, pppy);
-            ctx.stroke();
-          } else {
-            ctx.fillStyle = star.color;
-            const size = Math.min(r, 5);
-            ctx.fillRect(px - size/2, py - size/2, size, size);
-          }
-        }
-      });
-
-      if (isWarping) {
-        warpSpeed = Math.min(warpSpeed + 0.5, 35); // Cap warpSpeed to keep calculations and coordinate bounds stable
-      }
-
-      animationFrameId = requestAnimationFrame(draw);
-    }
-
-    draw();
-
-    let progress = 0;
-    const interval = setInterval(() => {
-      progress += Math.random() * 12 + 4;
-      if (progress >= 100) {
-        progress = 100;
-        clearInterval(interval);
-        preloaderFill.style.width = '100%';
-
-        // Trigger Warp Zoom transition
-        setTimeout(() => {
-          isWarping = true;
-
-          setTimeout(() => {
-            preloader.classList.add('fade-out');
-            document.body.classList.add('loaded');
-            window.preloaderFinished = true;
-
-            // Trigger hero particles immediately as the preloader fades
-            if (typeof window.triggerHeroParticles === 'function') {
-              window.triggerHeroParticles();
-            }
-
-            // Trigger scroll reveal entrance transitions as the preloader fades
-            if (typeof window.startScrollReveal === 'function') {
-              window.startScrollReveal();
-            }
-
-            setTimeout(() => {
-              document.body.style.overflow = '';
-              cancelAnimationFrame(animationFrameId);
-              window.removeEventListener('resize', handlePreloaderResize);
-            }, 1400);
-          }, 800);
-        }, 400);
-      } else {
-        preloaderFill.style.width = progress + '%';
-        warpSpeed = 1 + (progress / 15);
-      }
-    }, 80);
-  }
-
-
-
-
-  /* ════════════════════════════════════════════
-     ANIMAÇÃO 2 — SISTEMA DE PARTÍCULAS NO HERO
-     Ref Pinterest: bokeh particles / floating dots
-     ════════════════════════════════════════════ */
+  /* =============================================
+     ANIMAÇÃO 2 - SISTEMA DE PARTÍCULAS NO HERO
+     ============================================= */
   const heroCanvas = document.getElementById('heroParticles');
   if (heroCanvas && !window.matchMedia('(hover: none)').matches) {
     const heroCtx = heroCanvas.getContext('2d');
@@ -495,6 +353,7 @@ function init() {
   }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
 
   // Expose function globally to trigger only after preloader starts fading out
+    revealElements.forEach(el => revealObserver.observe(el));
   window.startScrollReveal = () => {
     revealElements.forEach(el => revealObserver.observe(el));
   };
@@ -812,8 +671,8 @@ function init() {
     let autoPlayTimer = null;
 
     // Layout configuration values
-    const baseTranslateX = 170;
-    const extraTranslateX = 150;
+    const baseTranslateX = 200;
+    const extraTranslateX = 175;
 
     function getCardStyles(diff) {
       const absDiff = Math.abs(diff);

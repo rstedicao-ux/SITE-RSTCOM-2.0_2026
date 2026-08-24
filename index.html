@@ -81,19 +81,6 @@
 
 <body>
 
-  <!-- ===================== PRELOADER INTRO ===================== -->
-  <div class="preloader" id="preloader">
-    <canvas id="preloaderCanvas"></canvas>
-    <div class="preloader-content">
-      <div class="preloader-logo">
-        <img src="assets/logo rstcom colorida.svg" alt="RSTCOM" class="preloader-logo-img" />
-      </div>
-      <div class="preloader-bar">
-        <div class="preloader-fill" id="preloaderFill"></div>
-      </div>
-    </div>
-  </div>
-
   <!-- ===================== NAVIGATION ===================== -->
   <nav class="navbar" id="navbar">
     <div class="nav-container">
@@ -134,12 +121,33 @@
 
       <div class="hero-holographic"></div>
     </div>
-    </div>
 
     <div class="hero-content">
-      <div class="hero-text">
+      <div class="hero-statement-grid">
+        <div class="hero-statement-main">
+          <div class="hero-statement-tag">
+            <span class="hero-tag-pulse"></span>
+            <span>SHOWREEL &amp; CASES</span>
+          </div>
+          <h1 class="hero-statement-title">
+            <span class="hero-title-row">IDEIAS QUE</span>
+            <span class="hero-title-row"><span class="hero-title-accent">GANHARAM</span> FORMA.</span>
+          </h1>
+        </div>
+        <div class="hero-statement-side">
+          <div class="hero-side-card">
+            <p class="hero-statement-desc">Conhe&#231;a projetos em que conte&#250;do, audiovisual, tecnologia e
+              experi&#234;ncia trabalharam juntos para transformar a comunica&#231;&#227;o de grandes marcas.</p>
+            <a href="#cases" class="hero-statement-btn">
+              <span>Explorar Cases</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 17l9.2-9.2M17 17V8H8" />
+              </svg>
+            </a>
+          </div>
+        </div>
       </div>
-
     </div>
 
     <div class="hero-clients">
@@ -214,23 +222,21 @@
       </div>
     </div>
   </section>
-
   <!-- ===================== SECTION 5: CASES 2 / PRINCIPAIS CASES ===================== -->
   <section class="cases" id="cases">
     <div class="cases-container">
       <div class="cases-header">
-        <p class="cases-pre">Confira nossos</p>
         <h2 class="cases-title">PRINCIPAIS <span class="cases-highlight">CASES</span></h2>
       </div>
 
       <div class="cases-filter">
         <button class="filter-btn active" data-filter="all" id="filterAll">Todos</button>
-        <button class="filter-btn" data-filter="b2b" id="filterB2b">Corporativo &amp; B2B</button>
-        <button class="filter-btn" data-filter="fair" id="filterFair">Feiras</button>
-        <button class="filter-btn" data-filter="convencao" id="filterConvention">Convenções</button>
-        <button class="filter-btn" data-filter="captacao" id="filterCaptacao">Captação</button>
-        <button class="filter-btn" data-filter="tecnologia" id="filterTecnologia">Tecnologia</button>
-        <button class="filter-btn" data-filter="audiovisual" id="filterAudiovisual">Audiovisual</button>
+        <button class="filter-btn" data-filter="b2b" id="filterB2b">Conteúdo</button>
+        <button class="filter-btn" data-filter="fair" id="filterFair">Audiovisual</button>
+        <button class="filter-btn" data-filter="convencao" id="filterConvention">Motion & 3D</button>
+        <button class="filter-btn" data-filter="captacao" id="filterCaptacao">Tecnologia</button>
+        <button class="filter-btn" data-filter="tecnologia" id="filterTecnologia">Experiências</button>
+        <button class="filter-btn" data-filter="audiovisual" id="filterAudiovisual">Live & Streaming</button>
       </div>
 
       <div class="cases-grid" id="casesGrid">
@@ -906,7 +912,8 @@ Com criatividade e tecnologia, posicionamos a Libbs na vanguarda do setor, geran
     <div class="cases-cta-container">
       <div class="cases-cta-header">
         <h2 class="cases-cta-title">Sua próxima grande ideia <span class="cta-title-gradient">começa aqui.</span></h2>
-        <p class="cases-cta-sub">Transformamos ideias em experiências memoráveis.</p>
+        <p class="cases-cta-sub">Transformamos diferentes desafios de comunicação em soluções criativas, tecnológicas e
+          personalizadas.</p>
       </div>
 
       <div class="cases-cta-carousel-wrapper">
@@ -925,7 +932,7 @@ Com criatividade e tecnologia, posicionamos a Libbs na vanguarda do setor, geran
               </svg>
             </div>
             <div class="cta-card-body">
-              <h3 class="cta-card-title">Produção<br>Audiovisual</h3>
+              <h3 class="cta-card-title">Conte&#250;do &amp;<br>Audiovisual</h3>
               <span class="cta-card-arrow">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                   <path d="M5 12h14M12 5l7 7-7 7" />
@@ -949,7 +956,7 @@ Com criatividade e tecnologia, posicionamos a Libbs na vanguarda do setor, geran
               </svg>
             </div>
             <div class="cta-card-body">
-              <h3 class="cta-card-title">Feiras e<br>Ativações</h3>
+              <h3 class="cta-card-title">Motion, 3D<br>&amp; Design</h3>
               <span class="cta-card-arrow">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                   <path d="M5 12h14M12 5l7 7-7 7" />
@@ -973,7 +980,7 @@ Com criatividade e tecnologia, posicionamos a Libbs na vanguarda do setor, geran
               </svg>
             </div>
             <div class="cta-card-body">
-              <h3 class="cta-card-title">Eventos<br>Corporativos</h3>
+              <h3 class="cta-card-title">Tecnologia &amp;<br>Interatividade</h3>
               <span class="cta-card-arrow">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                   <path d="M5 12h14M12 5l7 7-7 7" />
@@ -997,7 +1004,7 @@ Com criatividade e tecnologia, posicionamos a Libbs na vanguarda do setor, geran
               </svg>
             </div>
             <div class="cta-card-body">
-              <h3 class="cta-card-title">Captação &<br>Streaming</h3>
+              <h3 class="cta-card-title">Experi&#234;ncias<br>&amp; Live</h3>
               <span class="cta-card-arrow">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                   <path d="M5 12h14M12 5l7 7-7 7" />
@@ -1032,32 +1039,20 @@ Com criatividade e tecnologia, posicionamos a Libbs na vanguarda do setor, geran
   <section class="quem-somos" id="sobre">
     <div class="qs-container">
       <div class="qs-left">
-        <p class="qs-tagline">Quem somos nós</p>
-        <h2 class="qs-title">Criamos experiências que conectam pessoas e marcas.</h2>
-        <div class="qs-list">
-          <div class="qs-item">
-            <span class="qs-num">01.</span>
-            <p>Mais do que produzir eventos, criamos experiências. Desenvolvemos soluções que unem estratégia,
-              criatividade, conteúdo e tecnologia para transformar objetivos
-              de comunicação em experiências memoráveis.</p>
-          </div>
-          <div class="qs-item">
-            <span class="qs-num">02.</span>
-            <p>Conteúdo pensado para gerar conexão. Cada projeto é desenvolvido de forma personalizada, alinhando
-              narrativa, design, audiovisual e interatividade para fortalecer a mensagem de cada marca.</p>
-          </div>
-          <div class="qs-item">
-            <span class="qs-num">03.</span>
-            <p>Tecnologia aplicada com propósito. Utilizamos inovação como ferramenta para potencializar experiências,
-              aumentar o engajamento e criar interações relevantes durante toda a jornada do participante.</p>
-          </div>
-          <div class="qs-item">
-            <span class="qs-num">04.</span>
-            <p>Da ideia à entrega, um único parceiro. Planejamento, criação, produção, operação e mensuração trabalham
-              de forma integrada para garantir excelência em cada etapa do projeto.
-
-            </p>
-          </div>
+        <p class="qs-tagline">Quem somos n&#243;s</p>
+        <h2 class="qs-title">Nascemos do audiovisual. Evolu&#237;mos com a tecnologia.</h2>
+        <div class="qs-body-text">
+          <p>H&#225; mais de uma d&#233;cada, a RSTCOM nasceu como uma produtora especializada em conte&#250;do
+            audiovisual. Ao longo dessa trajet&#243;ria, acompanhamos a evolu&#231;&#227;o dos formatos, das plataformas
+            e da tecnologia, ampliando nossa atua&#231;&#227;o para streaming, design, experi&#234;ncias interativas e
+            comunica&#231;&#227;o integrada.</p>
+          <p>Hoje, reunimos estrat&#233;gia, cria&#231;&#227;o, conte&#250;do, audiovisual, tecnologia e
+            produ&#231;&#227;o para transformar objetivos de comunica&#231;&#227;o em projetos que conectam pessoas e
+            marcas.</p>
+          <p><strong>De um v&#237;deo institucional a uma experi&#234;ncia imersiva.<br>De uma apresenta&#231;&#227;o
+              executiva a uma conven&#231;&#227;o de grande escala.</strong></p>
+          <p>Projetos de diferentes formatos e dimens&#245;es, sempre com o mesmo olhar estrat&#233;gico, criativo e
+            t&#233;cnico.</p>
         </div>
       </div>
       <div class="qs-right">
@@ -1129,8 +1124,11 @@ Com criatividade e tecnologia, posicionamos a Libbs na vanguarda do setor, geran
         </div>
       </div>
 
-      <p class="servicos-subtitle">Criamos conteúdos, experiências e soluções tecnológicas que fortalecem a comunicação
-        de marcas em eventos, convenções, feiras, ativações e projetos corporativos.</p>
+      <p class="servicos-subtitle">Solu&#231;&#245;es que conectam estrat&#233;gia, criatividade, conte&#250;do e
+        tecnologia.</p>
+      <p class="servicos-subtitle-desc">Da ideia &#224; entrega, reunimos diferentes especialidades para transformar
+        desafios de comunica&#231;&#227;o em projetos relevantes, personalizados e capazes de ganhar vida em diferentes
+        telas, plataformas e experi&#234;ncias.</p>
 
       <!-- ── CAROUSEL DE SERVIÇOS ── -->
       <div class="servicos-carousel-wrapper">
@@ -1143,119 +1141,134 @@ Com criatividade e tecnologia, posicionamos a Libbs na vanguarda do setor, geran
         <div class="servicos-carousel-viewport" id="carouselViewport">
           <div class="servicos-carousel-track" id="carouselTrack">
 
-            <!-- Card 0: Estratégia & Planejamento -->
+            <!-- Card 0: Estratégia & Comunicação -->
             <div class="sc-card" data-index="0">
               <div class="sc-card-icon">
                 <svg viewBox="0 0 40 40" fill="none">
-                  <path d="M8 32V16l12-8 12 8v16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
-                    stroke-linejoin="round" />
-                  <rect x="15" y="22" width="10" height="10" stroke="currentColor" stroke-width="1.8" />
-                  <line x1="20" y1="8" x2="20" y2="4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                  <circle cx="20" cy="20" r="13" stroke="currentColor" stroke-width="1.8" />
+                  <path d="M20 11V15M20 25V29M11 20H15M25 20H29" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                  <circle cx="20" cy="20" r="3.5" stroke="currentColor" stroke-width="1.8" />
                 </svg>
               </div>
-              <h4 class="sc-card-title">Estratégia &amp; Planejamento</h4>
-              <p class="sc-card-category">Briefing</p>
+              <h4 class="sc-card-title">Estrat&#233;gia &amp; Comunica&#231;&#227;o</h4>
               <ul class="sc-card-list">
-                <li>Conceito Criativo</li>
-                <li>Roteiros</li>
-                <li>Storytelling</li>
-                <li>Planejamento Técnico</li>
+                <li>Cria&#231;&#227;o conceitual;</li>
+                <li>Planejamento estrat&#233;gico;</li>
+                <li>Jornada do p&#250;blico;</li>
+                <li>Comunica&#231;&#227;o corporativa;</li>
+                <li>Branding e identidade visual;</li>
+                <li>Endomarketing;</li>
+                <li>Sites, landing pages e hotsites;</li>
+                <li>Gest&#227;o integrada de projetos.</li>
               </ul>
             </div>
 
-            <!-- Card 1: Conteúdo -->
+            <!-- Card 1: Conteúdo & Audiovisual -->
             <div class="sc-card" data-index="1">
               <div class="sc-card-icon">
                 <svg viewBox="0 0 40 40" fill="none">
-                  <rect x="6" y="6" width="28" height="22" rx="3" stroke="currentColor" stroke-width="1.8" />
+                  <rect x="6" y="7" width="28" height="22" rx="3" stroke="currentColor" stroke-width="1.8" />
                   <path d="M16 14l8 4-8 4V14z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
-                  <line x1="10" y1="32" x2="30" y2="32" stroke="currentColor" stroke-width="1.8"
-                    stroke-linecap="round" />
-                  <line x1="14" y1="36" x2="26" y2="36" stroke="currentColor" stroke-width="1.5"
-                    stroke-linecap="round" />
+                  <line x1="10" y1="33" x2="30" y2="33" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
                 </svg>
               </div>
-              <h4 class="sc-card-title">Conteúdo</h4>
-              <p class="sc-card-category">Motion Graphics</p>
+              <h4 class="sc-card-title">Conte&#250;do &amp; Audiovisual</h4>
               <ul class="sc-card-list">
-                <li>Vídeos</li>
-                <li>MetaHumans</li>
-                <li>Conteúdo Científico</li>
-                <li>Landing Pages</li>
-                <li>Apresentações</li>
-                <li>IA</li>
+                <li>V&#237;deos institucionais e de marca;</li>
+                <li>Filmes de abertura e encerramento;</li>
+                <li>Conte&#250;do para redes sociais;</li>
+                <li>Document&#225;rios e entrevistas;</li>
+                <li>Roteiro e storytelling;</li>
+                <li>Motion graphics e anima&#231;&#245;es;</li>
+                <li>Conte&#250;do para treinamentos.</li>
               </ul>
             </div>
 
-            <!-- Card 2: Audiovisual -->
+            <!-- Card 2: Motion, 3D & Design -->
             <div class="sc-card" data-index="2">
               <div class="sc-card-icon">
                 <svg viewBox="0 0 40 40" fill="none">
-                  <rect x="4" y="10" width="22" height="20" rx="2" stroke="currentColor" stroke-width="1.8" />
-                  <polygon points="26,15 36,10 36,30 26,25" stroke="currentColor" stroke-width="1.8"
-                    stroke-linejoin="round" fill="none" />
-                  <line x1="10" y1="20" x2="20" y2="20" stroke="currentColor" stroke-width="1.5"
-                    stroke-linecap="round" />
+                  <path d="M20 7L32 14V28L20 35L8 28V14L20 7Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                  <path d="M20 7V35M8 14L32 28M32 14L8 28" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
                 </svg>
               </div>
-              <h4 class="sc-card-title">Audiovisual</h4>
-              <p class="sc-card-category">Captação</p>
+              <h4 class="sc-card-title">Motion, 3D &amp; Design</h4>
               <ul class="sc-card-list">
-                <li>Streaming</li>
-                <li>Highlights</li>
-                <li>Podcasts</li>
-                <li>Lives</li>
-                <li>Conteúdos para LEDs</li>
+                <li>Motion Graphics;</li>
+                <li>Anima&#231;&#245;es 2D e 3D;</li>
+                <li>Conte&#250;dos anam&#243;rficos;</li>
+                <li>Modelagem 3D;</li>
+                <li>Identidade visual;</li>
+                <li>Apresenta&#231;&#245;es corporativas;</li>
+                <li>Conte&#250;do para LEDs e pain&#233;is.</li>
               </ul>
             </div>
 
-            <!-- Card 3: Tecnologia -->
+            <!-- Card 3: Tecnologia & Interatividade -->
             <div class="sc-card" data-index="3">
               <div class="sc-card-icon">
                 <svg viewBox="0 0 40 40" fill="none">
                   <circle cx="20" cy="20" r="13" stroke="currentColor" stroke-width="1.8" />
-                  <circle cx="20" cy="20" r="5" stroke="currentColor" stroke-width="1.8" />
+                  <circle cx="20" cy="20" r="4.5" stroke="currentColor" stroke-width="1.8" />
                   <line x1="20" y1="7" x2="20" y2="3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
-                  <line x1="20" y1="33" x2="20" y2="37" stroke="currentColor" stroke-width="1.8"
-                    stroke-linecap="round" />
+                  <line x1="20" y1="33" x2="20" y2="37" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
                   <line x1="7" y1="20" x2="3" y2="20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
-                  <line x1="33" y1="20" x2="37" y2="20" stroke="currentColor" stroke-width="1.8"
-                    stroke-linecap="round" />
+                  <line x1="33" y1="20" x2="37" y2="20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
                 </svg>
               </div>
-              <h4 class="sc-card-title">Tecnologia</h4>
-              <p class="sc-card-category">Apps &amp; RFID</p>
+              <h4 class="sc-card-title">Tecnologia &amp; Interatividade</h4>
               <ul class="sc-card-list">
-                <li>Touch Screen</li>
-                <li>Realidade Aumentada</li>
-                <li>VR</li>
-                <li>Holografia</li>
-                <li>Mapping</li>
-                <li>Games</li>
+                <li>Intelig&#234;ncia Artificial;</li>
+                <li>MetaHumans e avatares digitais;</li>
+                <li>Realidade Aumentada;</li>
+                <li>Realidade Virtual e Mista;</li>
+                <li>Mapping e Proje&#231;&#227;o;</li>
+                <li>Gamifica&#231;&#227;o &amp; RFID;</li>
+                <li>Apps e interfaces interativas.</li>
               </ul>
             </div>
 
-            <!-- Card 4: Experiências -->
+            <!-- Card 4: Captação, Live & Streaming -->
             <div class="sc-card" data-index="4">
               <div class="sc-card-icon">
                 <svg viewBox="0 0 40 40" fill="none">
-                  <path d="M20 6C20 6 8 14 8 24a12 12 0 0 0 24 0C32 14 20 6 20 6z" stroke="currentColor"
-                    stroke-width="1.8" stroke-linejoin="round" />
-                  <path d="M20 18v8M16 22h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                  <rect x="5" y="11" width="22" height="18" rx="2" stroke="currentColor" stroke-width="1.8" />
+                  <polygon points="27,16 36,11 36,29 27,24" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" fill="none" />
+                  <circle cx="12" cy="17" r="2" fill="currentColor" />
                 </svg>
               </div>
-              <h4 class="sc-card-title">Experiências</h4>
-              <p class="sc-card-category">Ativações</p>
+              <h4 class="sc-card-title">Capta&#231;&#227;o, Live &amp; Streaming</h4>
               <ul class="sc-card-list">
-                <li>Photo Opportunity</li>
-                <li>Experiências Imersivas</li>
-                <li>Gamificação</li>
-                <li>Interatividade</li>
+                <li>Capta&#231;&#227;o audiovisual;</li>
+                <li>Produ&#231;&#227;o multic&#226;mera;</li>
+                <li>Streaming e transmiss&#245;es ao vivo;</li>
+                <li>Webinars e Podcasts;</li>
+                <li>Eventos h&#237;bridos;</li>
+                <li>Cobertura e Highlights;</li>
+                <li>Edi&#231;&#227;o e p&#243;s-produ&#231;&#227;o.</li>
+              </ul>
+            </div>
+
+            <!-- Card 5: Experiência de Marca -->
+            <div class="sc-card" data-index="5">
+              <div class="sc-card-icon">
+                <svg viewBox="0 0 40 40" fill="none">
+                  <path d="M20 6L23.8 14.2L32.8 15.2L26 21.3L27.9 30.2L20 25.7L12.1 30.2L14 21.3L7.2 15.2L16.2 14.2L20 6Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" fill="none"/>
+                </svg>
+              </div>
+              <h4 class="sc-card-title">Experi&#234;ncia de Marca</h4>
+              <ul class="sc-card-list">
+                <li>Conven&#231;&#245;es corporativas;</li>
+                <li>Lan&#231;amentos de produtos;</li>
+                <li>Feiras e congressos;</li>
+                <li>Ativa&#231;&#245;es de marca;</li>
+                <li>Roadshows;</li>
+                <li>Hospitalidade;</li>
+                <li>Experi&#234;ncias imersivas.</li>
               </ul>
             </div>
 
           </div>
-
         </div>
 
         <button class="carousel-arrow carousel-arrow--right" id="carouselNext" aria-label="Próximo">
@@ -1299,7 +1312,8 @@ Com criatividade e tecnologia, posicionamos a Libbs na vanguarda do setor, geran
             <div class="detalhe-item" data-preview="webinars">
               <div class="detalhe-item-info">
                 <h4 class="detalhe-item-title">Integração</h4>
-                <p class="detalhe-item-desc">Estratégia, conteúdo, tecnologia e produção trabalhando em conjunto.</p>
+                <p class="detalhe-item-desc">Estratégia, criação, conteúdo, audiovisual, tecnologia e produção
+                  trabalhando de forma conectada.</p>
               </div>
               <div class="detalhe-item-action">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -1312,9 +1326,9 @@ Com criatividade e tecnologia, posicionamos a Libbs na vanguarda do setor, geran
 
             <div class="detalhe-item" data-preview="estandes">
               <div class="detalhe-item-info">
-                <h4 class="detalhe-item-title">Time Especializado</h4>
-                <p class="detalhe-item-desc">Profissionais especializados em audiovisual, criação, tecnologia e
-                  produção.</p>
+                <h4 class="detalhe-item-title">Time Multidisciplinar</h4>
+                <p class="detalhe-item-desc">Profissionais especializados em criação, roteiro, design, motion, 3D,
+                  audiovisual, tecnologia e produção.</p>
               </div>
               <div class="detalhe-item-action">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -1327,9 +1341,9 @@ Com criatividade e tecnologia, posicionamos a Libbs na vanguarda do setor, geran
 
             <div class="detalhe-item" data-preview="realidade">
               <div class="detalhe-item-info">
-                <h4 class="detalhe-item-title">Tecnologia aplicada</h4>
-                <p class="detalhe-item-desc">Utilizamos inovação para potencializar a comunicação, nunca como um fim em
-                  si.</p>
+                <h4 class="detalhe-item-title">Tecnologia com propósito</h4>
+                <p class="detalhe-item-desc">Inovação aplicada para ampliar a mensagem, gerar interação e criar novas
+                  formas de conexão.</p>
               </div>
               <div class="detalhe-item-action">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -1357,7 +1371,8 @@ Com criatividade e tecnologia, posicionamos a Libbs na vanguarda do setor, geran
             <div class="detalhe-item" data-preview="led">
               <div class="detalhe-item-info">
                 <h4 class="detalhe-item-title">Escalabilidade</h4>
-                <p class="detalhe-item-desc">Atuamos em projetos presenciais, híbridos e digitais em todo o Brasil.</p>
+                <p class="detalhe-item-desc">De uma peça de conteúdo a uma operação de grande escala. A solução se
+                  adapta ao desafio da marca.</p>
               </div>
               <div class="detalhe-item-action">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -1383,8 +1398,8 @@ Com criatividade e tecnologia, posicionamos a Libbs na vanguarda do setor, geran
           <p class="news-tagline">RST news</p>
           <h2 class="news-title">CONTEÚDO QUE MOVE A <span class="news-highlight">COMUNICAÇÃO</span></h2>
           <p class="news-description">
-            Acompanhe tendências, cases, bastidores e insights sobre audiovisual, tecnologia, eventos e experiências que
-            inspiram novas formas de conectar marcas e pessoas.
+            Tendências, projetos, bastidores e ideias sobre audiovisual, conteúdo, tecnologia e experiências que estão
+            transformando a maneira como marcas se comunicam.
           </p>
           <form class="news-form" id="newsForm" novalidate>
             <div class="news-input-wrapper name-wrapper" style="margin-bottom: 12px;">
