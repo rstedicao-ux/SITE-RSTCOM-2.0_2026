@@ -1,4 +1,4 @@
-/* === FONTES LOCAIS === */
+﻿/* === FONTES LOCAIS === */
 @font-face {
   font-family: 'Inter Local';
   src: url('../fonte/Inter (2)/Inter-VariableFont_opsz,wght.ttf') format('truetype-variations'),
@@ -4037,8 +4037,8 @@ body.modal-open {
 
 .hero-statement-title {
   font-family: var(--bebas, 'Bebas Neue', sans-serif);
-  font-size: clamp(3.2rem, 6.2vw, 5.8rem);
-  font-weight: 900;
+  font-size: clamp(2.4rem, 4.8vw, 4.4rem);
+  font-weight: 100;
   line-height: 0.95;
   letter-spacing: 2px;
   color: #ffffff;
@@ -4057,6 +4057,12 @@ body.modal-open {
   color: #000000;
   text-shadow: none;
   -webkit-text-stroke: 0;
+}
+
+.hero-title-forma {
+  font-size: 0.78em;
+  letter-spacing: 4px;
+  opacity: 0.92;
 }
 
 .hero-statement-side {
