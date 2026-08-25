@@ -1381,7 +1381,7 @@ body.loaded .navbar {
   left: -1.5px;
   right: -1.5px;
   bottom: -1.5px;
-  background: linear-gradient(90deg, #3A7BD5, #F45C74);
+  background: #cc0000;
   border-radius: 50px;
   z-index: -1;
   transition: all 0.3s ease;
@@ -1389,7 +1389,7 @@ body.loaded .navbar {
 
 .btn-contatar-servicos:hover {
   transform: translateY(-2px);
-  box-shadow: 0 0 15px rgba(58, 123, 213, 0.3), 0 0 15px rgba(244, 92, 116, 0.3);
+  box-shadow: 0 0 20px rgba(204,0,0,0.5);
 }
 
 /* â”€â”€ SEÃ‡ÃƒO SOBRE & DETALHES DE SERVIÃ‡OS â”€â”€ */
