@@ -685,16 +685,13 @@ body.loaded .navbar {
 .stat-num {
   font-size: 2.5rem;
   font-weight: 900;
-  background: linear-gradient(90deg, #a81bb6, #f45c74);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #ffffff;
   line-height: 1;
 }
 
 .stat-label {
   font-size: .8rem;
-  color: rgba(255,255,255,0.6);
+  color: rgba(255,255,255,0.85);
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -2423,7 +2420,7 @@ body.loaded .navbar {
 .stat-bar-fill {
   height: 100%;
   width: 0%;
-  background: linear-gradient(90deg, var(--coral), var(--orange));
+  background: rgba(255,255,255,0.7);
   border-radius: 3px;
   transition: width 1.5s cubic-bezier(.25, .46, .45, .94);
 }
