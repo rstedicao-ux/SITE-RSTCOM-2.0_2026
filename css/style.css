@@ -1597,48 +1597,48 @@ body.loaded .navbar {
    SECTION 5 â€” CASES 2
    ============================================= */
 .cases {
-  background: #000000;
-  padding: 80px 24px 0;
+  background: #ffffff;
+  padding: 80px 0 0;
   overflow: hidden;
 }
 
 .cases-container {
-  max-width: 1600px;
+  max-width: 100%;
   margin: 0 auto;
 }
 
-.cases-header {
-  text-align: center;
+
+  padding: 0 40px;
   margin-bottom: 48px;
 }
 
 .cases-pre {
   font-size: 1.1rem;
   font-weight: 700;
-  color: var(--white);
+  color: #000000;
   font-style: normal;
   margin-bottom: 10px;
 }
 
 .cases-title {
   font-family: var(--bebas);
-  font-size: clamp(3.5rem, 7vw, 7rem);
+  font-size: clamp(2rem, 4vw, 3.8rem);
   letter-spacing: 3px;
-  color: var(--white);
+  color: #000000;
   line-height: 1;
 }
 
 .cases-highlight {
-  background: var(--yellow);
-  color: var(--dark);
+  background: #000000;
+  color: #ffffff;
   padding: 0 12px;
   border-radius: 6px;
   display: inline-block;
 }
 
 /* Filter buttons */
-.cases-filter {
-  display: flex;
+
+  padding: 0 32px;
   gap: 12px;
   justify-content: center;
   flex-wrap: wrap;
@@ -1646,20 +1646,20 @@ body.loaded .navbar {
 }
 
 .filter-btn {
-  padding: 10px 22px;
+  padding: 13px 30px;
   border-radius: 100px;
-  border: 1.5px solid rgba(255, 255, 255, .2);
-  font-size: .85rem;
+  border: 1.5px solid rgba(0,0,0,0.25);
+  font-size: 1rem;
   font-weight: 600;
-  color: var(--white70);
+  color: rgba(0,0,0,0.65);
   transition: var(--transition);
 }
 
 .filter-btn:hover,
 .filter-btn.active {
-  background: var(--white);
-  color: var(--dark);
-  border-color: var(--white);
+  background: #000000;
+  color: #ffffff;
+  border-color: #000000;
 }
 
 /* Cases Grid */
@@ -1668,13 +1668,13 @@ body.loaded .navbar {
   grid-template-columns: repeat(3, 1fr);
   grid-auto-rows: 300px;
   grid-auto-flow: dense;
-  gap: 16px;
+  gap: 8px;
   margin-bottom: 0;
 }
 
 .case-item {
   position: relative;
-  border-radius: 16px;
+  border-radius: 0;
   overflow: hidden;
   cursor: pointer;
   transition: transform var(--transition), opacity var(--transition);
