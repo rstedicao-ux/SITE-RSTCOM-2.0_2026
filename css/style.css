@@ -636,7 +636,7 @@ body.loaded .navbar {
 }
 
 .qs-visual {
-  background: #f8f9fc;
+  background: #000000;
   border-radius: var(--radius);
   overflow: hidden;
   aspect-ratio: 1;
@@ -646,8 +646,8 @@ body.loaded .navbar {
   justify-content: center;
   gap: 40px;
   padding: 40px;
-  border: 1px solid rgba(0, 0, 0, .08);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, .04);
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.4);
 }
 
 .qs-block-dark {
@@ -656,7 +656,7 @@ body.loaded .navbar {
   left: 0;
   right: 0;
   bottom: 50%;
-  background: #eef1f8;
+  background: transparent;
   border-radius: var(--radius) var(--radius) 0 0;
 }
 
@@ -674,7 +674,7 @@ body.loaded .navbar {
   flex-direction: column;
   gap: 4px;
   padding-bottom: 24px;
-  border-bottom: 1px solid rgba(0, 0, 0, .08);
+  border-bottom: 1px solid rgba(255,255,255,0.12);
 }
 
 .qs-stat:last-child {
@@ -694,7 +694,7 @@ body.loaded .navbar {
 
 .stat-label {
   font-size: .8rem;
-  color: #666677;
+  color: rgba(255,255,255,0.6);
   text-transform: uppercase;
   letter-spacing: 1px;
 }
