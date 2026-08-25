@@ -1597,7 +1597,7 @@ body.loaded .navbar {
    SECTION 5 â€” CASES 2
    ============================================= */
 .cases {
-  background: #000000;
+  background: #ffffff;
   padding: 80px 24px 0;
   overflow: hidden;
 }
@@ -1616,22 +1616,22 @@ body.loaded .navbar {
 .cases-pre {
   font-size: 1.1rem;
   font-weight: 700;
-  color: var(--white);
+  color: #000000;
   font-style: normal;
   margin-bottom: 10px;
 }
 
 .cases-title {
   font-family: var(--bebas);
-  font-size: clamp(3.5rem, 7vw, 7rem);
+  font-size: clamp(2.2rem, 4vw, 4rem);
   letter-spacing: 3px;
-  color: var(--white);
+  color: #000000;
   line-height: 1;
 }
 
 .cases-highlight {
-  background: var(--yellow);
-  color: var(--dark);
+  background: #000000;
+  color: #ffffff;
   padding: 0 12px;
   border-radius: 6px;
   display: inline-block;
@@ -1648,20 +1648,20 @@ body.loaded .navbar {
 }
 
 .filter-btn {
-  padding: 10px 22px;
+  padding: 12px 28px;
   border-radius: 100px;
-  border: 1.5px solid rgba(255, 255, 255, .2);
-  font-size: .85rem;
+  border: 1.5px solid rgba(0,0,0,0.2);
+  font-size: 0.95rem;
   font-weight: 600;
-  color: var(--white70);
+  color: rgba(0,0,0,0.6);
   transition: var(--transition);
 }
 
 .filter-btn:hover,
 .filter-btn.active {
-  background: var(--white);
-  color: var(--dark);
-  border-color: var(--white);
+  background: #000000;
+  color: #ffffff;
+  border-color: #000000;
 }
 
 /* Cases Grid */
