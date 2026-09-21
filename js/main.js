@@ -659,8 +659,9 @@ function init() {
 
   if (hamburger) {
     hamburger.addEventListener('click', () => {
-      navLinksContainer.classList.toggle('open');
-      hamburger.classList.toggle('open');
+      const isOpen = navLinksContainer.classList.toggle('open');
+      hamburger.classList.toggle('open', isOpen);
+      document.body.classList.toggle('menu-open', isOpen);
     });
   }
   if (navLinksContainer) {
@@ -668,6 +669,7 @@ function init() {
       link.addEventListener('click', () => {
         navLinksContainer.classList.remove('open');
         if (hamburger) hamburger.classList.remove('open');
+        document.body.classList.remove('menu-open');
       });
     });
   }
@@ -678,6 +680,7 @@ function init() {
     if (navbar && !navbar.contains(e.target)) {
       if (navLinksContainer) navLinksContainer.classList.remove('open');
       if (hamburger) hamburger.classList.remove('open');
+      document.body.classList.remove('menu-open');
     }
   });
 
@@ -2957,6 +2960,36 @@ category: "convencao audiovisual"
       lightboxCurrentIndex = (lightboxCurrentIndex + 1) % lightboxMediaArray.length;
       displayLightboxMedia(lightboxCurrentIndex);
     });
+  }
+
+  // Suporte a Gestos de Swipe no Mobile para Galeria
+  if (galleryLightbox) {
+    let touchStartX = 0;
+    let touchStartY = 0;
+    galleryLightbox.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].clientX;
+      touchStartY = e.changedTouches[0].clientY;
+    }, { passive: true });
+
+    galleryLightbox.addEventListener('touchend', (e) => {
+      const touchEndX = e.changedTouches[0].clientX;
+      const touchEndY = e.changedTouches[0].clientY;
+      const diffX = touchEndX - touchStartX;
+      const diffY = touchEndY - touchStartY;
+
+      // Swipe horizontal com tolerância mínima de 45px e menor variação vertical
+      if (Math.abs(diffX) > 45 && Math.abs(diffX) > Math.abs(diffY) * 1.4) {
+        if (diffX < 0) {
+          // Swipe para esquerda -> próximo
+          lightboxCurrentIndex = (lightboxCurrentIndex + 1) % lightboxMediaArray.length;
+          displayLightboxMedia(lightboxCurrentIndex);
+        } else {
+          // Swipe para direita -> anterior
+          lightboxCurrentIndex = (lightboxCurrentIndex - 1 + lightboxMediaArray.length) % lightboxMediaArray.length;
+          displayLightboxMedia(lightboxCurrentIndex);
+        }
+      }
+    }, { passive: true });
   }
 
   // Make lightbox functions global for use in case modal
