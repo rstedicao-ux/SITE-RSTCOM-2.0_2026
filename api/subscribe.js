@@ -14,11 +14,14 @@ export default async function handler(req, res) {
       body = JSON.parse(body);
     } catch (e) {}
   }
-  const { name, email } = body || {};
+  let { name, email } = body || {};
 
   // Simple validation
-  if (!name || !email) {
-    return res.status(400).json({ error: 'Name and email are required.', received: req.body });
+  if (!email) {
+    return res.status(400).json({ error: 'Email is required.', received: req.body });
+  }
+  if (!name || !name.trim()) {
+    name = email.split('@')[0];
   }
 
   // Get credentials from Vercel Environment Variables

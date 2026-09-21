@@ -1,3 +1,185 @@
+function runPreloader() {
+  const preloader = document.getElementById('sitePreloader');
+  const bar = document.getElementById('preloaderBar');
+  const percentText = document.getElementById('preloaderPercent');
+  if (!preloader) {
+    window.preloaderFinished = true;
+    document.body.classList.add('loaded');
+    return;
+  }
+
+  document.body.style.overflow = 'hidden';
+
+  const startTime = Date.now();
+  const MIN_DISPLAY_MS = 2500; // Garante tempo para buffer real e transição elegante
+  const MAX_WAIT_MS = 6500;    // Limite máximo de segurança
+
+  let currentPercent = 0;
+  let targetPercent = 25;
+  let allReady = false;
+  let isFinished = false;
+
+  function updateTarget(val) {
+    if (val > targetPercent) {
+      targetPercent = Math.min(100, val);
+    }
+  }
+
+  // Animação suave e fluida da barra de porcentagem
+  const progressTimer = setInterval(() => {
+    if (currentPercent < targetPercent) {
+      const diff = targetPercent - currentPercent;
+      const step = Math.max(1, Math.ceil(diff * 0.16));
+      currentPercent = Math.min(100, currentPercent + step);
+      if (bar) bar.style.width = currentPercent + '%';
+      if (percentText) percentText.textContent = currentPercent + '%';
+    }
+
+    const elapsed = Date.now() - startTime;
+    if (allReady && elapsed >= MIN_DISPLAY_MS && currentPercent >= 100 && !isFinished) {
+      isFinished = true;
+      clearInterval(progressTimer);
+      finishPreloader();
+    }
+  }, 25);
+
+  function finishPreloader() {
+    if (bar) bar.style.width = '100%';
+    if (percentText) percentText.textContent = '100%';
+
+    // Ativa todos os vídeos HTML5 nativos
+    const htmlVideos = document.querySelectorAll('video');
+    htmlVideos.forEach(v => {
+      v.muted = true;
+      v.play().catch(() => {});
+    });
+
+    // Ativa todos os vídeos Vimeo em iframe
+    if (window.Vimeo && window.Vimeo.Player) {
+      const vimeoIframes = document.querySelectorAll('iframe[src*="vimeo.com"]');
+      vimeoIframes.forEach(iframe => {
+        try {
+          const player = new Vimeo.Player(iframe);
+          player.play().catch(() => {});
+        } catch(e) {}
+      });
+    }
+
+    setTimeout(() => {
+      preloader.classList.add('fade-out');
+      window.preloaderFinished = true;
+      document.body.classList.add('loaded');
+      document.body.style.overflow = '';
+
+      setTimeout(() => {
+        if (preloader && preloader.parentNode) {
+          preloader.parentNode.removeChild(preloader);
+        }
+      }, 750);
+    }, 280);
+  }
+
+  // -------------------------------------------------------------
+  // MONITORAMENTO DO BUFFER DOS VÍDEOS (HTML5 + VIMEO)
+  // -------------------------------------------------------------
+  const itemsToTrack = [];
+
+  // 1. Vídeos HTML5 (contato, etc.)
+  const htmlVideos = Array.from(document.querySelectorAll('video'));
+  htmlVideos.forEach(v => {
+    v.preload = 'auto';
+    v.muted = true;
+    itemsToTrack.push({
+      type: 'html5',
+      element: v,
+      ready: v.readyState >= 3
+    });
+  });
+
+  // 2. Iframes do Vimeo (Hero e Cards)
+  const vimeoIframes = Array.from(document.querySelectorAll('iframe[src*="vimeo.com"]'));
+  vimeoIframes.forEach(iframe => {
+    itemsToTrack.push({
+      type: 'vimeo',
+      element: iframe,
+      ready: false
+    });
+  });
+
+  const totalItems = itemsToTrack.length;
+
+  function checkItemReady() {
+    const readyCount = itemsToTrack.filter(item => item.ready).length;
+    const ratio = totalItems > 0 ? readyCount / totalItems : 1;
+    updateTarget(30 + Math.round(ratio * 65));
+
+    if (readyCount >= totalItems) {
+      updateTarget(100);
+      allReady = true;
+    }
+  }
+
+  itemsToTrack.forEach(item => {
+    if (item.type === 'html5') {
+      const v = item.element;
+      if (v.readyState >= 3) {
+        item.ready = true;
+      } else {
+        const onCanPlay = () => {
+          item.ready = true;
+          checkItemReady();
+          v.removeEventListener('canplay', onCanPlay);
+          v.removeEventListener('playing', onCanPlay);
+          v.removeEventListener('loadeddata', onCanPlay);
+        };
+        v.addEventListener('canplay', onCanPlay);
+        v.addEventListener('playing', onCanPlay);
+        v.addEventListener('loadeddata', onCanPlay);
+      }
+    } else if (item.type === 'vimeo') {
+      const iframe = item.element;
+
+      const markVimeoDone = () => {
+        if (!item.ready) {
+          item.ready = true;
+          checkItemReady();
+        }
+      };
+
+      iframe.addEventListener('load', () => {
+        setTimeout(markVimeoDone, 500);
+      });
+
+      if (window.Vimeo && window.Vimeo.Player) {
+        try {
+          const player = new Vimeo.Player(iframe);
+          player.ready().then(() => {
+            player.on('play', markVimeoDone);
+            player.on('loaded', markVimeoDone);
+            player.on('bufferend', markVimeoDone);
+            player.play().catch(() => {});
+          }).catch(markVimeoDone);
+        } catch(e) {
+          iframe.addEventListener('load', markVimeoDone);
+        }
+      }
+    }
+  });
+
+  checkItemReady();
+
+  if (totalItems === 0) {
+    updateTarget(100);
+    allReady = true;
+  }
+
+  // Fallback seguro caso conexão externa demore
+  setTimeout(() => {
+    updateTarget(100);
+    allReady = true;
+  }, MAX_WAIT_MS);
+}
+
 /* =============================================
    RSTCOM — main.js
    Animações Premium (inspiradas em referências Pinterest)
@@ -12,9 +194,7 @@
    ============================================= */
 
 function init() {
-  window.preloaderFinished = true;
-  document.body.classList.add('loaded');
-  document.body.style.overflow = '';
+  runPreloader();
 
   // Load hero background video (loads Vimeo iframe for fast streaming)
   const heroVideoBg = document.getElementById('heroVideoBg');
@@ -428,6 +608,17 @@ function init() {
   /* ════════════════════════════════════════════
      CASES FILTER
      ════════════════════════════════════════════ */
+  
+  const filterSubtitles = {
+    'conteudo-audiovisual': 'Criamos conteúdos que dão ritmo, identidade e narrativa a eventos e experiências de marca, vídeos de abertura e lançamento, vinhetas, conteúdos para LED, apresentações, highlights e produções desenvolvidas para diferentes formatos e momentos da jornada.',
+    'motion-3d-design': 'Transformamos ideias em narrativas visuais por meio de motion graphics, animações, modelagem 3D, MetaHumans, conteúdos anamórficos, projection mapping e soluções gráficas criadas para gerar impacto e ampliar a experiência.',
+    'tecnologia-interatividade': 'Desenvolvemos experiências em que o público deixa de apenas assistir e passa a participar. IA, realidade virtual e aumentada, holografia, RFID, telas touch, quizzes, aplicativos e outras soluções digitais conectam conteúdo, tecnologia e interação.',
+    'captacao-live': 'Produzimos e operamos conteúdos ao vivo para eventos presenciais, híbridos e digitais. Lives, streaming, transmissões simultâneas, podcasts, captação multicâmera, direção de imagem e operação audiovisual para conectar conteúdo e público em tempo real.',
+    'feiras-experiencias': 'Criamos experiências para feiras, congressos e espaços de marca, integrando conteúdo, tecnologia, comunicação e ativações. Projetos pensados para transformar estandes em pontos de interação, relacionamento e conexão entre marcas e públicos.'
+  };
+
+  const casesSubtitleEl = document.getElementById('casesSubtitle');
+
   const filterBtns = document.querySelectorAll('.filter-btn');
   const caseItems  = document.querySelectorAll('.case-item');
 
@@ -436,6 +627,16 @@ function init() {
       filterBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       const filter = btn.dataset.filter;
+      if (casesSubtitleEl) {
+        const text = filterSubtitles[filter];
+        if (text) {
+          casesSubtitleEl.textContent = text;
+          casesSubtitleEl.classList.add('active');
+        } else {
+          casesSubtitleEl.classList.remove('active');
+          casesSubtitleEl.textContent = '';
+        }
+      }
 
       let visibleIdx = 0;
       caseItems.forEach((item) => {
@@ -458,15 +659,16 @@ function init() {
   caseItems.forEach(item => {
     item.addEventListener('click', () => {
       const titleEl = item.querySelector('.case-item-title');
-      const tagEl = item.querySelector('.case-item-tag');
+      const tagEl = item.querySelector('.case-item-tag'); const tagTextFromData = item.dataset.tag || (tagTextFromData);
       const imgEl = item.querySelector('.case-item-img');
       const categoryClass = item.dataset.cat;
       
       if (titleEl) {
         const title = titleEl.textContent;
-        const tag = tagEl ? tagEl.textContent : '';
+        const tag = tagTextFromData;
         const imgSrc = imgEl ? imgEl.src : '';
         
+        stopAllCaseVideos();
         openCase(title, categoryClass, imgSrc, tag, item);
       }
     });
@@ -2091,8 +2293,122 @@ category: "convencao audiovisual"
   // Pre-fill cache for DOM selection and cursors inside modal
   let activeModalCtaCategory = 'outro';
 
+  // Gerenciamento e controle centralizado de instâncias do player Vimeo
+  const vimeoPlayers = new WeakMap();
+
+  function getOrCreateVimeoPlayer(iframe) {
+    if (!iframe) return null;
+    if (vimeoPlayers.has(iframe)) return vimeoPlayers.get(iframe);
+    if (typeof Vimeo !== 'undefined' && Vimeo.Player) {
+      try {
+        const player = new Vimeo.Player(iframe);
+        vimeoPlayers.set(iframe, player);
+        return player;
+      } catch (err) {
+        return null;
+      }
+    }
+    return null;
+  }
+
+
+  // Interrompe e silencia absolutamente todos os vídeos ativos nos cases (grid, modal e lightbox)
+  function stopAllCaseVideos() {
+    // 1. Pausa e reseta vídeo local do modal do case
+    const videoNode = document.getElementById('caseModalHeroVideo');
+    if (videoNode) {
+      try {
+        videoNode.pause();
+        videoNode.currentTime = 0;
+      } catch (e) {}
+    }
+
+    // 2. Destrói e descarrega com segurança qualquer iframe Vimeo do modal de cases
+    if (caseModalHeroVideoWrapper) {
+      const modalIframes = caseModalHeroVideoWrapper.querySelectorAll('iframe');
+      modalIframes.forEach(iframe => {
+        try {
+          const p = getOrCreateVimeoPlayer(iframe);
+          if (p) {
+            p.setMuted(true).catch(() => {});
+            p.pause().catch(() => {});
+            p.unload().catch(() => {});
+          }
+          iframe.contentWindow?.postMessage('{"method":"pause"}', '*');
+          iframe.contentWindow?.postMessage('{"method":"setVolume","value":0}', '*');
+        } catch (err) {}
+        iframe.src = 'about:blank';
+        iframe.remove();
+      });
+      caseModalHeroVideoWrapper.classList.remove('active');
+    }
+
+    // 3. Pausa qualquer vídeo da galeria interna do modal
+    if (caseModalGalleryGrid) {
+      const galleryVideos = caseModalGalleryGrid.querySelectorAll('video');
+      galleryVideos.forEach(v => {
+        try {
+          v.pause();
+          v.currentTime = 0;
+        } catch (e) {}
+      });
+    }
+
+    // 4. Pausa e limpa o Lightbox de galeria
+    if (typeof galleryLightboxVideo !== 'undefined' && galleryLightboxVideo) {
+      try {
+        galleryLightboxVideo.pause();
+        galleryLightboxVideo.currentTime = 0;
+        galleryLightboxVideo.src = '';
+        galleryLightboxVideo.style.display = 'none';
+        galleryLightboxVideo.classList.remove('active');
+      } catch (e) {}
+    }
+    if (typeof galleryLightboxIframe !== 'undefined' && galleryLightboxIframe) {
+      try {
+        const p = getOrCreateVimeoPlayer(galleryLightboxIframe);
+        if (p) {
+          p.setMuted(true).catch(() => {});
+          p.pause().catch(() => {});
+          p.unload().catch(() => {});
+        }
+        galleryLightboxIframe.contentWindow?.postMessage('{"method":"pause"}', '*');
+      } catch (err) {}
+      galleryLightboxIframe.src = 'about:blank';
+      galleryLightboxIframe.style.display = 'none';
+      galleryLightboxIframe.classList.remove('active');
+    }
+
+    // 5. Pausa e reseta todos os cards de vídeo no grid principal
+    const allGridCards = document.querySelectorAll('.case-item--video');
+    allGridCards.forEach(card => {
+      card.classList.remove('video-playing');
+      const v = card.querySelector('video');
+      if (v) {
+        try {
+          v.pause();
+          v.currentTime = 0;
+        } catch (e) {}
+      }
+      const ifr = card.querySelector('iframe.case-item-video');
+      if (ifr) {
+        try {
+          const p = getOrCreateVimeoPlayer(ifr);
+          if (p) {
+            p.setMuted(true).catch(() => {});
+            p.pause().catch(() => {});
+            p.setCurrentTime(0).catch(() => {});
+          }
+          ifr.contentWindow?.postMessage('{"method":"pause"}', '*');
+          ifr.contentWindow?.postMessage('{"method":"setVolume","value":0}', '*');
+        } catch (err) {}
+      }
+    });
+  }
+
   function openCase(titleText, categoryClass, imgSrc, tagText, element = null) {
     if (!caseModal) return;
+    stopAllCaseVideos();
 
     // Check if slug is in our custom database
     const slug = slugify(titleText);
@@ -2116,7 +2432,8 @@ category: "convencao audiovisual"
         vimeoId: element.dataset.vimeoId || "",
         video: !!element.dataset.vimeoId,
         videoSrc: element.dataset.vimeoId ? `https://player.vimeo.com/video/${element.dataset.vimeoId}` : "",
-        category: element.dataset.cat || categoryClass || "outro"
+        category: element.dataset.cat || categoryClass || "outro",
+        gameUrl: element.dataset.gameUrl || ""
       };
 
       // Enrich from casesDb if available (e.g. for media list or specific metadata if missing in HTML)
@@ -2192,6 +2509,26 @@ category: "convencao audiovisual"
         pill.textContent = tech;
         caseModalTechPills.appendChild(pill);
       });
+    }
+
+    // Render Game Button if present
+    let gameBtn = document.getElementById('caseModalGameBtn');
+    if (data.gameUrl) {
+      if (!gameBtn) {
+        gameBtn = document.createElement('a');
+        gameBtn.id = 'caseModalGameBtn';
+        gameBtn.className = 'case-modal-game-btn';
+        gameBtn.target = '_blank';
+        gameBtn.rel = 'noopener noreferrer';
+        gameBtn.innerHTML = '🎮 Testar Quiz / Game Interativo';
+        if (caseModalCtaBtn && caseModalCtaBtn.parentNode) {
+          caseModalCtaBtn.parentNode.insertBefore(gameBtn, caseModalCtaBtn);
+        }
+      }
+      gameBtn.href = data.gameUrl;
+      gameBtn.style.display = 'inline-flex';
+    } else if (gameBtn) {
+      gameBtn.style.display = 'none';
     }
 
     // Render Hero Video setup first
@@ -2361,7 +2698,7 @@ category: "convencao audiovisual"
         if (videoNode) { videoNode.pause(); videoNode.src = ''; videoNode.style.display = 'none'; }
 
         const hashParam = data.vimeoHash ? `?h=${data.vimeoHash}&` : '?';
-        const iframeSrc = `https://player.vimeo.com/video/${data.vimeoId}${hashParam}badge=0&autopause=0&autoplay=1&muted=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0`;
+        const iframeSrc = `https://player.vimeo.com/video/${data.vimeoId}${hashParam}badge=0&autopause=1&autoplay=1&muted=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0`;
         const vimeoIframe = document.createElement('iframe');
         vimeoIframe.src = iframeSrc;
         vimeoIframe.className = 'vimeo-embed';
@@ -2412,6 +2749,7 @@ category: "convencao audiovisual"
 
   function closeCase() {
     if (!caseModal) return;
+    stopAllCaseVideos();
     
     // Clear hash without causing a page jump
     if (window.location.hash && window.location.hash.startsWith('#case-')) {
@@ -2661,17 +2999,7 @@ category: "convencao audiovisual"
   // O iframe do Vimeo é carregado UMA VEZ quando o card aparece na tela.
   // Depois, usamos a API do Vimeo para pausar/tocar sem destruir o player.
   const videoCaseCards = document.querySelectorAll('.case-item--video');
-  const vimeoPlayers = new WeakMap(); // Armazena a instância da API por iframe
-
-  function getOrCreateVimeoPlayer(iframe) {
-    if (vimeoPlayers.has(iframe)) return vimeoPlayers.get(iframe);
-    if (typeof Vimeo !== 'undefined') {
-      const player = new Vimeo.Player(iframe);
-      vimeoPlayers.set(iframe, player);
-      return player;
-    }
-    return null;
-  }
+  // (vimeoPlayers e getOrCreateVimeoPlayer definidos centralizadamente no topo do escopo)
 
   const videoVisibilityObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -2710,19 +3038,19 @@ category: "convencao audiovisual"
       item.addEventListener('mouseenter', () => {
         item.classList.add('video-playing');
         if (video.tagName === 'IFRAME') {
-          const vimeoId = video.dataset.vimeoId;
-          const vimeoHash = video.dataset.vimeoHash;
+          const vimeoId = video.dataset.vimeoId || video.getAttribute('data-vimeo-id');
+          const vimeoHash = video.dataset.vimeoHash || video.getAttribute('data-vimeo-hash');
           if (vimeoId) {
-            if (!video.src) {
-              // Primeira vez: cria o iframe
-              const hashParam = vimeoHash ? `h=${vimeoHash}&` : '';
-              video.src = `https://player.vimeo.com/video/${vimeoId}?${hashParam}background=1&autoplay=1&loop=1&muted=1`;
-            } else {
-              // Iframe já existe: apenas manda play via API
-              const player = getOrCreateVimeoPlayer(video);
-              if (player) {
-                player.play().catch(err => console.log('Vimeo play interrupted', err));
-              }
+            const hashParam = vimeoHash ? `h=${vimeoHash}&` : '';
+            const targetSrc = `https://player.vimeo.com/video/${vimeoId}?${hashParam}background=1&autoplay=1&loop=1&muted=1&autopause=0`;
+            if (!video.src || video.src === 'about:blank' || !video.src.includes('autoplay=1')) {
+              video.src = targetSrc;
+            }
+            const player = getOrCreateVimeoPlayer(video);
+            if (player) {
+              player.setMuted(true).then(() => player.play()).catch(() => {
+                video.src = targetSrc;
+              });
             }
           }
         } else {
@@ -2775,6 +3103,20 @@ category: "convencao audiovisual"
     lightboxMediaArray = mediaArray;
     lightboxCurrentIndex = startIndex;
     
+    // Pausa vídeo do modal caso esteja tocando ao abrir a galeria em tela cheia
+    const modalHeroIframe = caseModalHeroVideoWrapper ? caseModalHeroVideoWrapper.querySelector('iframe.vimeo-embed') : null;
+    if (modalHeroIframe) {
+      try {
+        const p = getOrCreateVimeoPlayer(modalHeroIframe);
+        if (p) p.pause().catch(() => {});
+        modalHeroIframe.contentWindow?.postMessage('{"method":"pause"}', '*');
+      } catch(e) {}
+    }
+    const modalHeroVid = document.getElementById('caseModalHeroVideo');
+    if (modalHeroVid) {
+      try { modalHeroVid.pause(); } catch(e) {}
+    }
+
     if (galleryLightbox && mediaArray.length > 0) {
       galleryLightbox.classList.add('active');
       document.body.style.overflow = 'hidden';

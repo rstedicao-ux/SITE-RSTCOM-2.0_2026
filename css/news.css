@@ -1,0 +1,1275 @@
+﻿/* ==========================================================================
+   NAVBAR FIX - RSTCOM (Sempre Visível e Interativa)
+   ========================================================================== */
+body .navbar,
+body.loaded .navbar {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 68px !important;
+  z-index: 9999 !important;
+  display: flex !important;
+  align-items: center !important;
+  background: rgba(255, 255, 255, 0.98) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  transform: translateY(0) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+body .navbar .nav-container {
+  width: 100% !important;
+  max-width: 1400px !important;
+  margin: 0 auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 0 39px !important;
+}
+
+body .navbar .nav-logo {
+  display: flex !important;
+  align-items: center !important;
+  height: 48px !important;
+  flex-shrink: 0 !important;
+}
+
+body .navbar .nav-logo-img {
+  height: 100% !important;
+  width: auto !important;
+  object-fit: contain !important;
+}
+
+body .navbar .nav-links {
+  display: flex !important;
+  align-items: center !important;
+  gap: clamp(16px, 3.5vw, 64px) !important;
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+body .navbar .nav-link {
+  font-family: 'Inter Local', 'Inter', sans-serif !important;
+  font-size: clamp(13px, 1vw, 17px) !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.04em !important;
+  color: #111111 !important;
+  text-decoration: none !important;
+  transition: opacity 0.2s ease, color 0.2s ease !important;
+  position: relative !important;
+  opacity: 0.75;
+  display: inline-block !important;
+}
+
+body .navbar .nav-link:hover,
+body .navbar .nav-link.active {
+  opacity: 1 !important;
+  color: #000000 !important;
+  font-weight: 500 !important;
+}
+
+body .navbar .nav-link.active::after {
+  content: '' !important;
+  position: absolute !important;
+  bottom: -4px !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 2px !important;
+  background: #000000 !important;
+}
+
+/* ==========================================================================
+   RSTCOM — RST News (Layout 1:1 Fiel à Referência Studio Loop Blog)
+   Estrutura, Wireframe, Grids, Proporções e Ritmo idênticos à Screenshot
+   Adaptado com a Identidade e Tipografia da RSTCOM
+   ========================================================================== */
+
+/* --- RESET & VARS --- */
+:root {
+  --font-main: 'Inter Local', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-title: 'Monument Extended', 'Inter', sans-serif;
+  --bg-page: #F7F6F0;
+  --bg-banner: #0a0a0f;
+  --color-text: #2c180f;
+  --color-text-dark: #0a0a0f;
+  --color-text-muted: rgba(44, 24, 15, 0.45);
+  --color-tag-bg: rgba(44, 24, 15, 0.06);
+  --color-pill-active-bg: #c7c6ff;
+  --color-pill-active-text: #0a0a0f;
+  --radius-card: 12px;
+  --transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background-color: var(--bg-page);
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--bg-page);
+  color: var(--color-text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+}
+
+/* ==========================================================================
+   1. NAVBAR RSTCOM (Topo Fixo)
+   ========================================================================== */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 0 39px;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.98);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: box-shadow 0.25s ease;
+}
+
+.navbar.scrolled {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.nav-container {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  height: 44px;
+}
+
+.nav-logo-img {
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 3vw, 56px);
+  list-style: none;
+}
+
+.nav-link {
+  font-size: 13px;
+  font-weight: 500;
+  color: #111111;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 6px 0;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+  color: #6652a2;
+}
+
+.nav-link.active {
+  font-weight: 700;
+  color: #000000;
+}
+
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #000000;
+}
+
+.nav-hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.nav-hamburger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: #000;
+}
+
+/* ==========================================================================
+   2. HERO BANNER (Idêntico ao topo escuro "Blog Loop" da referência com Vídeo)
+   ========================================================================== */
+.loop-hero-banner {
+  margin-top: 68px;
+  position: relative;
+  width: 100%;
+  background: var(--bg-banner);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1402 / 378;
+  min-height: 360px;
+}
+
+/* Vídeo de Fundo do Hero Banner */
+.loop-banner-video-wrap {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.loop-banner-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  min-width: 100%;
+  min-height: 100%;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  opacity: 0.85;
+}
+
+.loop-banner-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(10, 10, 15, 0.35) 0%, rgba(10, 10, 15, 0.72) 100%);
+  z-index: 1;
+}
+
+/* Arcos geométricos sutis de fundo (estilo Studio Loop) */
+.loop-banner-arcs {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.28;
+  z-index: 2;
+}
+
+.loop-arc-1 {
+  position: absolute;
+  top: -60%;
+  left: -10%;
+  width: 650px;
+  height: 650px;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  transform: rotate(-20deg);
+}
+
+.loop-arc-2 {
+  position: absolute;
+  bottom: -70%;
+  right: -5%;
+  width: 750px;
+  height: 750px;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: rotate(-50deg);
+}
+
+.loop-banner-logo {
+  width: 1200px !important;
+  /* <--- Ajuste a largura desejada aqui */
+  max-width: 90% !important;
+  height: auto !important;
+  display: block;
+}
+
+.loop-banner-title {
+  position: relative;
+  z-index: 3;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.65);
+  font-size: clamp(3.5rem, 7.5vw, 7.2rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: #f5f3ee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(12px, 2vw, 24px);
+  text-transform: none;
+}
+
+.loop-banner-title .title-bold {
+  font-family: var(--font-title);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+}
+
+.loop-banner-title .title-italic {
+  font-family: 'Times New Roman', Times, serif;
+  font-style: italic;
+  font-weight: 400;
+  color: #f5f3ee;
+  display: inline-block;
+}
+
+.loop-banner-title .title-outline {
+  font-family: var(--font-title);
+  font-weight: 800;
+  -webkit-text-stroke: 1.5px #f5f3ee;
+  color: transparent;
+  display: inline-block;
+  letter-spacing: 0.02em;
+}
+
+/* ==========================================================================
+   3. MAIN CONTENT: GRID DE 12 COLUNAS (Fiel ao Wireframe da Referência)
+   Col 1-3 (25%): PINNED
+   Col 4-12 (75%): ARTICLES
+   ========================================================================== */
+.loop-main-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: clamp(40px, 6vw, 80px) clamp(20px, 3.5vw, 48px) 120px;
+}
+
+.loop-editorial-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: clamp(32px, 4vw, 64px);
+  align-items: start;
+}
+
+/* --- COLUNA ESQUERDA: PINNED --- */
+.pinned-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.col-header-label {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--color-text);
+  line-height: 1.3;
+  margin-bottom: 28px;
+}
+
+.pinned-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pinned-item-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  text-align: left;
+  padding: 0;
+  width: 100%;
+}
+
+.pinned-thumb-wrap {
+  width: 71px;
+  height: 72px;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  background: #e5e4dc;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.pinned-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.pinned-item-row:hover .pinned-thumb-img {
+  transform: scale(1.05);
+}
+
+.pinned-text-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  flex: 1;
+}
+
+.pinned-item-title {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--color-text);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  transition: opacity 0.2s ease;
+}
+
+.pinned-item-row:hover .pinned-item-title {
+  opacity: 0.7;
+}
+
+.pinned-item-sub {
+  font-size: 13px;
+  line-height: 1.25;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* --- COLUNA DIREITA: ARTICLES --- */
+.articles-column {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header Row: "Articles" on left, Filter pills on right */
+.articles-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.articles-filter-pills {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.articles-filter-pills::-webkit-scrollbar {
+  display: none;
+}
+
+.filter-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  white-space: nowrap;
+  border-radius: 100px;
+  padding: 10px 18px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: 1px solid rgba(10, 10, 10, 0.18);
+  background: transparent;
+  color: var(--color-text);
+  transition: var(--transition);
+}
+
+.filter-pill:hover {
+  border-color: rgba(10, 10, 10, 0.4);
+}
+
+.filter-pill.active {
+  background-color: var(--color-pill-active-bg);
+  border-color: rgba(44, 24, 15, 0.15);
+  color: var(--color-pill-active-text);
+}
+
+/* ==========================================================================
+   4. ARTICLES SUB-GRID (Idêntico ao layout da referência)
+   Col 1-2 (66%): Big Landscape card + 2 mini side-by-side cards below
+   Col 3 (33%): Vertical card
+   ========================================================================== */
+.articles-subgrid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.articles-left-subcol {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+/* Giant Hero Card (Processo criativo / Loop) */
+.card-featured-hero {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  background: none;
+  border: none;
+  text-align: left;
+  width: 100%;
+  padding: 0;
+}
+
+.card-featured-img-wrap {
+  width: 100%;
+  aspect-ratio: 701 / 359;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  background: #e5e4dc;
+  position: relative;
+}
+
+.card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.card-featured-hero:hover .card-img,
+.card-vertical-side:hover .card-img,
+.subcard-item:hover .card-img {
+  transform: scale(1.03);
+}
+
+.card-info-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 16px;
+}
+
+.card-title {
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--color-text);
+  transition: opacity 0.2s ease;
+}
+
+.card-featured-hero:hover .card-title,
+.card-vertical-side:hover .card-title,
+.subcard-item:hover .card-title {
+  opacity: 0.7;
+}
+
+.card-excerpt {
+  font-size: 14px;
+  line-height: 1.35;
+  color: var(--color-text);
+  opacity: 0.55;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-meta-line {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.meta-category-pill {
+  border-radius: 100px;
+  background: var(--color-tag-bg);
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-text);
+  opacity: 0.85;
+}
+
+.meta-date,
+.meta-author,
+.meta-sep {
+  font-size: 12px;
+  color: var(--color-text);
+  opacity: 0.5;
+}
+
+/* Two Mini Cards directly underneath the big card (Row 2 in Left Col) */
+.subcards-duo-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.subcard-item {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  background: none;
+  border: none;
+  text-align: left;
+  width: 100%;
+  padding: 0;
+}
+
+.subcard-img-wrap {
+  width: 100%;
+  aspect-ratio: 346 / 177;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  background: #e5e4dc;
+  position: relative;
+}
+
+.subcard-item .card-excerpt {
+  -webkit-line-clamp: 2;
+}
+
+/* Right Subcolumn (Vertical card) */
+.articles-right-subcol {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.card-vertical-side {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  background: none;
+  border: none;
+  text-align: left;
+  width: 100%;
+  padding: 0;
+}
+
+.card-vertical-img-wrap {
+  width: 100%;
+  aspect-ratio: 340 / 220;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  background: #e5e4dc;
+  position: relative;
+}
+
+.card-vertical-side .card-excerpt {
+  -webkit-line-clamp: 2;
+}
+
+/* Additional Row for More Articles */
+.articles-extra-row {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 20px;
+}
+
+/* ==========================================================================
+   5. RESPIRO & FLOATING NEWSLETTER PILL (Exato à Screenshot)
+   ========================================================================== */
+.loop-whitespace-spacer {
+  height: clamp(200px, 22vw, 320px);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* Watermark pontilhado central / sutil de fundo conforme Studio Loop */
+.loop-watermark-dots {
+  width: 480px;
+  height: 480px;
+  border-radius: 50%;
+  background-image: radial-gradient(rgba(44, 24, 15, 0.16) 1.5px, transparent 1.5px);
+  background-size: 16px 16px;
+  mask-image: radial-gradient(circle, black 50%, transparent 80%);
+  -webkit-mask-image: radial-gradient(circle, black 50%, transparent 80%);
+  opacity: 0.7;
+}
+
+.loop-newsletter-card {
+  max-width: 860px;
+  margin: 0 auto clamp(60px, 8vw, 120px);
+  background: #ede8de;
+  border-radius: 36px;
+  padding: 24px clamp(24px, 4vw, 44px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  border: 1px solid rgba(44, 24, 15, 0.05);
+}
+
+.newsletter-left {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.newsletter-burst-icon {
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.newsletter-burst-icon img,
+.newsletter-burst-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.newsletter-title {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--color-text);
+  max-width: 320px;
+}
+
+.newsletter-right-form {
+  display: flex;
+  align-items: center;
+  position: relative;
+  min-width: 260px;
+  border-bottom: 1px solid rgba(44, 24, 15, 0.35);
+  padding-bottom: 4px;
+}
+
+.newsletter-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--color-text);
+  outline: none;
+  padding-right: 24px;
+}
+
+.newsletter-input::placeholder {
+  color: rgba(44, 24, 15, 0.45);
+}
+
+.newsletter-submit-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text);
+  transition: transform 0.2s ease;
+}
+
+.newsletter-submit-btn:hover {
+  transform: translateY(-50%) translateX(3px);
+}
+
+/* ==========================================================================
+   6. FOOTER RSTCOM (Oficial)
+   ========================================================================== */
+.footer {
+  background: #000000;
+  color: #ffffff;
+  padding: 80px 39px 40px;
+}
+
+.footer-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.8fr 1fr 1fr 1fr;
+  gap: 48px;
+  padding-bottom: 60px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-logo {
+  font-family: var(--font-title);
+  font-weight: 800;
+  font-size: 32px;
+  display: inline-block;
+  margin-bottom: 16px;
+}
+
+.footer-rst {
+  color: #ffffff;
+}
+
+.footer-com {
+  color: #ed2224;
+}
+
+.footer-desc {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.65);
+  max-width: 360px;
+  line-height: 1.6;
+}
+
+.footer-col-title {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 20px;
+  color: #ffffff;
+}
+
+.footer-links ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-links a {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.65);
+  transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+  color: #ffffff;
+}
+
+.social-links {
+  display: flex;
+  gap: 12px;
+}
+
+.social-link {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  transition: var(--transition);
+}
+
+.social-link svg {
+  width: 18px;
+  height: 18px;
+}
+
+.social-link:hover {
+  border-color: #ffffff;
+  background: #ffffff;
+  color: #000000;
+  transform: translateY(-2px);
+}
+
+.footer-bottom {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding-top: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* ==========================================================================
+   7. MODAL DE LEITURA
+   ========================================================================== */
+.article-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 15, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  z-index: 2000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.article-modal-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.article-modal {
+  background: #ffffff;
+  width: 100%;
+  max-width: 860px;
+  max-height: 90vh;
+  border-radius: 20px;
+  overflow-y: auto;
+  position: relative;
+  transform: scale(0.96) translateY(20px);
+  transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.35);
+}
+
+.article-modal-backdrop.open .article-modal {
+  transform: scale(1) translateY(0);
+}
+
+.article-modal-close {
+  position: sticky;
+  top: 16px;
+  right: 16px;
+  margin-left: auto;
+  margin-right: 16px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: var(--transition);
+}
+
+.article-modal-close:hover {
+  background: #000;
+}
+
+.article-modal-content {
+  padding: 0 clamp(24px, 5vw, 56px) clamp(36px, 6vw, 64px);
+}
+
+.article-modal-hero-img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+
+.article-modal-hero-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.article-modal-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.article-modal-title {
+  font-size: clamp(22px, 2.5vw, 36px);
+  font-weight: 700;
+  line-height: 1.25;
+  color: #111;
+  margin-bottom: 20px;
+}
+
+.article-modal-body {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #333;
+}
+
+.article-modal-body p {
+  margin-bottom: 20px;
+}
+
+.article-modal-quote {
+  border-left: 3px solid #6652a2;
+  padding: 12px 0 12px 20px;
+  margin: 28px 0;
+  font-size: 18px;
+  font-style: italic;
+  color: #111;
+}
+
+/* ==========================================================================
+   8. RESPONSIVIDADE
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .loop-editorial-grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .pinned-column {
+    order: 2;
+  }
+
+  .articles-column {
+    order: 1;
+  }
+
+  .footer-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 36px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0 20px;
+    height: 60px;
+  }
+
+  .loop-hero-banner {
+    margin-top: 60px;
+    min-height: 280px;
+  }
+
+  .nav-hamburger {
+    display: flex;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    flex-direction: column;
+    padding: 24px;
+    gap: 18px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    transform: translateY(-150%);
+    opacity: 0;
+    pointer-events: none;
+    transition: var(--transition);
+  }
+
+  .nav-links.mobile-open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  }
+
+  .articles-subgrid {
+    grid-template-columns: 1fr;
+  }
+
+  .subcards-duo-row {
+    grid-template-columns: 1fr;
+  }
+
+  .articles-extra-row {
+    grid-template-columns: 1fr;
+  }
+
+  .loop-newsletter-card {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+  }
+
+  .newsletter-right-form {
+    min-width: 100%;
+  }
+
+  .footer-container {
+    grid-template-columns: 1fr;
+  }
+
+  .footer {
+    padding: 60px 20px 30px;
+  }
+}
+
+
+/* ==========================================================================
+   ANIMAÇÕES SUTIS E ELEGANTES DE IMAGENS DO BLOG (RST News)
+   ========================================================================== */
+.card-featured-img-wrap,
+.subcard-img-wrap,
+.card-vertical-img-wrap,
+.pinned-thumb-wrap {
+  overflow: hidden;
+  position: relative;
+}
+
+.card-img,
+.pinned-thumb-img {
+  transform: scale(1);
+  transition: transform 0.65s cubic-bezier(0.25, 1, 0.5, 1), filter 0.65s ease;
+  will-change: transform;
+}
+
+.card-featured-hero:hover .card-img,
+.subcard-item:hover .card-img,
+.card-vertical-side:hover .card-img,
+.pinned-item:hover .pinned-thumb-img {
+  transform: scale(1.035);
+}
+
+/* ==========================================================================
+   ESTILOS DO CORPO DO ARTIGO INTERNO (Fidelidade ao Word)
+   ========================================================================== */
+.article-modal-hero-img {
+  width: 100%;
+  max-height: 480px;
+  overflow: hidden;
+  border-radius: 16px;
+  margin-bottom: 28px;
+  background: #0d0d12;
+}
+
+.article-modal-hero-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.article-modal-body {
+  font-size: 16px;
+  line-height: 1.75;
+  color: #2c2523;
+  margin-top: 24px;
+}
+
+.article-modal-body p {
+  margin-bottom: 20px;
+  font-size: 16px;
+  line-height: 1.75;
+  color: #333333;
+}
+
+.article-modal-body h3.article-subheading {
+  font-size: 21px;
+  font-weight: 700;
+  color: #111111;
+  margin: 36px 0 16px;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+}
+
+.article-modal-body ul.article-list {
+  margin: 20px 0 24px 20px;
+  list-style-type: disc;
+}
+
+.article-modal-body ul.article-list li {
+  margin-bottom: 12px;
+  font-size: 15.5px;
+  line-height: 1.65;
+  color: #333333;
+}
+
+.article-body-img-wrap {
+  margin: 36px 0;
+  width: 100%;
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.article-body-img-wrap img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 14px;
+  transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.article-body-img-wrap:hover img {
+  transform: scale(1.02);
+}
+
+/* Suporte estrito a prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+
+  .card-img,
+  .pinned-thumb-img,
+  .article-body-img-wrap img {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+/* Newsletter Right Wrap & Status Message */
+.newsletter-right-wrap {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  min-width: 260px;
+}
+
+.loop-newsletter-status {
+  font-size: 11px;
+  font-weight: 600;
+  margin-top: 6px;
+  min-height: 15px;
+  letter-spacing: 0.01em;
+  transition: opacity 0.2s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loop-newsletter-status.show {
+  opacity: 1;
+}
+
+.loop-newsletter-status.success {
+  color: #1e7e34;
+}
+
+.loop-newsletter-status.error {
+  color: #c92a2a;
+}

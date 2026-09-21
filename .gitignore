@@ -5,3 +5,9 @@ assets/HOME/VIDEO LOOPING/*.mov
 
 # Thumbs do Windows
 Thumbs.db
+
+# Backups e temporários
+*.backup*
+index.html.backup-servicos
+.DS_Store
+Thumbs.db

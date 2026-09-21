@@ -32,6 +32,10 @@
   <link rel="preconnect" href="https://vod-progressive.akamaized.net" crossorigin />
   <link rel="preload" as="document"
     href="https://player.vimeo.com/video/1209533407?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;background=1&amp;autoplay=1&amp;loop=1&amp;muted=1&amp;quality=1080p" />
+  <link rel="preload" as="document"
+    href="https://player.vimeo.com/video/1204618851?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;background=1&amp;autoplay=1&amp;loop=1&amp;muted=1" />
+  <link rel="preload" as="document"
+    href="https://player.vimeo.com/video/1204618045?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;background=1&amp;autoplay=1&amp;loop=1&amp;muted=1" />
   <link rel="dns-prefetch" href="https://player.vimeo.com" />
   <link rel="dns-prefetch" href="https://f.vimeocdn.com" />
   <link rel="dns-prefetch" href="https://vod-progressive.akamaized.net" />
@@ -43,6 +47,7 @@
 
   <!-- CSS crítico: carregado de forma síncrona (bloqueia render intencionalmente para evitar FOUC) -->
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/services.css" />
 
   <!-- CSS não-crítico do news reader: carregado de forma assíncrona para não bloquear o render -->
   <link rel="preload" href="css/rst-news-reader.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
@@ -52,7 +57,9 @@
 
   <!-- Scripts deferidos: não bloqueiam o parse do HTML -->
   <script src="js/main.js" defer></script>
+  <script src="js/services.js" defer></script>
   <script src="js/rst-news-reader.js" defer></script>
+  <script src="https://player.vimeo.com/api/player.js" defer></script>
 
   <!-- ══════════════════════════════════════════════
        GOOGLE ANALYTICS 4
@@ -85,18 +92,16 @@
   <nav class="navbar" id="navbar">
     <div class="nav-container">
       <a href="#home" class="nav-logo">
-        <img src="assets/logo rstcom branca site inteiro.svg" alt="RSTCOM" class="nav-logo-img" />
+        <img src="assets/logo rstcom colorida.svg" alt="RSTCOM" class="nav-logo-img" />
       </a>
       <ul class="nav-links" id="navLinks">
         <li><a href="#home" class="nav-link active">Home</a></li>
         <li><a href="#cases" class="nav-link">Cases</a></li>
         <li><a href="#sobre" class="nav-link">Sobre</a></li>
         <li><a href="#servicos" class="nav-link">Serviços</a></li>
-        <li><a href="#rst-news" class="nav-link">RST news</a></li>
-        <li><a href="#contato" class="nav-link contact-btn">Fale Conosco</a></li>
-        <li class="nav-cta-mobile-item"><a href="#contato" class="nav-cta nav-cta-mobile">Contate-nos</a></li>
+        <li><a href="rst-news.html" class="nav-link">RST news</a></li>
+        <li><a href="#contato" class="nav-link">Contato</a></li>
       </ul>
-      <a href="#contato" class="nav-cta" id="navCta">Contate-nos</a>
       <button class="nav-hamburger" id="navHamburger" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
@@ -104,100 +109,135 @@
   </nav>
 
 
-  <!-- ===================== SECTION 1: HERO / HOME ===================== -->
-  <section class="hero" id="home">
-    <!-- Particle Canvas -->
-    <canvas class="hero-particles" id="heroParticles"></canvas>
-    <div class="hero-bg">
-      <div class="hero-video-bg" id="heroVideoBg"
-        data-vimeo-src="https://player.vimeo.com/video/1209533407?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;background=1&amp;autoplay=1&amp;loop=1&amp;muted=1&amp;quality=1080p">
-        <iframe
-          src="https://player.vimeo.com/video/1209533407?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;background=1&amp;autoplay=1&amp;loop=1&amp;muted=1&amp;quality=1080p"
-          frameborder="0" allow="autoplay; fullscreen; picture-in-picture"
-          referrerpolicy="strict-origin-when-cross-origin" title="DEMO REEL 10 ANOS RST"></iframe>
+  <!-- ===================== SECTION 1: HERO (FIGMA DESIGN) ===================== -->
+  <section class="hero-v2" id="home">
+    <!-- Main Video Block with Rainbow Gradient Border/Bottom -->
+    <div class="hero-v2__video-container">
+      <div class="hero-v2__video-wrap">
+        <div class="hero-v2__video-inner">
+          <iframe
+            src="https://player.vimeo.com/video/1209533407?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;background=1&amp;autoplay=1&amp;loop=1&amp;muted=1&amp;quality=1080p"
+            frameborder="0" allow="autoplay; fullscreen; picture-in-picture"
+            referrerpolicy="strict-origin-when-cross-origin" title="DEMO REEL 10 ANOS RST"></iframe>
+        </div>
       </div>
-      <script src="https://player.vimeo.com/api/player.js" defer></script>
-      <div class="hero-gradient"></div>
-
-      <div class="hero-holographic"></div>
     </div>
 
-    <div class="hero-content">
-      
+    <!-- Text Block -->
+    <div class="hero-v2__text-block" id="sobre">
+      <div class="hero-v2__manifesto-container">
+
+        <!-- Header da SeÃ§Ã£o: Tagline com Destaque -->
+        <div class="hero-v2__manifesto-header">
+          <h2 class="hero-v2__manifesto-title">
+            Nascemos do audiovisual.<br>
+            <span class="hero-v2__manifesto-highlight">Evolu&iacute;mos com a tecnologia.</span>
+          </h2>
+        </div>
+
+        <!-- ConteÃºdo Editorial Estendido: Tipografia Fina com Destaque a Palavras-chave -->
+        <div class="hero-v2__manifesto-content">
+          <p class="hero-v2__manifesto-p lead">
+            H&aacute; mais de uma d&eacute;cada, a <strong class="kw">RSTCOM</strong> nasceu como uma produtora
+            especializada em <strong class="kw">conte&uacute;do audiovisual</strong>. Ao longo dessa trajet&oacute;ria,
+            acompanhamos a evolu&ccedil;&atilde;o dos formatos, das plataformas e da <strong
+              class="kw">tecnologia</strong>, ampliando nossa atua&ccedil;&atilde;o para <strong
+              class="kw">streaming</strong>, <strong class="kw">design</strong>, <strong class="kw">experi&ecirc;ncias
+              interativas</strong> e <strong class="kw">comunica&ccedil;&atilde;o integrada</strong>.
+          </p>
+          <p class="hero-v2__manifesto-p">
+            Hoje, reunimos <strong class="kw">estrat&eacute;gia</strong>, <strong
+              class="kw">cria&ccedil;&atilde;o</strong>, <strong class="kw">conte&uacute;do</strong>, <strong
+              class="kw">audiovisual</strong>, <strong class="kw">tecnologia</strong> e <strong
+              class="kw">produ&ccedil;&atilde;o</strong> para transformar objetivos de comunica&ccedil;&atilde;o em
+            projetos que conectam <strong class="kw">pessoas e marcas</strong>.
+          </p>
+        </div>
+
+      </div>
     </div>
 
-    <div class="hero-clients">
-      <div class="clients-track">
-        <!-- Primeira metade -->
-        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo libbs.svg" alt="Libbs">
+    <!-- 3 Cards Block -->
+    <div class="hero-v2__cards">
+      <!-- Card 1: Video -->
+      <div class="hero-v2__card hero-v2__card--black">
+        <div class="hero-v2__card-video-wrap">
+          <iframe
+            src="https://player.vimeo.com/video/1209533407?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;background=1&amp;autoplay=1&amp;loop=1&amp;muted=1&amp;quality=1080p"
+            frameborder="0" allow="autoplay; fullscreen; picture-in-picture"
+            referrerpolicy="strict-origin-when-cross-origin" title="Card Video 1"></iframe>
         </div>
-        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo dongfeng.svg"
-            alt="Dongfeng"></div>
-        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo pfizer.svg" alt="Pfizer">
-        </div>
-        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo honda.svg" alt="Honda">
-        </div>
-        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo pepsico.svg"
-            alt="Pepsico"></div>
-        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo_sherwin_suvinil.svg"
-            alt="Sherwin Williams"></div>
-        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo branca sanofi 1.svg"
-            alt="Sanofi"></div>
-        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo bridgestone 1.svg"
-            alt="Bridgestone"></div>
-        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo carrefour.svg"
-            alt="Carrefour"></div>
-        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo grunenthal.svg"
-            alt="Grunenthal"></div>
-        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo infomoney.svg"
-            alt="InfoMoney"></div>
-        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo takeda.svg" alt="Takeda">
-        </div>
-        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo teva.svg" alt="Teva">
-        </div>
-        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo xp 1.svg"
-            alt="XP Investimentos"></div>
-        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/LOGO PETROBRAS BRANCO 1.svg"
-            alt="Petrobras"></div>
-        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo 1.svg" alt="Cliente 16">
-        </div>
+      </div>
 
-        <!-- Segunda metade (duplicada para efeito infinito sem salto) -->
-        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo libbs.svg" alt="Libbs">
-        </div>
-        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo dongfeng.svg"
-            alt="Dongfeng"></div>
-        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo pfizer.svg" alt="Pfizer">
-        </div>
-        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo honda.svg" alt="Honda">
-        </div>
-        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo pepsico.svg"
-            alt="Pepsico"></div>
-        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo_sherwin_suvinil.svg"
-            alt="Sherwin Williams"></div>
-        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo branca sanofi 1.svg"
-            alt="Sanofi"></div>
-        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo bridgestone 1.svg"
-            alt="Bridgestone"></div>
-        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo carrefour.svg"
-            alt="Carrefour"></div>
-        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo grunenthal.svg"
-            alt="Grunenthal"></div>
-        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo infomoney.svg"
-            alt="InfoMoney"></div>
-        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo takeda.svg" alt="Takeda">
-        </div>
-        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo teva.svg" alt="Teva">
-        </div>
-        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo xp 1.svg"
-            alt="XP Investimentos"></div>
-        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/LOGO PETROBRAS BRANCO 1.svg"
-            alt="Petrobras"></div>
-        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo 1.svg" alt="Cliente 16">
+      <!-- Card 2: Center Text -->
+      <div class="hero-v2__card hero-v2__card--white">
+        <p class="hero-v2__center-title">DIFERENTES<br>FORMATOS E<br><span
+            class="hero-v2__gradient-text">DIMENSÕES</span></p>
+        <span class="hero-v2__center-sub">tecnologia, comunicação e eXperiência.</span>
+      </div>
+
+      <!-- Card 3: Video -->
+      <div class="hero-v2__card hero-v2__card--black">
+        <div class="hero-v2__card-video-wrap">
+          <iframe
+            src="https://player.vimeo.com/video/1209533407?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;background=1&amp;autoplay=1&amp;loop=1&amp;muted=1&amp;quality=1080p"
+            frameborder="0" allow="autoplay; fullscreen; picture-in-picture"
+            referrerpolicy="strict-origin-when-cross-origin" title="Card Video 2"></iframe>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- Standalone Clients Logo Strip -->
+  <div class="clients-strip-standalone">
+    <div class="hero-clients">
+      <div class="clients-track">
+        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo libbs.svg" alt="Libbs">
+        </div>
+        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo pepsico.svg"
+            alt="PepsiCo"></div>
+        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo carrefour.svg"
+            alt="Carrefour"></div>
+        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo pfizer.svg" alt="Pfizer">
+        </div>
+        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo honda.svg" alt="Honda">
+        </div>
+        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo branca sanofi 1.svg"
+            alt="Sanofi"></div>
+        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo midea.svg" alt="Midea">
+        </div>
+        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo grupo sc.svg"
+            alt="Grupo SC"></div>
+        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo colgate.svg"
+            alt="Colgate"></div>
+        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo kpmg.svg" alt="KPMG">
+        </div>
+
+        <!-- Duplicado para loop infinito -->
+        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo libbs.svg" alt="Libbs">
+        </div>
+        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo pepsico.svg"
+            alt="PepsiCo"></div>
+        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo carrefour.svg"
+            alt="Carrefour"></div>
+        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo pfizer.svg" alt="Pfizer">
+        </div>
+        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo honda.svg" alt="Honda">
+        </div>
+        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo branca sanofi 1.svg"
+            alt="Sanofi"></div>
+        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo midea.svg" alt="Midea">
+        </div>
+        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo grupo sc.svg"
+            alt="Grupo SC"></div>
+        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo colgate.svg"
+            alt="Colgate"></div>
+        <div class="client-logo"><img src="assets/HOME/LOGO CLIENTES SEPARADAS(MOVIMENTO)/logo kpmg.svg" alt="KPMG">
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ===================== SECTION 5: CASES 2 / PRINCIPAIS CASES ===================== -->
   <section class="cases" id="cases">
     <div class="cases-container">
@@ -207,17 +247,231 @@
 
       <div class="cases-filter">
         <button class="filter-btn active" data-filter="all" id="filterAll">Todos</button>
-        <button class="filter-btn" data-filter="b2b" id="filterB2b">Conteúdo</button>
-        <button class="filter-btn" data-filter="fair" id="filterFair">Audiovisual</button>
-        <button class="filter-btn" data-filter="convencao" id="filterConvention">Motion & 3D</button>
-        <button class="filter-btn" data-filter="captacao" id="filterCaptacao">Tecnologia</button>
-        <button class="filter-btn" data-filter="tecnologia" id="filterTecnologia">Experiências</button>
-        <button class="filter-btn" data-filter="audiovisual" id="filterAudiovisual">Live & Streaming</button>
+        <button class="filter-btn" data-filter="conteudo-audiovisual" id="filterConteudoAudiovisual">Conteúdo &
+          Audiovisual</button>
+        <button class="filter-btn" data-filter="motion-3d-design" id="filterMotionDesign">Motion, 3D & Design</button>
+        <button class="filter-btn" data-filter="tecnologia-interatividade"
+          id="filterTecnologiaInteratividade">Tecnologia & Interatividade</button>
+        <button class="filter-btn" data-filter="captacao-live" id="filterCaptacaoLive">Captação & Live</button>
+        <button class="filter-btn" data-filter="feiras-experiencias" id="filterFeirasExperiencias">Feiras &
+          Experiências</button>
       </div>
 
       <div class="cases-grid" id="casesGrid">
-        <!-- 1. D2C SUMMIT (Video Case) -->
-        <div class="case-item case-item--large case-item--video" data-cat="captacao b2b" data-title="D2C SUMMIT"
+        <!-- 1. 5 Anos Keytruda MSD -->
+        <div class="case-item case-item--video" data-cat="motion-3d-design" data-title="5 Anos Keytruda MSD"
+          data-client="MSD (Merck Sharp Dohme)" data-location="São Paulo, SP" data-tag="Tecnologia"
+          data-desc="Para celebrar os 5 anos de Keytruda no Brasil, desenvolvemos uma experiência audiovisual que uniu vídeo mapping, conteúdo sob medida, computação gráfica, modelagem 3D e trilha sonora original para transformar a trajetória da marca em uma narrativa imersiva e impactante."
+          data-techs="Conteúdo audiovisual, Storyboard, Vídeo Mapping, Computação gráfica, Modelagem 3D, Produção de trilha sonora original."
+          data-vimeo-id="1204616034">
+          <img src="assets/SEÇÃO PRINCIPAIS CASES/KEYTRUDA/rs=w_1280,h_591.webp" alt="5 Anos Keytruda MSD"
+            class="case-item-img" loading="lazy" />
+          <div class="case-video-container">
+            <iframe class="case-item-video" data-vimeo-id="1204616034" frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture" style="border:none;"
+              title="5 Anos Keytruda MSD"></iframe>
+          </div>
+          <div class="case-item-overlay">
+            <h3 class="case-item-title">5 Anos Keytruda MSD</h3>
+          </div>
+        </div>
+
+        <!-- 2. 6º Prêmio Saint-Gobain -->
+        <div class="case-item case-item--video" data-cat="tecnologia-interatividade" data-title="6º Prêmio Saint-Gobain"
+          data-client="Saint-Gobain" data-date="2022" data-location="São Paulo, SP" data-tag="Corporativo & B2B"
+          data-desc="No 6º Prêmio Saint-Gobain, a RSTCOM integrou Realidade Aumentada e Realidade Virtual à experiência da cerimônia. O convite físico ganhou uma camada interativa em RA, ampliando o primeiro contato do público com o evento. Já no espaço da premiação, os projetos concorrentes puderam ser apresentados em uma exposição virtual em realidade virtual, criando uma nova forma de explorar os trabalhos e conteúdos O projeto também contou com produção audiovisual e transmissão ao vivo."
+          data-techs=" Convite interativo em Realidade Aumentada, Desenvolvimento da experiência em RA, Exposição virtual dos projetos concorrentes, Experiência em Realidade Virtual, Integração da tecnologia à jornada da premiação, Produção audiovisual, Transmissão ao vivo."
+          data-vimeo-id="1204617814">
+          <img src="assets/SEÇÃO PRINCIPAIS CASES/6º PRÊMIO SAINT-GOBAIN/CAPA.png" alt="6º Prêmio Saint-Gobain"
+            class="case-item-img" loading="lazy" />
+          <div class="case-video-container">
+            <iframe class="case-item-video" data-vimeo-id="1204617814" frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture" style="border:none;"
+              title="6º Prêmio Saint-Gobain"></iframe>
+          </div>
+          <div class="case-item-overlay">
+            <h3 class="case-item-title">6º Prêmio Saint-Gobain</h3>
+          </div>
+        </div>
+
+        <!-- 3. ABRAFARMA - FUTURE TRENDS -->
+        <div class="case-item case-item--large case-item--video" data-cat="motion-3d-design"
+          data-title="ABRAFARMA - FUTURE TRENDS" data-client="Abrafarma" data-location="São Paulo, SP"
+          data-tag="Abertura & Conteúdo Anamórfico"
+          data-desc="Uma abertura audiovisual criada para dar ritmo, identidade e impacto ao início da experiência. Para a abertura do Abrafarma Future Trends, a RSTCOM desenvolveu um vídeo de até 2 minutos pensado especialmente para o formato wide da plenária.
+O projeto envolveu criação, roteiro, storyboard, computação gráfica, lettering, trilha, locução em português e finalização em formato especial, construindo uma narrativa audiovisual capaz de aproveitar a escala das telas e preparar o público para o início da programação."
+          data-techs="Conceito e desenvolvimento visual, Motion Graphics, Modelagem 3D, Animação 3D, Conteúdo anamórfico, Desenvolvimento de conteúdo para painéis de LED, Computação gráfica"
+          data-vimeo-id="1220325182"><img src="assets/cases-thumbs/1220325182.jpg" alt="ABRAFARMA - FUTURE TRENDS"
+            class="case-item-img" loading="lazy" />
+          <div class="case-video-container"><iframe class="case-item-video" data-vimeo-id="1220325182" frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture" style="border:none;"
+              title="Abrafarma Future Trends"></iframe></div>
+          <div class="case-item-overlay">
+            <h3 class="case-item-title">ABRAFARMA - FUTURE TRENDS</h3>
+          </div>
+        </div>
+
+        <!-- 4. ABRAS Convenção -->
+        <div class="case-item" data-cat="conteudo-audiovisual" data-title="ABRAS Convenção" data-client="ABRAS"
+          data-date="2025" data-location="São Paulo, SP" data-tag="Convenção, Audiovisual"
+          data-desc="Numa noite de grande prestígio no Grand Hyatt, a ABRAS reuniu líderes do setor, supermercadistas de todo o Brasil, representantes da indústria, varejo e autoridades governamentais para celebrar o Dia dos Supermercados. Este evento de alto nível exigia uma solução de transmissão que estivesse à altura da sua importância."
+          data-challenge="A RSTcom teve a honra de ser a parceira escolhida para garantir a captação e transmissão simultânea de todo o evento. A nossa missão foi clara: levar a excelência do encontro presencial para o ambiente digital, sem perda de qualidade. Utilizando o nosso setup técnico de ponta, assegurámos que cada discurso, cada momento de networking e cada detalhe da celebração fosse transmitido com a máxima qualidade de broadcast, do início ao fim."
+          data-techs="Captação e Transmissão Simultânea, Infraestrutura Multi-Câmera">
+          <img src="assets/SEÇÃO PRINCIPAIS CASES/ABRAS/capa.jpeg" alt="ABRAS" class="case-item-img" loading="lazy" />
+          <div class="case-item-overlay">
+            <h3 class="case-item-title">ABRAS Convenção</h3>
+          </div>
+        </div>
+
+        <!-- 5. ANBIMA -->
+        <div class="case-item case-item--video" data-cat="captacao-live" data-title="ANBIMA" data-client="ANBIMA"
+          data-location="Grand Hyatt, SP" data-tag="Captação"
+          data-desc="Desenvolvemos os conteúdos audiovisuais utilizados ao longo da programação e realizamos a operação da transmissão simultânea do evento, garantindo consistência visual, sincronismo e qualidade técnica em toda a experiência."
+          data-techs="Vinhetas de abertura, Vinhetas de identificação dos palestrantes, Conteúdo para programação, Transmissão simultânea, Operação audiovisual, Coordenação técnica, Gerenciamento da transmissão."
+          data-vimeo-id="1204604953" data-vimeo-hash="0e727372bb">
+          <img src="assets/SEÇÃO AUDIOVISUAL/ANBIMA/WhatsApp Image 2025-12-19 at 13.55.06 (1).jpeg" alt="ANBIMA"
+            class="case-item-img" loading="lazy" />
+          <div class="case-video-container">
+            <iframe class="case-item-video" data-vimeo-id="1204604953" data-vimeo-hash="0e727372bb" frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="ANBIMA"></iframe>
+          </div>
+          <div class="case-item-overlay">
+            <h3 class="case-item-title">ANBIMA</h3>
+          </div>
+        </div>
+
+        <!-- 6. Beauty Fair Bauny -->
+        <div class="case-item case-item--large case-item--video" data-cat="motion-3d-design"
+          data-title="Beauty Fair Bauny" data-client="Bauny" data-location="São Paulo, SP" data-tag="Feira"
+          data-desc="Conteúdo 3D anamórfico criado para transformar o lançamento de produtos em uma experiência visual de alto impacto. Para a Bauny, a RSTCOM desenvolveu conteúdos especialmente pensados para painéis de LED, explorando recursos de motion graphics, modelagem e animação 3D para criar a sensação de profundidade e movimento. A linguagem anamórfica ampliou a presença dos produtos nas telas e transformou o conteúdo em um ponto de atenção para a marca durante a Beauty Fair."
+          data-techs="Conceito e desenvolvimento visual, Motion Graphics, Modelagem 3D, Animação 3D, Conteúdo anamórfico, Desenvolvimento de conteúdo para painéis de LED, Adaptação ao formato e perspectiva das telas, Finalização audiovisual."
+          data-vimeo-id="1204613874">
+          <img src="assets/SEÇÃO PRINCIPAIS CASES/BEAUTY FAIR BAUNY/rs=w_1280,h_693.webp" alt="Beauty Fair Bauny"
+            class="case-item-img case-item-img-bauny" loading="lazy" />
+          <div class="case-video-container">
+            <iframe class="case-item-video" data-vimeo-id="1204613874" frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="Beauty Fair Bauny"></iframe>
+          </div>
+          <div class="case-item-overlay">
+            <h3 class="case-item-title">Beauty Fair Bauny</h3>
+          </div>
+        </div>
+
+        <!-- 7. Besponsa Pfizer -->
+        <div class="case-item case-item--video" data-cat="tecnologia-interatividade" data-title="Besponsa Pfizer"
+          data-client="Pfizer" data-location="São Paulo, SP" data-tag="Tecnologia"
+          data-desc="Desenvolvemos uma experiência interativa em tela touch, inspirada na dinâmica de um jogo de tabuleiro, para apresentar de forma lúdica e visual a jornada do paciente.
+A cada etapa selecionada, novos conteúdos eram apresentados, permitindo ao participante explorar diferentes informações e se aprofundar na jornada."
+          data-techs="Tela touch interativa, Experiência inspirada em jogo de tabuleiro, Conteúdo personalizado, Navegação por etapas da jornada do paciente, Realidade mista."
+          data-vimeo-id="497299264">
+          <img src="assets/SEÇÃO PRINCIPAIS CASES/BESPONSA PFIZER/CAPA.webp" alt="Besponsa Pfizer" class="case-item-img"
+            loading="lazy" />
+          <div class="case-video-container">
+            <iframe class="case-item-video" data-vimeo-id="497299264" frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="Besponsa Pfizer"></iframe>
+          </div>
+          <div class="case-item-overlay">
+            <h3 class="case-item-title">Besponsa Pfizer</h3>
+          </div>
+        </div>
+
+        <!-- 8. Broncho-Vaxon Takeda -->
+        <div class="case-item case-item--video" data-cat="tecnologia-interatividade" data-title="Broncho-Vaxon Takeda"
+          data-client="Takeda" data-location="São Paulo, SP" data-tag="Tecnologia"
+          data-desc="Experiência em mesa touch criada para transformar conteúdo em uma jornada interativa e intuitiva.
+No foyer do evento, a tela interativa chamava a atenção das pessoas e os provocada a colocar um objeto sobre a tela.
+Ao colocar o mouse interativo sobre a tela, um menu aparecia permitindo à pessoa escolher o conteúdo girando o mouse. Em cada tela a interatividade da tela touch tornava a experiência ainda mais interessante."
+          data-techs="Mesa touch interativa, Desenvolvimento da interface, Programação da experiência, Conteúdos digitais personalizados, Navegação interativa."
+          data-vimeo-id="497299576" data-vimeo-hash="a7453d5fcd">
+          <img src="assets/SEÇÃO PRINCIPAIS CASES/TAKEDA BRONCHO-VAXON/CAPA.webp" alt="Broncho-Vaxon Takeda"
+            class="case-item-img" loading="lazy" />
+          <div class="case-video-container">
+            <iframe class="case-item-video" data-vimeo-id="497299576" data-vimeo-hash="a7453d5fcd" frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture" style="border:none;"
+              title="Broncho-Vaxon Takeda"></iframe>
+          </div>
+          <div class="case-item-overlay">
+            <h3 class="case-item-title">Broncho-Vaxon Takeda</h3>
+          </div>
+        </div>
+
+        <!-- 9. CBGO 2026 -->
+        <div class="case-item case-item--video" data-cat="feiras-experiencias" data-title="CBGO 2026" data-client="CBGO"
+          data-location="Minas Gerais, MG" data-tag="Feira"
+          data-desc="Para a participação da Libbs no CBGO 2026, desenvolvemos uma experiência imersiva para transformar o estande em um espaço de conteúdo, interação e aprendizado. A proposta integrou tecnologia, Inteligência Artificial e conteúdo científico em diferentes pontos da jornada do visitante.
+Também fomos responsáveis pela comunicação visual e institucional do espaço, além do desenvolvimento de conteúdos para painel curvo, experiências com RFID e três MetaHumans, criando uma presença mais dinâmica e conectada para a marca durante o congresso."
+          data-techs="Inteligência Artificial, RFID, 3 MetaHumans, Conteúdo audiovisual, Conteúdo para painel curvo, Comunicação visual e institucional, Experiência imersiva, Jornada interativa."
+          data-vimeo-id="1204618351" data-vimeo-hash="b957346352">
+          <img src="assets/SEÇÃO PRINCIPAIS CASES/CBGO 2026/capa.jpeg" alt="CBGO 2026" class="case-item-img"
+            loading="lazy" />
+          <div class="case-video-container">
+            <iframe class="case-item-video" data-vimeo-id="1204618351" data-vimeo-hash="b957346352" frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="CBGO 2026"></iframe>
+          </div>
+          <div class="case-item-overlay">
+            <h3 class="case-item-title">CBGO 2026</h3>
+          </div>
+        </div>
+
+        <!-- 10. Convenção Carrefour -->
+        <div class="case-item case-item--large case-item--video" data-cat="conteudo-audiovisual"
+          data-title="Convenção Carrefour" data-client="Carrefour" data-date="2023" data-location="São Paulo, SP"
+          data-tag="Convenção"
+          data-desc="Na Convenção ONE Carrefour, a RSTcom esteve à frente da criação e idealização de todas as ideias para a frente de palco, transformando o espaço com conceitos inovadores e visualmente impactantes."
+          data-challenge="Proporcionar uma experiência audiovisual imersiva e integrada para um grande número de participantes, mantendo o dinamismo e a sincronização perfeita entre apresentadores presenciais e exibições virtuais."
+          data-techs="Cenografia, Conteúdo Audiovisual, Highlights" data-vimeo-id="1204614142">
+          <img src="assets/SEÇÃO PRINCIPAIS CASES/CONVENÇÃO CARREFOUR/rs=w_1240,h_620,cg_true (1).webp"
+            alt="Convenção Carrefour" class="case-item-img" loading="lazy" />
+          <div class="case-video-container">
+            <iframe class="case-item-video" data-vimeo-id="1204614142" frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture" style="border:none;"
+              title="Convenção Carrefour"></iframe>
+          </div>
+          <div class="case-item-overlay">
+            <h3 class="case-item-title">Convenção Carrefour</h3>
+          </div>
+        </div>
+
+        <!-- 11. Convenção Honda -->
+        <div class="case-item case-item--large case-item--video" data-cat="conteudo-audiovisual"
+          data-title="Convenção Honda" data-client="Honda" data-date="2021" data-location="São Paulo, SP"
+          data-tag="Convenção, Audiovisual"
+          data-desc="Para o lançamento de oito novos modelos Honda, desenvolvemos toda a frente de conteúdo da convenção, incluindo apresentações, vinhetas e vídeos exclusivos para revelar cada novidade ao público. Os conteúdos foram
+criados para trabalhar de forma integrada à projeção panorâmica e à dinâmica do palco.
+A experiência ganhou ainda mais impacto com áudio 5.1 surround, iluminação, lasers e pulseiras de LED sincronizadas. Também desenvolvemos o aplicativo do evento, reunindo agenda, mapa do hotel e informações importantes para acompanhar toda a programação."
+          data-techs="Vídeos de lançamento, vinhetas e conteúdos audiovisuais, apresentações, projeção panorâmica, audio5.1 surround, luzes e lasers sincronizadps, pulseiras de LED, aplicativo de evento, processamento de vídeo/resolume arena."
+          data-vimeo-id="1204616447">
+          <img src="assets/SEÇÃO PRINCIPAIS CASES/CONVENÇÃO HONDA/rs=w_1240,h_620,cg_true.webp" alt="Convenção Honda"
+            class="case-item-img" loading="lazy" />
+          <div class="case-video-container">
+            <iframe class="case-item-video" data-vimeo-id="1204616447" frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="Convenção Honda"></iframe>
+          </div>
+          <div class="case-item-overlay">
+            <h3 class="case-item-title">Convenção Honda</h3>
+          </div>
+        </div>
+
+        <!-- 12. Convenção PepsiCo -->
+        <div class="case-item case-item--large case-item--video" data-cat="conteudo-audiovisual"
+          data-title="Convenção PepsiCo" data-client="PepsiCo" data-location="São Paulo, SP" data-tag="Convenção"
+          data-desc="A Convenção PepsiCo reuniu colaboradores e lideranças de todo o Brasil para um momento de alinhamento estratégico, integração e celebração. Desenvolvida para fortalecer a cultura da empresa e apresentar os objetivos para o próximo ciclo, a convenção combinou conteúdo, experiências e momentos de relacionamento em uma jornada envolvente para todos os participantes. A RSTCOM foi responsável pelo desenvolvimento dos conteúdos audiovisuais e das experiências que deram vida ao evento, contribuindo para uma comunicação dinâmica e uma experiência memorável."
+          data-challenge="O desafio era transformar os principais momentos da convenção em uma experiência impactante, capaz de engajar os participantes e reforçar as mensagens estratégicas da marca. Para isso, a RSTCOM desenvolveu uma solução integrada, unindo cenografia, conteúdos audiovisuais e ativações interativas para criar uma jornada envolvente, conectando tecnologia, criatividade e experiência em cada etapa do evento."
+          data-techs="Vinhetas, Conteúdo para plenária, Conteúdo audiovisual, Ativações interativas, Jornada do participante, Cenografia, Planejamento de conteúdo, Coordenação audiovisual"
+          data-vimeo-id="990673241">
+          <img src="assets/SEÇÃO PRINCIPAIS CASES/CONVENÇÃO PEPSICO/rs=w_1280_1.webp" alt="Convenção PepsiCo"
+            class="case-item-img" loading="lazy" />
+          <div class="case-video-container">
+            <iframe class="case-item-video" data-vimeo-id="990673241" frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="Convenção PepsiCo"></iframe>
+          </div>
+          <div class="case-item-overlay">
+            <h3 class="case-item-title">Convenção PepsiCo</h3>
+          </div>
+        </div>
+
+        <!-- 13. D2C SUMMIT -->
+        <div class="case-item case-item--large case-item--video" data-cat="captacao-live" data-title="D2C SUMMIT"
           data-client="Nuvemshop" data-location="VIBRA São Paulo, SP" data-tag="Captação, Corporativo & B2B"
           data-desc="Realizamos a produção e operação audiovisual ao vivo do D2C Summit, integrando diferentes formatos de conteúdo em uma mesma operação.
 A entrega envolveu podcasts ao vivo, cobertura das palestras, captação multicâmera, direção de imagem, gerenciamento dos conteúdos e transmissão simultânea, garantindo uma experiência integrada para o público presencial e online."
@@ -230,31 +484,70 @@ A entrega envolveu podcasts ao vivo, cobertura das palestras, captação multic�
               allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="D2C SUMMIT"></iframe>
           </div>
           <div class="case-item-overlay">
-            <span class="case-item-tag">Captação, Corporativo & B2B</span>
             <h3 class="case-item-title">D2C SUMMIT</h3>
           </div>
         </div>
 
-        <!-- 2. ANBIMA (Video Case) -->
-        <div class="case-item case-item--video" data-cat="captacao" data-title="ANBIMA" data-client="ANBIMA"
-          data-location="Grand Hyatt, SP" data-tag="Captação"
-          data-desc="Desenvolvemos os conteúdos audiovisuais utilizados ao longo da programação e realizamos a operação da transmissão simultânea do evento, garantindo consistência visual, sincronismo e qualidade técnica em toda a experiência."
-          data-techs="Vinhetas de abertura, Vinhetas de identificação dos palestrantes, Conteúdo para programação, Transmissão simultânea, Operação audiovisual, Coordenação técnica, Gerenciamento da transmissão."
-          data-vimeo-id="1204604953" data-vimeo-hash="0e727372bb">
-          <img src="assets/SEÇÃO AUDIOVISUAL/ANBIMA/WhatsApp Image 2025-12-19 at 13.55.06 (1).jpeg" alt="ANBIMA"
-            class="case-item-img" loading="lazy" />
-          <div class="case-video-container">
-            <iframe class="case-item-video" data-vimeo-id="1204604953" data-vimeo-hash="0e727372bb" frameborder="0"
-              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="ANBIMA"></iframe>
-          </div>
+        <!-- 14. DFM | QUIZ INTERATIVO -->
+        <div class="case-item case-item--large case-item--video" data-cat="tecnologia-interatividade"
+          data-title="DFM | QUIZ INTERATIVO" data-client="DFM (Dongfeng)" data-location="Festival Interlagos 2026, SP"
+          data-tag="Quiz Interativo, Tecnologia & Experiência"
+          data-desc="Durante o Festival Interlagos 2026, a Dongfeng realizou sua estreia no mercado brasileiro, apresentando a marca e seus modelos ao público.
+          
+          O QUE FIZEMOS: 
+Desenvolvemos um quiz interativo para conectar o visitante aos modelos da Dongfeng de forma leve e personalizada. A partir das respostas, a experiência direcionava o participante ao veículo mais alinhado ao seu perfil."
+          data-techs="Desenvolvimento do quiz interativo, Interface personalizada com a identidade Dongfeng, Jornada de perguntas e respostas, Associação do perfil aos modelos da marca, Captação de dados integrada à experiência, Interface personalizada com a identidade Dongfeng"
+          data-vimeo-id="1226663868" data-game-url="https://dongfengprojeto-testeantigravityfig.vercel.app/"><a
+            href="https://dongfengprojeto-testeantigravityfig.vercel.app/" target="_blank" rel="noopener noreferrer"
+            class="case-card-game-link" onclick="event.stopPropagation()">🎮 Testar Game</a><img
+            src="assets/SEÇÃO PRINCIPAIS CASES/DFM/capa para case.png" alt="DFM | QUIZ INTERATIVO" class="case-item-img"
+            loading="lazy" />
+          <div class="case-video-container"><iframe class="case-item-video" data-vimeo-id="1226663868" frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture" style="border:none;"
+              title="DFM Quiz Interativo"></iframe></div>
           <div class="case-item-overlay">
-            <span class="case-item-tag">Captação</span>
-            <h3 class="case-item-title">ANBIMA</h3>
+            <h3 class="case-item-title">DFM | QUIZ INTERATIVO</h3>
           </div>
         </div>
 
-        <!-- 3. ERNEST YOUNG (Video Case) -->
-        <div class="case-item case-item--video" data-cat="captacao b2b" data-title="ERNEST YOUNG"
+        <!-- 15. doTERRA -->
+        <div class="case-item case-item--video" data-cat="feiras-experiencias" data-title="doTERRA"
+          data-client="doTERRA" data-location="São Paulo, SP" data-tag="Convenção, Audiovisual"
+          data-desc="O Leadership doTERRA é um dos principais encontros da marca, reunindo líderes, consultores e convidados para uma programação de palestras, treinamentos, reconhecimentos e celebrações. A RSTCOM foi responsável pela operação completa de captação audiovisual, transmissão e produção de conteúdo, garantindo uma cobertura dinâmica e de alta qualidade durante todos os momentos do evento."
+          data-challenge="O desafio era registrar toda a programação com agilidade e precisão, acompanhando diferentes ambientes e momentos do evento sem perder a qualidade técnica da transmissão e da produção de conteúdo. Para isso, a RSTCOM estruturou uma operação multicâmera com mais de dez câmeras, utilizando equipamentos de movimentação e transmissão para ampliar as possibilidades de cobertura. Além da captação e transmissão ao vivo, a equipe produziu conteúdos em tempo real para redes sociais e desenvolveu o vídeo highlight oficial do evento, registrando os principais momentos da programação e da cerimônia de reconhecimento."
+          data-techs="Captação multicâmera, Transmissão ao vivo, Direção de imagem, Operação de transmissão, Produção de conteúdo em tempo real, Conteúdo para redes sociais, Vídeo Highlight, Coordenação técnica, Operação audiovisual, Planejamento da cobertura"
+          data-vimeo-id="1204617616">
+          <img src="assets/SEÇÃO PRINCIPAIS CASES/LEADERSHIP doTERRA/rs=w_1240,h_620,cg_true,m.webp"
+            alt="Leadership doTERRA" class="case-item-img" loading="lazy" />
+          <div class="case-video-container">
+            <iframe class="case-item-video" data-vimeo-id="1204617616" frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="Leadership doTERRA"></iframe>
+          </div>
+          <div class="case-item-overlay">
+            <h3 class="case-item-title">Leadership doTERRA</h3>
+          </div>
+        </div>
+
+        <!-- 16. Elmex Colgate -->
+        <div class="case-item case-item--video" data-cat="motion-3d-design" data-title="Elmex Colgate"
+          data-client="Colgate" data-location="São Paulo, SP" data-tag="Convenção, Audiovisual"
+          data-desc="Para o lançamento da Elmex no Brasil, desenvolvemos uma experiência audiovisual em projection mapping, transformando a fachada do Museu da Casa Brasileira em parte da narrativa do evento.
+Criamos o conteúdo visual, motion graphics e storytelling da apresentação, utilizando a própria arquitetura como elemento central para gerar impacto e apresentar a marca de forma imersiva."
+          data-techs="Projection Mapping, Conteúdo audiovisual, Motion Graphics, Storytelling visual, Conteúdo para fachada arquitetônica, Coordenação técnica, Operação de projeção."
+          data-vimeo-id="1204616236">
+          <img src="assets/SEÇÃO PRINCIPAIS CASES/ELMEX COLGATE/cr=w_1240,h_620.webp" alt="Elmex Colgate"
+            class="case-item-img" loading="lazy" />
+          <div class="case-video-container">
+            <iframe class="case-item-video" data-vimeo-id="1204616236" frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="Elmex Colgate"></iframe>
+          </div>
+          <div class="case-item-overlay">
+            <h3 class="case-item-title">Elmex Colgate</h3>
+          </div>
+        </div>
+
+        <!-- 17. ERNEST YOUNG -->
+        <div class="case-item case-item--video" data-cat="captacao-live" data-title="ERNEST YOUNG"
           data-client="EY (Ernest & Young)" data-location="WTC Golden Hall, SP" data-tag="Captação, Corporativo"
           data-desc="Realizamos a captação audiovisual multicâmera da cerimônia Empreendedor do Ano, registrando apresentações, premiações e os principais momentos do evento com diferentes enquadramentos e linguagem dinâmica.
 A operação foi pensada para gerar um material completo, com qualidade técnica e potencial de uso em comunicação institucional e conteúdos pósevento."
@@ -267,50 +560,292 @@ A operação foi pensada para gerar um material completo, com qualidade técnica
               allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="ERNEST YOUNG"></iframe>
           </div>
           <div class="case-item-overlay">
-            <span class="case-item-tag">Captação, Corporativo</span>
             <h3 class="case-item-title">ERNEST YOUNG</h3>
           </div>
         </div>
 
-        <!-- 5. Beauty Fair Bauny -->
-        <div class="case-item case-item--large case-item--video" data-cat="fair" data-title="Beauty Fair Bauny"
-          data-client="Bauny" data-location="São Paulo, SP" data-tag="Feira"
-          data-desc="Conteúdo 3D anamórfico criado para transformar o lançamento de produtos em uma experiência visual de alto impacto. Para a Bauny, a RSTCOM desenvolveu conteúdos especialmente pensados para painéis de LED, explorando recursos de motion graphics, modelagem e animação 3D para criar a sensação de profundidade e movimento. A linguagem anamórfica ampliou a presença dos produtos nas telas e transformou o conteúdo em um ponto de atenção para a marca durante a Beauty Fair."
-          data-techs="Conceito e desenvolvimento visual, Motion Graphics, Modelagem 3D, Animação 3D, Conteúdo anamórfico, Desenvolvimento de conteúdo para painéis de LED, Adaptação ao formato e perspectiva das telas, Finalização audiovisual."
-          data-vimeo-id="1204613874">
-          <img src="assets/SEÇÃO PRINCIPAIS CASES/BEAUTY FAIR BAUNY/rs=w_1280,h_693.webp" alt="Beauty Fair Bauny"
-            class="case-item-img case-item-img-bauny" loading="lazy" />
+        <!-- 18. Estácio Rock in Rio -->
+        <div class="case-item case-item--video" data-cat="tecnologia-interatividade" data-title="Estácio Rock in Rio"
+          data-client="Estácio" data-location="Rio de Janeiro, RJ" data-tag="Tecnologia, Audiovisual"
+          data-desc="Conteúdo, tecnologia e audiovisual integrados para criar uma zona de experiência dentro de um dos maiores festivais de música do mundo. Para aproximar a Estácio do público do Rock in Rio, a RSTCOM desenvolveu uma experiência audiovisual interativa que combinou conteúdo digital, motion graphics, LED e sonorização, transformando o espaço da marca em um ponto de interação e conexão com os visitantes.
+Um dos desafios do projeto foi desenvolver uma solução capaz de gerar impacto dentro da dinâmica de um festival, considerando o intenso fluxo de pessoas e o alto nível de interferência sonora do ambiente. Para isso, conteúdo e estrutura audiovisual foram pensados de forma integrada."
+          data-techs="Desenvolvimento da experiência audiovisual, Conteúdo digital interativo, Motion Graphics, Estrutura modular de LED, Integração audiovisual, Sonorização da área, Sincronização de conteúdo e sistemas, Operação de tecnologia."
+          data-vimeo-id="1204615839">
+          <img src="assets/SEÇÃO PRINCIPAIS CASES/ESTACIO ROCK IN RIO/rs=w_403,h_821.webp" alt="Estácio Rock in Rio"
+            class="case-item-img" loading="lazy" />
           <div class="case-video-container">
-            <iframe class="case-item-video" data-vimeo-id="1204613874" frameborder="0"
-              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="Beauty Fair Bauny"></iframe>
-          </div>
-          <div class="case-item-overlay">
-            <span class="case-item-tag">Feira</span>
-            <h3 class="case-item-title">Beauty Fair Bauny</h3>
-          </div>
-        </div>
-
-        <!-- 6. Convenção Carrefour -->
-        <div class="case-item case-item--large case-item--video" data-cat="convencao" data-title="Convenção Carrefour"
-          data-client="Carrefour" data-date="2023" data-location="São Paulo, SP" data-tag="Convenção"
-          data-desc="Na Convenção ONE Carrefour, a RSTcom esteve à frente da criação e idealização de todas as ideias para a frente de palco, transformando o espaço com conceitos inovadores e visualmente impactantes."
-          data-challenge="Proporcionar uma experiência audiovisual imersiva e integrada para um grande número de participantes, mantendo o dinamismo e a sincronização perfeita entre apresentadores presenciais e exibições virtuais."
-          data-techs="Cenografia, Conteúdo Audiovisual, Highlights" data-vimeo-id="1204614142">
-          <img src="assets/SEÇÃO PRINCIPAIS CASES/CONVENÇÃO CARREFOUR/rs=w_1240,h_620,cg_true (1).webp"
-            alt="Convenção Carrefour" class="case-item-img" loading="lazy" />
-          <div class="case-video-container">
-            <iframe class="case-item-video" data-vimeo-id="1204614142" frameborder="0"
+            <iframe class="case-item-video" data-vimeo-id="1204615839" frameborder="0"
               allow="autoplay; fullscreen; picture-in-picture" style="border:none;"
-              title="Convenção Carrefour"></iframe>
+              title="Estácio Rock in Rio"></iframe>
           </div>
           <div class="case-item-overlay">
-            <span class="case-item-tag">Convenção</span>
-            <h3 class="case-item-title">Convenção Carrefour</h3>
+            <h3 class="case-item-title">Estácio Rock in Rio</h3>
           </div>
         </div>
 
-        <!-- 6.1. Masterclass Tebentafuspe Medison -->
-        <div class="case-item case-item--video" data-cat="Evento Coporativo" data-title="Medison Pharma"
+        <!-- 19. FEICON 2025 -->
+        <div class="case-item" data-cat="feiras-experiencias" data-title="FEICON 2025" data-client="FEICON"
+          data-date="2025" data-location="São Paulo, SP" data-tag="Feira"
+          data-desc="Para a FEICON 2025, desenvolvemos uma série de experiências para estandes, combinando tecnologia, conteúdo e ambientação para criar espaços mais interativos e impactantes ao longo da feira.
+A entrega envolveu soluções como telas de LED interativas, projeções mapeadas, painéis touch screen, iluminação programada e estruturas modulares, integradas para manter a operação contínua e reforçar a presença das marcas no evento."
+          data-techs="Telas de LED interativas, Projeções mapeadas, Painéis touch screen, Iluminação programada, Estruturas modulares, Experiências imersivas, Operação integrada">
+          <img src="assets/SEÇÃO PRINCIPAIS CASES/FEICON 2025/CAPA.jpg" alt="FEICON 2025" class="case-item-img"
+            loading="lazy" />
+          <div class="case-item-overlay">
+            <h3 class="case-item-title">FEICON 2025</h3>
+          </div>
+        </div>
+
+        <!-- 20. FEICON 2026 -->
+        <div class="case-item case-item--video" data-cat="feiras-experiencias" data-title="FEICON 2026"
+          data-client="Suvinil & Sherwin-Williams" data-location="São Paulo, SP" data-tag="Feira"
+          data-desc="Para a participação da Suvinil e da Sherwin-Williams na FEICON, desenvolvemos experiências interativas e conteúdos pensados para aproximar o público das marcas e valorizar seus produtos de forma mais envolvente.
+A entrega reuniu Inteligência Artificial, Photo Opportunity, experiências interativas, conteúdo para LED e comunicação visual, criando uma presença mais dinâmica e conectada durante toda a feira."
+          data-techs="Inteligência Artificial, Conteúdo para LED, Experiências interativas, Photo Opportunity, Comunicação visual, Experiência de marca."
+          data-vimeo-id="1204618523">
+          <img src="assets/SEÇÃO PRINCIPAIS CASES/FEICON 2026/RIVA1195.jpg" alt="FEICON 2026" class="case-item-img"
+            loading="lazy" />
+          <div class="case-video-container">
+            <iframe class="case-item-video" data-vimeo-id="1204618523" frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="FEICON 2026"></iframe>
+          </div>
+          <div class="case-item-overlay">
+            <h3 class="case-item-title">FEICON 2026</h3>
+          </div>
+        </div>
+
+        <!-- 21. FINCLASS - REALIDADE AUMENTADA + HOLOGRAFIA -->
+        <div class="case-item case-item--video" data-cat="tecnologia-interatividade"
+          data-title="FINCLASS - REALIDADE AUMENTADA + HOLOGRAFIA" data-client="Finclass (Grupo Primo)"
+          data-location="São Paulo, SP" data-tag="Realidade Aumentada & Holografia"
+          data-desc="Tecnologia integrada ao conteúdo para transformar uma transmissão em uma experiência digital imersiva. No lançamento da Finclass, a RSTCOM combinou cenário digital em realidade aumentada, holografia, conteúdo audiovisual e transmissão ao vivo para criar uma linguagem visual mais dinâmica e inovadora.
+Além da tecnologia aplicada à cena, o projeto envolveu roteirização, gravação e operação de transmissão, conectando conteúdo e recursos digitais em uma única experiência."
+          data-techs="Roteirização, Gravação, Transmissão ao vivo, Cenário digital em realidade aumentada, Holografia, Conteúdo audiovisual, Integração de tecnologia à transmissão"
+          data-vimeo-id="1022539833"><img src="assets/cases-thumbs/1022539833.jpg"
+            alt="FINCLASS - REALIDADE AUMENTADA + HOLOGRAFIA" class="case-item-img" loading="lazy" />
+          <div class="case-video-container"><iframe class="case-item-video" data-vimeo-id="1022539833" frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture" style="border:none;"
+              title="Finclass Realidade Aumentada e Holografia"></iframe></div>
+          <div class="case-item-overlay">
+            <h3 class="case-item-title">FINCLASS - REALIDADE AUMENTADA + HOLOGRAFIA</h3>
+          </div>
+        </div>
+
+        <!-- 22. Fleet Safety VR -->
+        <div class="case-item case-item--video" data-cat="tecnologia-interatividade" data-title="Fleet Safety VR"
+          data-client="Pfizer" data-location="São Paulo, SP" data-tag="Tecnologia, Audiovisual"
+          data-desc="O objetivo era conscientizar a força de vendas para respeito às leis de trânsito e reduzir acidentes. Através de um jogo em realidade virtual o expectador tinha que percorrer um percurso similar ao de sua rotina e respeitar às leis de trânsito para não perder pontos."
+          data-challenge="Ao final era surpreendido com uma mensagem do presidente da Pfizer a respeito do assunto."
+          data-techs="Realidade vistual, HTC Vive" data-vimeo-id="497299667">
+          <img src="assets/SEÇÃO PRINCIPAIS CASES/FLEET SAFETY VR PFIZER/CAPA.webp" alt="Fleet Safety VR"
+            class="case-item-img" loading="lazy" />
+          <div class="case-video-container">
+            <iframe class="case-item-video" data-vimeo-id="497299667" frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="Fleet Safety VR"></iframe>
+          </div>
+          <div class="case-item-overlay">
+            <h3 class="case-item-title">Fleet Safety VR</h3>
+          </div>
+        </div>
+
+        <!-- 23. GRUPO SC -->
+        <div class="case-item case-item--video case-item--large" data-cat="conteudo-audiovisual" data-title="GRUPO SC"
+          data-client="Grupo SC" data-location="Tauá, SP" data-tag="Convenção, Audiovisual"
+          data-desc="Uma parceria recorrente para transformar os principais momentos do evento em conteúdo audiovisual de impacto.
+A RSTCOM já realiza esse tipo de entrega para o Grupo Santa Cruz há diferentes edições do Protop, acompanhando a evolução do evento e mantendo uma operação audiovisual ágil e integrada.
+Durante o primeiro dia, realizamos a captação dos principais momentos da premiação e, na sequência, fazemos a edição e finalização do highlight, com entrega pronta para exibição já no segundo dia do evento."
+          data-techs="Captação audiovisual, cobertura dos principais momentos, edição expressa, finalização do highlight, entrega em curto prazo durante o evento, transmissã simultanea"
+          data-vimeo-id="1204619503">
+          <img src="assets/SEÇÃO PRINCIPAIS CASES/GRUPO SC/capa.jpg" alt="GRUPO SC" class="case-item-img"
+            loading="lazy" />
+          <div class="case-video-container">
+            <iframe class="case-item-video" data-vimeo-id="1204619503" frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="GRUPO SC"></iframe>
+          </div>
+          <div class="case-item-overlay">
+            <h3 class="case-item-title">GRUPO SC</h3>
+          </div>
+        </div>
+
+        <!-- 24. GRUPO SC - DOCUMENTÁRIO 70 ANOS -->
+        <div class="case-item case-item--video case-item--large" data-cat="conteudo-audiovisual"
+          data-title="GRUPO SC - DOCUMENTÁRIO 70 ANOS" data-client="Grupo SC" data-location="São Paulo, SP"
+          data-tag="Documentário & Conteúdo Audiovisual"
+          data-desc="Para celebrar os 70 anos do Grupo SC, a RSTCOM realizou a produção completa de um documentário de até 40 minutos, construindo uma narrativa capaz de registrar a trajetória, as pessoas e os momentos que fazem parte da história do grupo. O projeto envolveu todas as etapas da produção audiovisual, da criação do roteiro e direção à realização das entrevistas, captação de imagens, direção de fotografia, edição, motion graphics, desenho de som e finalização. Além do documentário principal, desenvolvemos uma versão especial com os melhores momentos, adaptada ao pixelmap da supertela do PROTOP, levando o conteúdo para uma nova escala dentro da experiência do evento."
+          data-techs="Conceito e roteiro, Direção geral, Direção de fotografia, Produção e captação de entrevistas, Captação multicâmera, Imagens institucionais e complementares, Edição e pós-produção, Motion graphics, letterings e infográficos, Locução e produção de áudio"
+          data-vimeo-id="1220325222" data-vimeo-hash="eee20051e3"><img
+            src="assets/SEÇÃO PRINCIPAIS CASES/GRUPO SC - DOCUMENTÁRIO 70 ANOS/image.png"
+            alt="GRUPO SC - DOCUMENTÁRIO 70 ANOS" class="case-item-img" loading="lazy" />
+          <div class="case-video-container"><iframe class="case-item-video" data-vimeo-id="1220325222"
+              data-vimeo-hash="eee20051e3" frameborder="0" allow="autoplay; fullscreen; picture-in-picture"
+              style="border:none;" title="CASE_DOC 70 ANOS GRUPO SC"></iframe></div>
+          <div class="case-item-overlay">
+            <h3 class="case-item-title">GRUPO SC - DOCUMENTÁRIO 70 ANOS</h3>
+          </div>
+        </div>
+
+        <!-- 25. HAUS DECOR 2025 -->
+        <div class="case-item case-item--video" data-cat="feiras-experiencias" data-title="HAUS DECOR 2025"
+          data-client="Sherwin-Williams" data-date="2025" data-location="São Paulo, SP" data-tag="Feira"
+          data-desc="Para a participação da Sherwin-Williams na Haus Decor 2025, desenvolvemos ativações e conteúdos para ampliar a presença da marca no estande e criar uma experiência mais envolvente para o público.
+A entrega combinou vinhetas, plataforma 360° , ativações interativas e conteúdos anamórficos, complementando a ação com a Jaguar Parade e criando diferentes pontos de contato entre marca, arte, tecnologia e experiência."
+          data-techs="Vinhetas, Plataforma 360°, Ativações interativas, Conteúdos anamórficos, Conteúdo audiovisual, Experiência de marca."
+          data-vimeo-id="1204618851">
+          <img src="assets/SEÇÃO PRINCIPAIS CASES/HAUS DECOR 2025/DSC08895.jpg" alt="HAUS DECOR 2025"
+            class="case-item-img" loading="lazy" />
+          <div class="case-video-container">
+            <iframe class="case-item-video" data-vimeo-id="1204618851" frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="HAUS DECOR 2025"></iframe>
+          </div>
+          <div class="case-item-overlay">
+            <h3 class="case-item-title">HAUS DECOR 2025</h3>
+          </div>
+        </div>
+
+        <!-- 26. HAUS DECOR 2026 -->
+        <div class="case-item" data-cat="feiras-experiencias" data-title="HAUS DECOR 2026"
+          data-client="Suvinil & Sherwin-Williams" data-location="São Paulo Expo - São Paulo, SP" data-tag="Feira"
+          data-desc="Para a participação da Suvinil e da Sherwin-Williams na Haus Decor 2026, desenvolvemos uma experiência interativa com Inteligência Artificial que transformava os visitantes em personagens ilustrados inspirados no universo das cores.
+A jornada começava com a captação de leads, seguia pela escolha da paleta de cores e registro da foto, e terminava com a criação de uma ilustração personalizada enviada automaticamente por e-mail, conectando tecnologia, personalização e experiência de marca."
+          data-techs="Inteligência Artificial, Photo Opportunity interativo, Transformação de fotos em ilustrações personalizadas, Captação de leads, Envio automático por e-mail, Experiência personalizada, Desenvolvimento da identidade da ativação">
+          <img src="assets/SEÇÃO PRINCIPAIS CASES/HAUS DECOR 2026/0E0A2943.jpg" alt="HAUS DECOR 2026"
+            class="case-item-img" loading="lazy" />
+          <div class="case-item-overlay">
+            <h3 class="case-item-title">HAUS DECOR 2026</h3>
+          </div>
+        </div>
+
+        <!-- 27. INSTITUTO UNIBANCO - LIVE -->
+        <div class="case-item case-item--video" data-cat="captacao-live" data-title="INSTITUTO UNIBANCO - LIVE"
+          data-client="Instituto Unibanco" data-location="São Paulo, SP" data-tag="Produção & Transmissão ao Vivo"
+          data-desc="Realizamos a produção e transmissão ao vivo do encontro do Instituto Unibanco, integrando operação audiovisual, organização dos conteúdos e suporte técnico para garantir uma experiência digital fluida e consistente. Além da live, também apoiamos a preparação dos materiais de comunicação e o alinhamento das informações exibidas durante a transmissão."
+          data-techs="Produção de live, Transmissão ao vivo, Operação audiovisual, Organização de conteúdos, Coordenação técnica, Preparação de materiais de comunicação, Suporte à transmissão"
+          data-vimeo-id="1220325397"><img src="assets/cases-thumbs/1220325397.jpg" alt="INSTITUTO UNIBANCO - LIVE"
+            class="case-item-img" loading="lazy" />
+          <div class="case-video-container"><iframe class="case-item-video" data-vimeo-id="1220325397" frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture" style="border:none;"
+              title="Instituto Unibanco Live"></iframe></div>
+          <div class="case-item-overlay">
+            <h3 class="case-item-title">INSTITUTO UNIBANCO - LIVE</h3>
+          </div>
+        </div>
+
+        <!-- 28. KPMG - TOGETHER COM KRIECK -->
+        <div class="case-item case-item--video" data-cat="conteudo-audiovisual" data-title="KPMG - TOGETHER COM KRIECK"
+          data-client="KPMG" data-location="Escritório KPMG, SP" data-tag="Comunicação Interna & Videocast"
+          data-desc="A RSTCOM realizou a captação de um episódio do Together com Krieck diretamente no escritório da KPMG, com estrutura de câmeras, áudio e iluminação dedicada.
+Além da gravação, fomos responsáveis pela edição e finalização do episódio de até 30 minutos, incluindo aplicação de GCs, vinhetas e demais elementos gráficos, entregando o conteúdo finalizado para comunicação com o público interno."
+          data-techs="Produção audiovisual, Captação no escritório do cliente, Operação com 2 câmeras, Captação de áudio, Iluminação, Edição de episódio de até 30 minutos, Aplicação de GCs, Aplicação de vinhetas, Finalização em Full HD"
+          data-vimeo-id="1223408358"><img src="assets/cases-thumbs/1223408358.jpg" alt="KPMG - TOGETHER COM KRIECK"
+            class="case-item-img" loading="lazy" />
+          <div class="case-video-container"><iframe class="case-item-video" data-vimeo-id="1223408358" frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture" style="border:none;"
+              title="KPMG Together com Krieck"></iframe></div>
+          <div class="case-item-overlay">
+            <h3 class="case-item-title">KPMG - TOGETHER COM KRIECK</h3>
+          </div>
+        </div>
+
+        <!-- 29. KPMG COMEMORAÇÃO 110 ANOS -->
+        <div class="case-item case-item--video" data-cat="conteudo-audiovisual" data-title="KPMG COMEMORAÇÃO 110 ANOS"
+          data-client="KPMG" data-location="São Paulo, SP" data-tag="Vídeo-Memória & Storytelling"
+          data-desc="A RSTCOM desenvolveu o conceito e o roteiro do vídeo-memória de 110 anos da KPMG, construindo uma narrativa que conecta passado, presente e futuro da companhia.
+A produção reuniu depoimentos de profissionais ligados à trajetória da empresa, captação audiovisual e edição final, transformando mais de um século de história em um conteúdo institucional capaz de valorizar memória, legado e posicionamento de marca."
+          data-techs="Conceito criativo, Desenvolvimento de roteiro, Storytelling, Planejamento dos depoimentos, Captação das entrevistas, Produção audiovisual, Edição e pós-produção, Finalização do vídeo"
+          data-vimeo-id="1190550305"><img src="assets/cases-thumbs/1190550305.jpg" alt="KPMG COMEMORAÇÃO 110 ANOS"
+            class="case-item-img" loading="lazy" />
+          <div class="case-video-container"><iframe class="case-item-video" data-vimeo-id="1190550305" frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture" style="border:none;"
+              title="KPMG Comemoração 110 Anos"></iframe></div>
+          <div class="case-item-overlay">
+            <h3 class="case-item-title">KPMG COMEMORAÇÃO 110 ANOS</h3>
+          </div>
+        </div>
+
+        <!-- 30. Lançamento Sanofi -->
+        <div class="case-item case-item--video" data-cat="motion-3d-design" data-title="Lançamento Sanofi"
+          data-client="Sanofi" data-date="2025" data-location="São Paulo, SP" data-tag="B2B, Audiovisual"
+          data-desc="No Lançamento de Dupixent para a SANOFI no Congresso Nacional de Pneumologia, a RSTcom destacou-se ao transformar cada etapa do evento em uma experiência sensorial completa, oferecendo uma experiência inesquecível para todos."
+          data-challenge="A plenária foi pensada para conteúdos isométricos e anamórficos, trazendo mais interatividade com o público presente, transformando a experiência tradicional em uma jornada visual imersiva e envolvente."
+          data-techs="Planejamento, Criação, Execução, Cenografia, Conteúdos Isométricos, Conteúdos Anamórficos"
+          data-vimeo-id="1204617103">
+          <img src="assets/SEÇÃO PRINCIPAIS CASES/LANÇAMENTO DUPIXENT SANOFI/rs=w_1240,h_620,cg_true (1).webp"
+            alt="Lançamento Sanofi" class="case-item-img" loading="lazy" />
+          <div class="case-video-container">
+            <iframe class="case-item-video" data-vimeo-id="1204617103" frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="Lançamento Sanofi"></iframe>
+          </div>
+          <div class="case-item-overlay">
+            <h3 class="case-item-title">Lançamento Sanofi</h3>
+          </div>
+        </div>
+
+        <!-- 31. LIBBS - CBGO / NEXTELA - METAHUMANS -->
+        <div class="case-item case-item--video" data-cat="motion-3d-design"
+          data-title="LIBBS - CBGO / NEXTELA - METAHUMANS" data-client="Libbs Farmacêutica"
+          data-location="CBGO 2026, SP" data-tag="MetaHumans & Storytelling"
+          data-desc="Personagens digitais e interatividade para transformar conteúdo científico em uma jornada mais próxima e personalizada.
+Para a Libbs, a RSTCOM desenvolveu uma experiência que integrou MetaHumans, storytelling e interação física, criando três personagens digitais com diferentes perfis e narrativas.
+Cada personagem foi construída a partir de uma identidade própria cenário, figurino, personalidade, linguagem e conteúdo e era acionada conforme a interação do visitante com a instalação, conectando tecnologia e narrativa dentro de uma mesma experiência."
+          data-techs="Criação de 3 MetaHumans, Roteiro & Storytelling, Desenvolvimento de Personagens, Direção Visual, Interatividade, Interfaces gráficas, Integração Conteúdo + Instalação"
+          data-vimeo-id="1220325569"><img src="assets/cases-thumbs/1220325569.jpg"
+            alt="LIBBS - CBGO / NEXTELA - METAHUMANS" class="case-item-img" loading="lazy" />
+          <div class="case-video-container"><iframe class="case-item-video" data-vimeo-id="1220325569" frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture" style="border:none;"
+              title="Libbs CBGO Nextela MetaHumans"></iframe></div>
+          <div class="case-item-overlay">
+            <h3 class="case-item-title">LIBBS - CBGO / NEXTELA - METAHUMANS</h3>
+          </div>
+        </div>
+
+        <!-- 32. Libbs Brain -->
+        <div class="case-item" data-cat="tecnologia-interatividade" data-title="Libbs Brain" data-client="Libbs"
+          data-location="São Paulo, SP" data-tag="Feiras, Tecnologia" data-desc="Para apresentar os diferenciais de Aymee®, desenvolvemos uma jornada digital e imersiva que transformou conteúdos científicos em uma experiência mais intuitiva e envolvente para os profissionais da saúde.
+A experiência combinou telas interativas, túnel imersivo e MetaHumans, permitindo explorar diferentes conteúdos de forma dinâmica ao longo da jornada.
+Soluções desenvolvidas"
+          data-techs="Tela touch interativa, Túnel imersivo, MetaHumans, Conteúdo científico interativo, Jornada digital personalizada, Desenvolvimento da experiência">
+          <img src="assets/SEÇÃO PRINCIPAIS CASES/LIBBS BRAIN/CAPA.webp" alt="Libbs Brain" class="case-item-img"
+            loading="lazy" />
+          <div class="case-item-overlay">
+            <h3 class="case-item-title">Libbs Brain</h3>
+          </div>
+        </div>
+
+        <!-- 33. Loyant Corteva -->
+        <div class="case-item case-item--video" data-cat="conteudo-audiovisual" data-title="Loyant Corteva"
+          data-client="Corteva Agriscience" data-location="São Paulo, SP" data-tag="Captação, Audiovisual"
+          data-desc="No evento de lançamento da Loyant, a RSTcom foi responsável pela criação de todos os conteúdos audiovisuais, incluindo o vídeo de abertura, o vídeo de lançamento do produto, vinhetas e apresentações."
+          data-challenge="Nossa equipe também cuidou da captação de todo o evento, da produção de um highlight especial e da transmissão via streaming, garantindo que a experiência fosse vivida por todos, independentemente da localização."
+          data-techs="Vídeo de abertura, Vídeo de Lançamento do produto, Vinhetas, Apresentações, Captação, Transmissão via Streaming, Highlight"
+          data-vimeo-id="497295602">
+          <img src="assets/SEÇÃO PRINCIPAIS CASES/LOYANT CORTEVA/CAPA.webp" alt="Loyant Corteva" class="case-item-img"
+            loading="lazy" />
+          <div class="case-video-container">
+            <iframe class="case-item-video" data-vimeo-id="497295602" frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="Loyant Corteva"></iframe>
+          </div>
+          <div class="case-item-overlay">
+            <h3 class="case-item-title">Loyant Corteva</h3>
+          </div>
+        </div>
+
+        <!-- 34. LUNDBECK - REPRISE CIENTÍFICA -->
+        <div class="case-item case-item--video" data-cat="captacao-live" data-title="LUNDBECK - REPRISE CIENTÍFICA"
+          data-client="Lundbeck" data-location="São Paulo, SP" data-tag="Live & Reprise Científica"
+          data-desc="Realizamos a produção e transmissão ao vivo do encontro do Instituto Unibanco, integrando operação audiovisual, organização dos conteúdos e suporte técnico para garantir uma experiência digital fluida e consistente. Além da live, também apoiamos a preparação dos materiais de comunicação e o alinhamento das informações exibidas durante a transmissão."
+          data-techs="Produção de live, Transmissão ao vivo, Operação audiovisual, Organização de conteúdos, Coordenação técnica, Preparação de materiais de comunicação, Suporte à transmissão"
+          data-vimeo-id="1170456852"><img src="assets/cases-thumbs/1170456852.jpg" alt="LUNDBECK - REPRISE CIENTÍFICA"
+            class="case-item-img" loading="lazy" />
+          <div class="case-video-container"><iframe class="case-item-video" data-vimeo-id="1170456852" frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture" style="border:none;"
+              title="Lundbeck Reprise Científica"></iframe></div>
+          <div class="case-item-overlay">
+            <h3 class="case-item-title">LUNDBECK - REPRISE CIENTÍFICA</h3>
+          </div>
+        </div>
+
+        <!-- 35. Medison Pharma -->
+        <div class="case-item case-item--video" data-cat="conteudo-audiovisual" data-title="Medison Pharma"
           data-client="Medison Pharma" data-location="São Paulo, SP" data-tag="Corporativo &amp; B2B"
           data-desc="A Masterclass Tebentafusp, promovida pela Medison Pharma, reuniu profissionais da saúde para apresentar conteúdos científicos, promover atualização médica e estimular a troca de conhecimento sobre novas abordagens terapêuticas.A RSTCOM foi responsável pelo planejamento e desenvolvimento dos conteúdos audiovisuais do evento, contribuindo para uma experiência integrada e alinhada aos objetivos da marca."
           data-challenge="O desafio era desenvolver uma comunicação dinâmica e organizada para todas as etapas do evento, garantindo unidade visual e uma experiência envolvente para os participantes. Para isso, a RSTCOM realizou o planejamento dos conteúdos audiovisuais, desenvolveu vinhetas personalizadas para a programação, produziu o vídeo highlight do evento e criou um e-book utilizando Inteligência Artificial, ampliando o alcance e o aproveitamento do conteúdo após o encerramento da masterclass."
@@ -329,144 +864,99 @@ A operação foi pensada para gerar um material completo, com qualidade técnica
           </div>
         </div>
 
-        <!-- 6.2. Convenção PepsiCo -->
-        <div class="case-item case-item--large case-item--video" data-cat="Convenção" data-title="Convenção PepsiCo"
-          data-client="PepsiCo" data-location="São Paulo, SP" data-tag="Convenção"
-          data-desc="A Convenção PepsiCo reuniu colaboradores e lideranças de todo o Brasil para um momento de alinhamento estratégico, integração e celebração. Desenvolvida para fortalecer a cultura da empresa e apresentar os objetivos para o próximo ciclo, a convenção combinou conteúdo, experiências e momentos de relacionamento em uma jornada envolvente para todos os participantes. A RSTCOM foi responsável pelo desenvolvimento dos conteúdos audiovisuais e das experiências que deram vida ao evento, contribuindo para uma comunicação dinâmica e uma experiência memorável."
-          data-challenge="O desafio era transformar os principais momentos da convenção em uma experiência impactante, capaz de engajar os participantes e reforçar as mensagens estratégicas da marca. Para isso, a RSTCOM desenvolveu uma solução integrada, unindo cenografia, conteúdos audiovisuais e ativações interativas para criar uma jornada envolvente, conectando tecnologia, criatividade e experiência em cada etapa do evento."
-          data-techs="Vinhetas, Conteúdo para plenária, Conteúdo audiovisual, Ativações interativas, Jornada do participante, Cenografia, Planejamento de conteúdo, Coordenação audiovisual"
-          data-vimeo-id="990673241">
-          <img src="assets/SEÇÃO PRINCIPAIS CASES/CONVENÇÃO PEPSICO/rs=w_1280_1.webp" alt="Convenção PepsiCo"
+        <!-- 36. Midea Febrava -->
+        <div class="case-item case-item--large case-item--video" data-cat="motion-3d-design feiras-experiencias"
+          data-title="Midea Febrava" data-client="Midea" data-location="São Paulo Expo - São Paulo, SP"
+          data-tag="Tecnologia"
+          data-desc="Para a participação da Midea Carrier na FEBRAVA 2025, desenvolvemos uma frente completa de conteúdo e experiências para o estande, unindo audiovisual, tecnologia e interatividade. Criamos um vídeo anamórfico para painel de LED curvo, além de vídeos e vinhetas exclusivos para as diferentes telas do espaço.
+Também desenvolvemos ativações para ampliar o engajamento do público, como um Photo Opportunity personalizado, que gerou mais de 600 registros, e um Plinko interativo, criando uma experiência mais dinâmica, participativa e conectada à marca."
+          data-techs="Vídeo anamórfico para painel de LED curvo, Vídeos e vinhetas para painéis e TVs, Photo Opportunity personalizado, com mais de 600 registros, Plinko interativo"
+          data-vimeo-id="1204615618">
+          <img src="assets/SEÇÃO PRINCIPAIS CASES/MIDEA FEBRAVA 2025/rs=w_1280,h_853.webp" alt="Midea Febrava 2025"
             class="case-item-img" loading="lazy" />
           <div class="case-video-container">
-            <iframe class="case-item-video" data-vimeo-id="990673241" frameborder="0"
-              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="Convenção PepsiCo"></iframe>
+            <iframe class="case-item-video" data-vimeo-id="1204615618" frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="Midea Febrava 2025"></iframe>
           </div>
           <div class="case-item-overlay">
-            <span class="case-item-tag">Convenção</span>
-            <h3 class="case-item-title">Convenção PepsiCo</h3>
+            <h3 class="case-item-title">Midea Febrava</h3>
           </div>
         </div>
 
-        <!-- 6.3. Besponsa Pfizer -->
-        <div class="case-item case-item--video" data-cat="tecnologia" data-title="Besponsa Pfizer" data-client="Pfizer"
-          data-location="São Paulo, SP" data-tag="Tecnologia"
-          data-desc="Desenvolvemos uma experiência interativa em tela touch, inspirada na dinâmica de um jogo de tabuleiro, para apresentar de forma lúdica e visual a jornada do paciente.
-A cada etapa selecionada, novos conteúdos eram apresentados, permitindo ao participante explorar diferentes informações e se aprofundar na jornada."
-          data-techs="Tela touch interativa, Experiência inspirada em jogo de tabuleiro, Conteúdo personalizado, Navegação por etapas da jornada do paciente, Realidade mista." 
-          data-vimeo-id="497299264">
-          <img src="assets/SEÇÃO PRINCIPAIS CASES/BESPONSA PFIZER/CAPA.webp" alt="Besponsa Pfizer" class="case-item-img"
-            loading="lazy" />
-          <div class="case-video-container">
-            <iframe class="case-item-video" data-vimeo-id="497299264" frameborder="0"
-              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="Besponsa Pfizer"></iframe>
-          </div>
-          <div class="case-item-overlay">
-            <span class="case-item-tag">Tecnologia</span>
-            <h3 class="case-item-title">Besponsa Pfizer</h3>
-          </div>
-        </div>
-
-        <!-- 6.4. Fleet Safety VR -->
-        <div class="case-item case-item--video" data-cat="tecnologia" data-title="Fleet Safety VR" data-client="Pfizer"
-          data-location="São Paulo, SP" data-tag="Tecnologia, Audiovisual"
-          data-desc="O objetivo era conscientizar a força de vendas para respeito às leis de trânsito e reduzir acidentes. Através de um jogo em realidade virtual o expectador tinha que percorrer um percurso similar ao de sua rotina e respeitar às leis de trânsito para não perder pontos."
-          data-challenge="Ao final era surpreendido com uma mensagem do presidente da Pfizer a respeito do assunto."
-          data-techs="Realidade vistual, HTC Vive" data-vimeo-id="497299667">
-          <img src="assets/SEÇÃO PRINCIPAIS CASES/FLEET SAFETY VR PFIZER/CAPA.webp" alt="Fleet Safety VR"
+        <!-- 37. MOTOROLA SOLUTIONS - VR 180° -->
+        <div class="case-item case-item--video" data-cat="motion-3d-design" data-title="MOTOROLA SOLUTIONS - VR 180°"
+          data-client="Motorola Solutions" data-location="São Paulo, SP" data-tag="Realidade Virtual (VR 180°)"
+          data-desc="Construção de ambientes e conteúdos 3D para uma experiência imersiva em realidade virtual.
+Para a Motorola Solutions, a RSTCOM desenvolveu a linguagem visual de uma experiência em VR 180º, criando ambientes virtuais, elementos tridimensionais, motion graphics e interfaces pensadas para envolver o usuário dentro da narrativa."
+          data-techs="Criação visual, Desenvolvimento de ambientes virtuais, Modelagem e elementos 3D, Motion Graphics, Animações, Interfaces gráficas, Composição audiovisual para VR, Adaptação e otimização para headset"
+          data-vimeo-id="1226676093"><img src="assets/cases-thumbs/1226676093.jpg" alt="MOTOROLA SOLUTIONS - VR 180°"
             class="case-item-img" loading="lazy" />
-          <div class="case-video-container">
-            <iframe class="case-item-video" data-vimeo-id="497299667" frameborder="0"
-              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="Fleet Safety VR"></iframe>
-          </div>
-          <div class="case-item-overlay">
-            <span class="case-item-tag">Tecnologia, Audiovisual</span>
-            <h3 class="case-item-title">Fleet Safety VR</h3>
-          </div>
-        </div>
-
-        <!-- 6.5. Sogesp 2024 -->
-        <div class="case-item case-item--video" data-cat="fair tecnologia" data-title="Sogesp 2024" data-client="Libbs"
-          data-location="São Paulo, SP" data-tag="Feira, Tecnologia"
-          data-desc="Conteúdo 3D e linguagem visual desenvolvidos para transformar informação em experiências mais intuitivas e envolventes.
-Para a participação da Libbs na SOGESP, a RSTCOM desenvolveu conteúdos visuais e tridimensionais aplicados a diferentes pontos de interação da experiência. O projeto reuniu conteúdo isométrico 3D, criação de personagem 3D para tela holográfica e conteúdos desenvolvidos para projeções e interfaces interativas, utilizando design e movimento para facilitar a apresentação de produtos, informações e conteúdos científicos."
-          data-techs=" Conteúdo isométrico 3D, Criação e animação de personagem 3D, Conteúdo para tela holográfica, Conteúdo para projeção mapeada, Desenvolvimento visual para interfaces interativas, Conteúdo para mesa interativa com projeção, Design e adaptação para diferentes formatos de exibição"
-          data-vimeo-id="1005956345">
-          <img src="assets/SEÇÃO PRINCIPAIS CASES/SOGESP 2024 - LIBBS/CAPA.webp" alt="Sogesp 2024" class="case-item-img"
-            loading="lazy" />
-          <div class="case-video-container">
-            <iframe class="case-item-video" data-vimeo-id="1005956345" frameborder="0"
-              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="Sogesp 2024"></iframe>
-          </div>
-          <div class="case-item-overlay">
-            <span class="case-item-tag">Feira, Tecnologia</span>
-            <h3 class="case-item-title">Sogesp 2024</h3>
-          </div>
-        </div>
-
-        <!-- 6.6. WindFree Samsung -->
-        <div class="case-item case-item--large case-item--video" data-cat="captacao audiovisual"
-          data-title="WindFree Samsung" data-client="Samsung" data-location="São Paulo, SP"
-          data-tag="Captação, Audiovisual"
-          data-desc="Para o lançamento do Samsung WindFree, a RSTCOM foi responsável pela produção audiovisual do evento, desenvolvendo conteúdos exclusivos e realizando a operação de transmissão para garantir uma experiência envolvente para o público presencial e remoto. O projeto foi concebido para valorizar os diferenciais do produto por meio de uma comunicação dinâmica e de uma cobertura audiovisual de alta qualidade."
-          data-challenge="O desafio era apresentar o lançamento de forma impactante, unindo conteúdos audiovisuais personalizados e uma transmissão estável para ampliar o alcance da apresentação. Para isso, a RSTCOM desenvolveu vídeos e vinhetas exclusivas para a programação do evento, realizou a captação multicâmera e a transmissão via streaming, além da produção do vídeo highlight com os principais momentos do lançamento."
-          data-techs="Desenvolvimento de vídeos, Vinhetas personalizadas, Vídeo Highlight, Captação multicâmera, Transmissão via streaming, Direção de transmissão, Coordenação audiovisual, Operação técnica, Gerenciamento de conteúdo"
-          data-vimeo-id="1010655254">
-          <img src="assets/SEÇÃO PRINCIPAIS CASES/WINDFREE SAMSUNG/CAPA.webp" alt="WindFree Samsung"
-            class="case-item-img" loading="lazy" />
-          <div class="case-video-container">
-            <iframe class="case-item-video" data-vimeo-id="1010655254" frameborder="0"
-              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="WindFree Samsung"></iframe>
-          </div>
-          <div class="case-item-overlay">
-            <span class="case-item-tag">Captação, Audiovisual</span>
-            <h3 class="case-item-title">WindFree Samsung</h3>
-          </div>
-        </div>
-
-        <!-- 6.7. Broncho-Vaxon Takeda -->
-        <div class="case-item case-item--video" data-cat="tecnologia" data-title="Broncho-Vaxon Takeda"
-          data-client="Takeda" data-location="São Paulo, SP" data-tag="Tecnologia"
-          data-desc="Experiência em mesa touch criada para transformar conteúdo em uma jornada interativa e intuitiva.
-No foyer do evento, a tela interativa chamava a atenção das pessoas e os provocada a colocar um objeto sobre a tela.
-Ao colocar o mouse interativo sobre a tela, um menu aparecia permitindo à pessoa escolher o conteúdo girando o mouse. Em cada tela a interatividade da tela touch tornava a experiência ainda mais interessante."
-          data-techs="Mesa touch interativa, Desenvolvimento da interface, Programação da experiência, Conteúdos digitais personalizados, Navegação interativa." data-vimeo-id="497299576" data-vimeo-hash="a7453d5fcd">
-          <img src="assets/SEÇÃO PRINCIPAIS CASES/TAKEDA BRONCHO-VAXON/CAPA.webp" alt="Broncho-Vaxon Takeda"
-            class="case-item-img" loading="lazy" />
-          <div class="case-video-container">
-            <iframe class="case-item-video" data-vimeo-id="497299576" data-vimeo-hash="a7453d5fcd" frameborder="0"
+          <div class="case-video-container"><iframe class="case-item-video" data-vimeo-id="1226676093" frameborder="0"
               allow="autoplay; fullscreen; picture-in-picture" style="border:none;"
-              title="Broncho-Vaxon Takeda"></iframe>
-          </div>
+              title="Motorola Solutions VR 180"></iframe></div>
           <div class="case-item-overlay">
-            <span class="case-item-tag">Tecnologia</span>
-            <h3 class="case-item-title">Broncho-Vaxon Takeda</h3>
+            <h3 class="case-item-title">MOTOROLA SOLUTIONS - VR 180°</h3>
           </div>
         </div>
 
-        <!-- 6.8. Loyant Corteva -->
-        <div class="case-item case-item--video" data-cat="captacao audiovisual" data-title="Loyant Corteva"
-          data-client="Corteva Agriscience" data-location="São Paulo, SP"
-          data-tag="Captação, Audiovisual"
-          data-desc="No evento de lançamento da Loyant, a RSTcom foi responsável pela criação de todos os conteúdos audiovisuais, incluindo o vídeo de abertura, o vídeo de lançamento do produto, vinhetas e apresentações."
-          data-challenge="Nossa equipe também cuidou da captação de todo o evento, da produção de um highlight especial e da transmissão via streaming, garantindo que a experiência fosse vivida por todos, independentemente da localização."
-          data-techs="Vídeo de abertura, Vídeo de Lançamento do produto, Vinhetas, Apresentações, Captação, Transmissão via Streaming, Highlight"
-          data-vimeo-id="497295602">
-          <img src="assets/SEÇÃO PRINCIPAIS CASES/LOYANT CORTEVA/CAPA.webp" alt="Loyant Corteva" class="case-item-img"
+        <!-- 38. PAF Pfizer -->
+        <div class="case-item case-item--video" data-cat="conteudo-audiovisual" data-title="PAF Pfizer"
+          data-client="Pfizer" data-location="São Paulo, SP" data-tag="Tecnologia"
+          data-desc="Para tornar o aprendizado mais envolvente e facilitar a compreensão de conteúdos científicos complexos, a Pfizer contou com a RSTCOM para desenvolver uma experiência imersiva utilizando Realidade Mista e Realidade Virtual. A solução foi criada para transformar informações médicas em uma jornada interativa, proporcionando aos participantes uma nova forma de explorar o funcionamento do organismo humano e os mecanismos relacionados à doença."
+          data-challenge="O desafio era apresentar conteúdos científicos de maneira mais visual, intuitiva e interativa, estimulando o aprendizado e aumentando o engajamento dos participantes. A RSTCOM desenvolveu uma experiência utilizando Microsoft HoloLens e óculos de Realidade Virtual, permitindo que os participantes explorassem modelos tridimensionais, navegassem por diferentes sistemas do corpo humano e visualizassem, de forma imersiva, a evolução da doença e o mecanismo de ação do tratamento."
+          data-techs="Desenvolvimento da experiência imersiva, Jornada interativa de aprendizado, Exploração tridimensional do conteúdo, Aplicação em Realidade Virtual (VR), Aplicação em Realidade Mista (HoloLens), Modelagem tridimensional, Desenvolvimento de conteúdo científico interativo, Computação gráfica, Modelagem 3D"
+          data-vimeo-id="497299368"
+          data-media="assets/SEÇÃO PRINCIPAIS CASES/PAF PFIZER/1.webp,assets/SEÇÃO PRINCIPAIS CASES/PAF PFIZER/3.webp,assets/SEÇÃO PRINCIPAIS CASES/PAF PFIZER/4.webp,assets/SEÇÃO PRINCIPAIS CASES/PAF PFIZER/6.webp,assets/SEÇÃO PRINCIPAIS CASES/PAF PFIZER/CAPA.webp">
+          <img src="assets/SEÇÃO PRINCIPAIS CASES/PAF PFIZER/CAPA.webp" alt="PAF Pfizer" class="case-item-img"
             loading="lazy" />
           <div class="case-video-container">
-            <iframe class="case-item-video" data-vimeo-id="497295602" frameborder="0"
-              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="Loyant Corteva"></iframe>
+            <iframe class="case-item-video" data-vimeo-id="497299368" frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="PAF Pfizer"></iframe>
           </div>
           <div class="case-item-overlay">
-            <span class="case-item-tag">Captação, Audiovisual</span>
-            <h3 class="case-item-title">Loyant Corteva</h3>
+            <h3 class="case-item-title">PAF Pfizer</h3>
           </div>
         </div>
 
-        <!-- 6.9. Salão do Automóvel Bosch -->
-        <div class="case-item case-item--video" data-cat="tecnologia" data-title="Salão do Automóvel Bosch"
-          data-client="Bosch" data-tag="Tecnologia"
+        <!-- 39. PEPSICO - CONVENÇÃO DE VENDAS -->
+        <div class="case-item case-item--video" data-cat="conteudo-audiovisual"
+          data-title="PEPSICO - CONVENÇÃO DE VENDAS" data-client="PepsiCo" data-location="São Paulo, SP"
+          data-tag="Convenção & Videoaulas Chroma"
+          data-desc="Para a Convenção de Vendas da PepsiCo, a RSTCOM desenvolveu diferentes conteúdos audiovisuais para apoiar a jornada de comunicação e treinamento do evento.
+Entre as entregas, produzimos videoaulas gravadas em chroma key, atuando na captação, edição, pósprodução e finalização dos conteúdos. Também desenvolvemos peças audiovisuais para os diferentes momentos da convenção, criando uma linguagem visual integrada à experiência."
+          data-techs="Produção de videoaulas, Gravação em chroma key, Captação audiovisual, Edição e pós-produção, Vinhetas e conteúdos para plenária, Produção de conteúdos audiovisuais, Planejamento de conteúdo, Finalização das peças"
+          data-vimeo-id="1220325605"><img src="assets/SEÇÃO PRINCIPAIS CASES/PEPSICO CONVENÇÃO DE VENDAS/image.png"
+            alt="PEPSICO - CONVENÇÃO DE VENDAS" class="case-item-img" loading="lazy" />
+          <div class="case-video-container"><iframe class="case-item-video" data-vimeo-id="1220325605" frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture" style="border:none;"
+              title="PepsiCo Convenção de Vendas"></iframe></div>
+          <div class="case-item-overlay">
+            <h3 class="case-item-title">PEPSICO - CONVENÇÃO DE VENDAS</h3>
+          </div>
+        </div>
+
+        <!-- 40. Rinvoq AbbVie -->
+        <div class="case-item case-item--video" data-cat="conteudo-audiovisual" data-title="Rinvoq AbbVie"
+          data-client="AbbVie" data-location="São Paulo, SP" data-tag="Eventos Corporativos"
+          data-desc="Para o lançamento de Rinvoq®, desenvolvemos toda a frente de conteúdo audiovisual do evento, criando uma narrativa visual integrada para acompanhar os participantes em diferentes momentos da experiência. Produzimos vinhetas para plenária, motion graphics e conteúdos personalizados para estruturas especiais, como o
+corredor de LED 360°, a esfera de LED e as projeções
+mapeadas. Também realizamos a captação aérea com drone e produzimos o vídeo highlight oficial, ampliando a vida do projeto para além do evento. Toda a entrega envolveu planejamento, direção de conteúdo e coordenação técnica para garantir unidade entre os diferentes formatos e ambientes."
+          data-techs="Conteúdos audiovisuais, Vinhetas para plenária, Motion Graphics, Conteúdo para corredor de LED 360°, Conteúdo para esfera de LED, Projection Mapping, Vídeo Highlight
+Captação aérea com drone, Planejamento e direção de conteúdo, Coordenação técnica." data-vimeo-id="1204618195">
+          <img src="assets/SEÇÃO PRINCIPAIS CASES/RINVOQ ABBVIE/rs=w_1240,h_620,cg_true,m.webp" alt="Rinvoq AbbVie"
+            class="case-item-img" loading="lazy" />
+          <div class="case-video-container">
+            <iframe class="case-item-video" data-vimeo-id="1204618195" frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="Rinvoq AbbVie"></iframe>
+          </div>
+          <div class="case-item-overlay">
+            <h3 class="case-item-title">Rinvoq AbbVie</h3>
+          </div>
+        </div>
+
+        <!-- 41. Salão do Automóvel Bosch -->
+        <div class="case-item case-item--video" data-cat="tecnologia-interatividade"
+          data-title="Salão do Automóvel Bosch" data-client="Bosch" data-tag="Tecnologia"
           data-desc="Durante o Salão do Automóvel, a Bosch buscava apresentar a evolução de seus sistemas de injeção eletrônica de forma mais dinâmica e interativa, aproximando o público da tecnologia embarcada em seus produtos. Para isso, a RSTCOM desenvolveu uma experiência em Realidade Mista, permitindo que os participantes explorassem a evolução da tecnologia por meio de uma jornada imersiva."
           data-challenge="O desafio era transformar um conteúdo técnico em uma experiência intuitiva e envolvente, despertando o interesse dos visitantes e facilitando a compreensão da evolução dos sistemas de injeção eletrônica. A RSTCOM desenvolveu uma aplicação em Realidade Mista utilizando Microsoft HoloLens, permitindo que os participantes navegassem por diferentes períodos da evolução tecnológica da Bosch, interagindo com modelos tridimensionais e conteúdos digitais de forma natural e imersiva."
           data-techs="Desenvolvimento da experiência em Realidade Mista, Jornada interativa, Exploração da evolução tecnológica, Aplicação para Microsoft HoloLens, Modelagem e visualização 3D, Interação por gestos, Conteúdo técnico interativo, Interface personalizada, Narrativa digital"
@@ -480,187 +970,48 @@ Ao colocar o mouse interativo sobre a tela, um menu aparecia permitindo à pesso
               title="Salão do Automóvel Bosch"></iframe>
           </div>
           <div class="case-item-overlay">
-            <span class="case-item-tag">Tecnologia</span>
             <h3 class="case-item-title">Salão do Automóvel Bosch</h3>
           </div>
         </div>
 
-        <!-- 6.10. PAF Pfizer -->
-        <div class="case-item case-item--video" data-cat="tecnologia" data-title="PAF Pfizer" data-client="Pfizer"
-          data-location="São Paulo, SP" data-tag="Tecnologia"
-          data-desc="Para tornar o aprendizado mais envolvente e facilitar a compreensão de conteúdos científicos complexos, a Pfizer contou com a RSTCOM para desenvolver uma experiência imersiva utilizando Realidade Mista e Realidade Virtual. A solução foi criada para transformar informações médicas em uma jornada interativa, proporcionando aos participantes uma nova forma de explorar o funcionamento do organismo humano e os mecanismos relacionados à doença."
-          data-challenge="O desafio era apresentar conteúdos científicos de maneira mais visual, intuitiva e interativa, estimulando o aprendizado e aumentando o engajamento dos participantes. A RSTCOM desenvolveu uma experiência utilizando Microsoft HoloLens e óculos de Realidade Virtual, permitindo que os participantes explorassem modelos tridimensionais, navegassem por diferentes sistemas do corpo humano e visualizassem, de forma imersiva, a evolução da doença e o mecanismo de ação do tratamento."
-          data-techs="Desenvolvimento da experiência imersiva, Jornada interativa de aprendizado, Exploração tridimensional do conteúdo, Aplicação em Realidade Virtual (VR), Aplicação em Realidade Mista (HoloLens), Modelagem tridimensional, Desenvolvimento de conteúdo científico interativo, Computação gráfica, Modelagem 3D"
-          data-vimeo-id="497299368"
-          data-media="assets/SEÇÃO PRINCIPAIS CASES/PAF PFIZER/1.webp,assets/SEÇÃO PRINCIPAIS CASES/PAF PFIZER/3.webp,assets/SEÇÃO PRINCIPAIS CASES/PAF PFIZER/4.webp,assets/SEÇÃO PRINCIPAIS CASES/PAF PFIZER/6.webp,assets/SEÇÃO PRINCIPAIS CASES/PAF PFIZER/CAPA.webp">
-          <img src="assets/SEÇÃO PRINCIPAIS CASES/PAF PFIZER/CAPA.webp" alt="PAF Pfizer" class="case-item-img"
+        <!-- 42. Sogesp 2024 -->
+        <div class="case-item case-item--video" data-cat="motion-3d-design" data-title="Sogesp 2024" data-client="Libbs"
+          data-location="São Paulo, SP" data-tag="Feira, Tecnologia"
+          data-desc="Conteúdo 3D e linguagem visual desenvolvidos para transformar informação em experiências mais intuitivas e envolventes.
+Para a participação da Libbs na SOGESP, a RSTCOM desenvolveu conteúdos visuais e tridimensionais aplicados a diferentes pontos de interação da experiência. O projeto reuniu conteúdo isométrico 3D, criação de personagem 3D para tela holográfica e conteúdos desenvolvidos para projeções e interfaces interativas, utilizando design e movimento para facilitar a apresentação de produtos, informações e conteúdos científicos."
+          data-techs=" Conteúdo isométrico 3D, Criação e animação de personagem 3D, Conteúdo para tela holográfica, Conteúdo para projeção mapeada, Desenvolvimento visual para interfaces interativas, Conteúdo para mesa interativa com projeção, Design e adaptação para diferentes formatos de exibição"
+          data-vimeo-id="1005956345">
+          <img src="assets/SEÇÃO PRINCIPAIS CASES/SOGESP 2024 - LIBBS/CAPA.webp" alt="Sogesp 2024" class="case-item-img"
             loading="lazy" />
           <div class="case-video-container">
-            <iframe class="case-item-video" data-vimeo-id="497299368" frameborder="0"
-              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="PAF Pfizer"></iframe>
+            <iframe class="case-item-video" data-vimeo-id="1005956345" frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="Sogesp 2024"></iframe>
           </div>
           <div class="case-item-overlay">
-            <span class="case-item-tag">Tecnologia</span>
-            <h3 class="case-item-title">PAF Pfizer</h3>
+            <h3 class="case-item-title">Sogesp 2024</h3>
           </div>
         </div>
 
-        <!-- 7. Midea Febrava 2025 -->
-        <div class="case-item case-item--large case-item--video" data-cat="tecnologia" data-title="Midea Febrava"
-          data-client="Midea" data-location="São Paulo Expo - São Paulo, SP" data-tag="Tecnologia"
-          data-desc="Para a participação da Midea Carrier na FEBRAVA 2025, desenvolvemos uma frente completa de conteúdo e experiências para o estande, unindo audiovisual, tecnologia e interatividade. Criamos um vídeo anamórfico para painel de LED curvo, além de vídeos e vinhetas exclusivos para as diferentes telas do espaço.
-Também desenvolvemos ativações para ampliar o engajamento do público, como um Photo Opportunity personalizado, que gerou mais de 600 registros, e um Plinko interativo, criando uma experiência mais dinâmica, participativa e conectada à marca."
-          data-techs="Vídeo anamórfico para painel de LED curvo, Vídeos e vinhetas para painéis e TVs, Photo Opportunity personalizado, com mais de 600 registros, Plinko interativo"
-          data-vimeo-id="1204615618">
-          <img src="assets/SEÇÃO PRINCIPAIS CASES/MIDEA FEBRAVA 2025/rs=w_1280,h_853.webp" alt="Midea Febrava 2025"
+        <!-- 43. Sogesp 2025 -->
+        <div class="case-item case-item--large case-item--video" data-cat="feiras-experiencias" data-title="Sogesp 2025"
+          data-client="Libbs" data-location="São Paulo, SP" data-tag="Tecnologia"
+          data-desc="Para a participação da Libbs no SOGESP 2025, desenvolvemos uma jornada de experiências interativas para transformar conteúdos científicos e institucionais em ativações mais dinâmicas e envolventes para o público médico.
+O estande reuniu diferentes soluções, como Holobox com MetaHumans, Mulher Vitruviana interativa, Feed de Notícias touch, Roleta de Conteúdo e integrações com RFID, criando uma experiência tecnológica completa e conectada aouniverso da saúde feminina."
+          data-techs="Holobox com MetaHumans, Mulher Vitruviana interativa, Feed de Notícias em tela touch, Roleta de Conteúdo, RFID, Holografia, Conteúdo científico interativo, Design e programação das experiências."
+          data-vimeo-id="1204618045">
+          <img src="assets/SEÇÃO PRINCIPAIS CASES/SOGESP 2025 - LIBBS/rs=w_1240,h_620,cg_true.webp" alt="Sogesp 2025"
             class="case-item-img" loading="lazy" />
           <div class="case-video-container">
-            <iframe class="case-item-video" data-vimeo-id="1204615618" frameborder="0"
-              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="Midea Febrava 2025"></iframe>
+            <iframe class="case-item-video" data-vimeo-id="1204618045" frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="Sogesp 2025"></iframe>
           </div>
           <div class="case-item-overlay">
-            <span class="case-item-tag">Tecnologia</span>
-            <h3 class="case-item-title">Midea Febrava</h3>
+            <h3 class="case-item-title">Sogesp 2025</h3>
           </div>
         </div>
 
-        <!-- 8. Rock in Rio - Estácio -->
-        <div class="case-item case-item--video" data-cat="tecnologia audiovisual" data-title="Estácio Rock in Rio"
-          data-client="Estácio" data-location="Rio de Janeiro, RJ" data-tag="Tecnologia, Audiovisual"
-          data-desc="Conteúdo, tecnologia e audiovisual integrados para criar uma zona de experiência dentro de um dos maiores festivais de música do mundo. Para aproximar a Estácio do público do Rock in Rio, a RSTCOM desenvolveu uma experiência audiovisual interativa que combinou conteúdo digital, motion graphics, LED e sonorização, transformando o espaço da marca em um ponto de interação e conexão com os visitantes.
-Um dos desafios do projeto foi desenvolver uma solução capaz de gerar impacto dentro da dinâmica de um festival, considerando o intenso fluxo de pessoas e o alto nível de interferência sonora do ambiente. Para isso, conteúdo e estrutura audiovisual foram pensados de forma integrada."
-          data-techs="Desenvolvimento da experiência audiovisual, Conteúdo digital interativo, Motion Graphics, Estrutura modular de LED, Integração audiovisual, Sonorização da área, Sincronização de conteúdo e sistemas, Operação de tecnologia."
-          data-vimeo-id="1204615839">
-          <img src="assets/SEÇÃO PRINCIPAIS CASES/ESTACIO ROCK IN RIO/rs=w_403,h_821.webp" alt="Estácio Rock in Rio"
-            class="case-item-img" loading="lazy" />
-          <div class="case-video-container">
-            <iframe class="case-item-video" data-vimeo-id="1204615839" frameborder="0"
-              allow="autoplay; fullscreen; picture-in-picture" style="border:none;"
-              title="Estácio Rock in Rio"></iframe>
-          </div>
-          <div class="case-item-overlay">
-            <span class="case-item-tag">Tecnologia, Audiovisual</span>
-            <h3 class="case-item-title">Estácio Rock in Rio</h3>
-          </div>
-        </div>
-
-        <!-- 9. Keytruda MSD -->
-        <div class="case-item case-item--video" data-cat="tecnologia" data-title="5 Anos Keytruda MSD"
-          data-client="MSD (Merck Sharp Dohme)" data-location="São Paulo, SP" data-tag="Tecnologia"
-          data-desc="Para celebrar os 5 anos de Keytruda no Brasil, desenvolvemos uma experiência audiovisual que uniu vídeo mapping, conteúdo sob medida, computação gráfica, modelagem 3D e trilha sonora original para transformar a trajetória da marca em uma narrativa imersiva e impactante."
-          data-techs="Conteúdo audiovisual, Storyboard, Vídeo Mapping, Computação gráfica, Modelagem 3D, Produção de trilha sonora original."
-          data-vimeo-id="1204616034">
-          <img src="assets/SEÇÃO PRINCIPAIS CASES/KEYTRUDA/rs=w_1280,h_591.webp" alt="5 Anos Keytruda MSD"
-            class="case-item-img" loading="lazy" />
-          <div class="case-video-container">
-            <iframe class="case-item-video" data-vimeo-id="1204616034" frameborder="0"
-              allow="autoplay; fullscreen; picture-in-picture" style="border:none;"
-              title="5 Anos Keytruda MSD"></iframe>
-          </div>
-          <div class="case-item-overlay">
-            <span class="case-item-tag">Tecnologia</span>
-            <h3 class="case-item-title">5 Anos Keytruda MSD</h3>
-          </div>
-        </div>
-
-
-        <!-- 10. Elmex Colgate -->
-        <div class="case-item case-item--video" data-cat="Tecnologia" data-title="Elmex Colgate" data-client="Colgate"
-          data-location="São Paulo, SP" data-tag="Convenção, Audiovisual"
-          data-desc="Para o lançamento da Elmex no Brasil, desenvolvemos uma experiência audiovisual em projection mapping, transformando a fachada do Museu da Casa Brasileira em parte da narrativa do evento.
-Criamos o conteúdo visual, motion graphics e storytelling da apresentação, utilizando a própria arquitetura como elemento central para gerar impacto e apresentar a marca de forma imersiva."
-          data-techs="Projection Mapping, Conteúdo audiovisual, Motion Graphics, Storytelling visual, Conteúdo para fachada arquitetônica, Coordenação técnica, Operação de projeção."
-          data-vimeo-id="1204616236">
-          <img src="assets/SEÇÃO PRINCIPAIS CASES/ELMEX COLGATE/cr=w_1240,h_620.webp" alt="Elmex Colgate"
-            class="case-item-img" loading="lazy" />
-          <div class="case-video-container">
-            <iframe class="case-item-video" data-vimeo-id="1204616236" frameborder="0"
-              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="Elmex Colgate"></iframe>
-          </div>
-          <div class="case-item-overlay">
-            <span class="case-item-tag">Audiovisual e Tecnologia</span>
-            <h3 class="case-item-title">Elmex Colgate</h3>
-          </div>
-        </div>
-
-        <!-- 11. Convenção -->
-        <div class="case-item case-item--large case-item--video" data-cat="convencao audiovisual"
-          data-title="Convenção Honda" data-client="Honda" data-date="2021" data-location="São Paulo, SP"
-          data-tag="Convenção, Audiovisual"
-          data-desc="Para o lançamento de oito novos modelos Honda, desenvolvemos toda a frente de conteúdo da convenção, incluindo apresentações, vinhetas e vídeos exclusivos para revelar cada novidade ao público. Os conteúdos foram
-criados para trabalhar de forma integrada à projeção panorâmica e à dinâmica do palco.
-A experiência ganhou ainda mais impacto com áudio 5.1 surround, iluminação, lasers e pulseiras de LED sincronizadas. Também desenvolvemos o aplicativo do evento, reunindo agenda, mapa do hotel e informações importantes para acompanhar toda a programação."
-          data-techs="Vídeos de lançamento, vinhetas e conteúdos audiovisuais, apresentações, projeção panorâmica, audio5.1 surround, luzes e lasers sincronizadps, pulseiras de LED, aplicativo de evento, processamento de vídeo/resolume arena."
-          data-vimeo-id="1204616447">
-          <img src="assets/SEÇÃO PRINCIPAIS CASES/CONVENÇÃO HONDA/rs=w_1240,h_620,cg_true.webp" alt="Convenção Honda"
-            class="case-item-img" loading="lazy" />
-          <div class="case-video-container">
-            <iframe class="case-item-video" data-vimeo-id="1204616447" frameborder="0"
-              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="Convenção Honda"></iframe>
-          </div>
-          <div class="case-item-overlay">
-            <span class="case-item-tag">Convenção, Audiovisual</span>
-            <h3 class="case-item-title">Convenção Honda</h3>
-          </div>
-        </div>
-
-        <!-- 12. Town Hall Pfizer -->
-        <div class="case-item case-item--video" data-cat="tecnologia" data-title="Town Hall Pfizer" data-client="Pfizer"
-          data-tag="Tecnologia"
-          data-desc="Desenvolvemos um Avatar 3D personalizado para apresentar conteúdos institucionais de forma mais dinâmica e tecnológica durante o evento.
-A entrega envolveu roteiro, conteúdo audiovisual, motion graphics e integração das animações do personagem com a identidade visual da Pfizer."
-          data-techs="Desenvolvimento de roteiro, Avatar 3D personalizado, Motion Graphics, conteúdo audiovisual, integração de animações, comunicação digital."
-          data-vimeo-id="1204616858">
-          <img src="assets/SEÇÃO PRINCIPAIS CASES/TOWN HALL PFIZER/rs=w_1240,h_620,cg_true.webp" alt="Town Hall Pfizer"
-            class="case-item-img" loading="lazy" />
-          <div class="case-video-container">
-            <iframe class="case-item-video" data-vimeo-id="1204616858" frameborder="0"
-              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="Town Hall Pfizer"></iframe>
-          </div>
-          <div class="case-item-overlay">
-            <span class="case-item-tag">Tecnologia</span>
-            <h3 class="case-item-title">Town Hall Pfizer</h3>
-          </div>
-        </div>
-
-        <!-- 12b. Libbs Brain -->
-        <div class="case-item" data-cat="fair tecnologia" data-title="Libbs Brain" data-client="Libbs"
-          data-location="São Paulo, SP" data-tag="Feiras, Tecnologia"
-          data-desc="Para apresentar os diferenciais de Aymee®, desenvolvemos uma jornada digital e imersiva que transformou conteúdos científicos em uma experiência mais intuitiva e envolvente para os profissionais da saúde.
-A experiência combinou telas interativas, túnel imersivo e MetaHumans, permitindo explorar diferentes conteúdos de forma dinâmica ao longo da jornada.
-Soluções desenvolvidas"
-          data-techs="Tela touch interativa, Túnel imersivo, MetaHumans, Conteúdo científico interativo, Jornada digital personalizada, Desenvolvimento da experiência">
-          <img src="assets/SEÇÃO PRINCIPAIS CASES/LIBBS BRAIN/CAPA.webp" alt="Libbs Brain" class="case-item-img"
-            loading="lazy" />
-          <div class="case-item-overlay">
-            <span class="case-item-tag">Feiras, Tecnologia</span>
-            <h3 class="case-item-title">Libbs Brain</h3>
-          </div>
-        </div>
-
-
-
-        <!-- 14. Sanofi -->
-        <div class="case-item case-item--video" data-cat="b2b audiovisual" data-title="Lançamento Sanofi"
-          data-client="Sanofi" data-date="2025" data-location="São Paulo, SP" data-tag="B2B, Audiovisual"
-          data-desc="No Lançamento de Dupixent para a SANOFI no Congresso Nacional de Pneumologia, a RSTcom destacou-se ao transformar cada etapa do evento em uma experiência sensorial completa, oferecendo uma experiência inesquecível para todos."
-          data-challenge="A plenária foi pensada para conteúdos isométricos e anamórficos, trazendo mais interatividade com o público presente, transformando a experiência tradicional em uma jornada visual imersiva e envolvente."
-          data-techs="Planejamento, Criação, Execução, Cenografia, Conteúdos Isométricos, Conteúdos Anamórficos"
-          data-vimeo-id="1204617103">
-          <img src="assets/SEÇÃO PRINCIPAIS CASES/LANÇAMENTO DUPIXENT SANOFI/rs=w_1240,h_620,cg_true (1).webp"
-            alt="Lançamento Sanofi" class="case-item-img" loading="lazy" />
-          <div class="case-video-container">
-            <iframe class="case-item-video" data-vimeo-id="1204617103" frameborder="0"
-              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="Lançamento Sanofi"></iframe>
-          </div>
-          <div class="case-item-overlay">
-            <span class="case-item-tag">B2B, Audiovisual</span>
-            <h3 class="case-item-title">Lançamento Sanofi</h3>
-          </div>
-        </div>
-
-        <!-- 14b. Synvisc One Sanofi -->
-        <div class="case-item case-item--video" data-cat="tecnologia" data-title="Synvisc One Sanofi"
+        <!-- 44. Synvisc One Sanofi -->
+        <div class="case-item case-item--video" data-cat="tecnologia-interatividade" data-title="Synvisc One Sanofi"
           data-client="Sanofi" data-date="2025" data-location="São Paulo, SP" data-tag="Tecnologia"
           data-desc="Para o lançamento de Synvisc One®, desenvolvemos uma experiência tecnológica que combinou display holográfico, Realidade Aumentada e conteúdos 3D para apresentar o produto e seus diferenciais de forma visual e interativa.
 A experiência permitia aos profissionais da saúde explorar conteúdos digitais sobre o produto, sua aplicação e seus principais diferenciais de maneira mais dinâmica e intuitiva."
@@ -673,557 +1024,385 @@ A experiência permitia aos profissionais da saúde explorar conteúdos digitais
               allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="Synvisc One Sanofi"></iframe>
           </div>
           <div class="case-item-overlay">
-            <span class="case-item-tag">Tecnologia</span>
             <h3 class="case-item-title">Synvisc One Sanofi</h3>
           </div>
         </div>
 
-        <!-- 14c. Convenção Abras-->
-        <div class="case-item" data-cat="convencao audiovisual" data-title="ABRAS Convenção" data-client="ABRAS"
-          data-date="2025" data-location="São Paulo, SP" data-tag="Convenção, Audiovisual"
-          data-desc="Numa noite de grande prestígio no Grand Hyatt, a ABRAS reuniu líderes do setor, supermercadistas de todo o Brasil, representantes da indústria, varejo e autoridades governamentais para celebrar o Dia dos Supermercados. Este evento de alto nível exigia uma solução de transmissão que estivesse à altura da sua importância."
-          data-challenge="A RSTcom teve a honra de ser a parceira escolhida para garantir a captação e transmissão simultânea de todo o evento. A nossa missão foi clara: levar a excelência do encontro presencial para o ambiente digital, sem perda de qualidade. Utilizando o nosso setup técnico de ponta, assegurámos que cada discurso, cada momento de networking e cada detalhe da celebração fosse transmitido com a máxima qualidade de broadcast, do início ao fim."
-          data-techs="Captação e Transmissão Simultânea, Infraestrutura Multi-Câmera">
-          <img src="assets/SEÇÃO PRINCIPAIS CASES/ABRAS/capa.jpeg" alt="ABRAS" class="case-item-img" loading="lazy" />
+        <!-- 45. TAKEDA - METAHUMAN -->
+        <div class="case-item case-item--video" data-cat="motion-3d-design" data-title="TAKEDA - METAHUMAN"
+          data-client="Takeda" data-location="São Paulo, SP" data-tag="MetaHuman & Inteligência Artificial"
+          data-desc="Personagens digitais desenvolvidos para transformar conteúdo em uma experiência mais próxima, dinâmica e envolvente.
+Para projetos da Takeda, a RSTCOM aplicou tecnologia MetaHuman na criação de personagens digitais desenvolvidos a partir de uma narrativa e identidade próprias.
+O processo reúne briefing, construção do personagem, roteiro, storyboard, definição visual e produção, criando uma solução que vai além do avatar e conecta conteúdo, storytelling e tecnologia."
+          data-techs="Desenvolvimento de conceito do personagem, Definição de personalidade e função, Roteiro e diálogos, Storyboard, Construção da identidade visual, Definição de cenário e figurino, Expressões e enquadramentos, Produção do MetaHuman"
+          data-vimeo-id="1204618351" data-vimeo-hash="b957346352"><img src="assets/cases-thumbs/1204618351.jpg"
+            alt="TAKEDA - METAHUMAN" class="case-item-img" loading="lazy" />
+          <div class="case-video-container"><iframe class="case-item-video" data-vimeo-id="1204618351"
+              data-vimeo-hash="b957346352" frameborder="0" allow="autoplay; fullscreen; picture-in-picture"
+              style="border:none;" title="Takeda MetaHuman"></iframe></div>
           <div class="case-item-overlay">
-            <span class="case-item-tag">Convenção, Audiovisual</span>
-            <h3 class="case-item-title">ABRAS Convenção</h3>
+            <h3 class="case-item-title">TAKEDA - METAHUMAN</h3>
           </div>
         </div>
 
-
-        <!-- 16. Leadership doTerra -->
-        <div class="case-item case-item--video" data-cat="Captação & Streaming" data-title="doTERRA"
-          data-client="doTERRA" data-location="São Paulo, SP" data-tag="Convenção, Audiovisual"
-          data-desc="O Leadership doTERRA é um dos principais encontros da marca, reunindo líderes, consultores e convidados para uma programação de palestras, treinamentos, reconhecimentos e celebrações. A RSTCOM foi responsável pela operação completa de captação audiovisual, transmissão e produção de conteúdo, garantindo uma cobertura dinâmica e de alta qualidade durante todos os momentos do evento."
-          data-challenge="O desafio era registrar toda a programação com agilidade e precisão, acompanhando diferentes ambientes e momentos do evento sem perder a qualidade técnica da transmissão e da produção de conteúdo. Para isso, a RSTCOM estruturou uma operação multicâmera com mais de dez câmeras, utilizando equipamentos de movimentação e transmissão para ampliar as possibilidades de cobertura. Além da captação e transmissão ao vivo, a equipe produziu conteúdos em tempo real para redes sociais e desenvolveu o vídeo highlight oficial do evento, registrando os principais momentos da programação e da cerimônia de reconhecimento."
-          data-techs="Captação multicâmera, Transmissão ao vivo, Direção de imagem, Operação de transmissão, Produção de conteúdo em tempo real, Conteúdo para redes sociais, Vídeo Highlight, Coordenação técnica, Operação audiovisual, Planejamento da cobertura"
-          data-vimeo-id="1204617616">
-          <img src="assets/SEÇÃO PRINCIPAIS CASES/LEADERSHIP doTERRA/rs=w_1240,h_620,cg_true,m.webp"
-            alt="Leadership doTERRA" class="case-item-img" loading="lazy" />
-          <div class="case-video-container">
-            <iframe class="case-item-video" data-vimeo-id="1204617616" frameborder="0"
-              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="Leadership doTERRA"></iframe>
-          </div>
-          <div class="case-item-overlay">
-            <span class="case-item-tag">Captação & Streaming</span>
-            <h3 class="case-item-title">Leadership doTERRA</h3>
-          </div>
-        </div>
-
-        <!-- 17. B2B -->
-        <div class="case-item case-item--video" data-cat="b2b" data-title="6º Prêmio Saint-Gobain"
-          data-client="Saint-Gobain" data-date="2022" data-location="São Paulo, SP" data-tag="Corporativo & B2B"
-          data-desc="No 6º Prêmio Saint-Gobain, a RSTCOM integrou Realidade Aumentada e Realidade Virtual à experiência da cerimônia. O convite físico ganhou uma camada interativa em RA, ampliando o primeiro contato do público com o evento. Já no espaço da premiação, os projetos concorrentes puderam ser apresentados em uma exposição virtual em realidade virtual, criando uma nova forma de explorar os trabalhos e conteúdos O projeto também contou com produção audiovisual e transmissão ao vivo."
-          data-techs=" Convite interativo em Realidade Aumentada, Desenvolvimento da experiência em RA, Exposição virtual dos projetos concorrentes, Experiência em Realidade Virtual, Integração da tecnologia à jornada da premiação, Produção audiovisual, Transmissão ao vivo."
-          data-vimeo-id="1204617814">
-          <img src="assets/SEÇÃO PRINCIPAIS CASES/6º PRÊMIO SAINT-GOBAIN/CAPA.png" alt="6º Prêmio Saint-Gobain"
+        <!-- 46. Town Hall Pfizer -->
+        <div class="case-item case-item--video" data-cat="conteudo-audiovisual" data-title="Town Hall Pfizer"
+          data-client="Pfizer" data-tag="Tecnologia"
+          data-desc="Desenvolvemos um Avatar 3D personalizado para apresentar conteúdos institucionais de forma mais dinâmica e tecnológica durante o evento.
+A entrega envolveu roteiro, conteúdo audiovisual, motion graphics e integração das animações do personagem com a identidade visual da Pfizer."
+          data-techs="Desenvolvimento de roteiro, Avatar 3D personalizado, Motion Graphics, conteúdo audiovisual, integração de animações, comunicação digital."
+          data-vimeo-id="1204616858">
+          <img src="assets/SEÇÃO PRINCIPAIS CASES/TOWN HALL PFIZER/rs=w_1240,h_620,cg_true.webp" alt="Town Hall Pfizer"
             class="case-item-img" loading="lazy" />
           <div class="case-video-container">
-            <iframe class="case-item-video" data-vimeo-id="1204617814" frameborder="0"
+            <iframe class="case-item-video" data-vimeo-id="1204616858" frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="Town Hall Pfizer"></iframe>
+          </div>
+          <div class="case-item-overlay">
+            <h3 class="case-item-title">Town Hall Pfizer</h3>
+          </div>
+        </div>
+
+        <!-- 47. VERTEX - FIBROSE CÍSTICA -->
+        <div class="case-item case-item--video" data-cat="conteudo-audiovisual" data-title="VERTEX - FIBROSE CÍSTICA"
+          data-client="Vertex Pharmaceuticals" data-location="Brasil (Multilocal)" data-tag="Audiovisual & Captação 4K"
+          data-desc="Histórias captadas em diferentes regiões do Brasil e transformadas em uma narrativa audiovisual. Para a Vertex, a RSTCOM realizou uma produção de conteúdo sobre Fibrose Cística, com três diárias de captação em diferentes localidades, reunindo depoimentos e imagens para a construção de um vídeo de até 3 minutos. O projeto envolveu direção, captação multicâmera em 4K, roteiro, edição, computação gráfica, lettering, legendagem em português, trilha e finalização, conectando diferentes histórias em uma única narrativa audiovisual."
+          data-techs="3 diárias de captação, Direção audiovisual, Captação de depoimentos e imagens complementares, Roteiro, Edição e pós-produção, Computação gráfica, Legendas em português e ingles, Produção e logística de gravação em diferentes estados"
+          data-vimeo-id="1226662443"><img src="assets/cases-thumbs/1226662443.jpg" alt="VERTEX - FIBROSE CÍSTICA"
+            class="case-item-img" loading="lazy" />
+          <div class="case-video-container"><iframe class="case-item-video" data-vimeo-id="1226662443" frameborder="0"
               allow="autoplay; fullscreen; picture-in-picture" style="border:none;"
-              title="6º Prêmio Saint-Gobain"></iframe>
-          </div>
+              title="Vertex Fibrose Cística"></iframe></div>
           <div class="case-item-overlay">
-            <span class="case-item-tag">Corporativo &amp; B2B</span>
-            <h3 class="case-item-title">6º Prêmio Saint-Gobain</h3>
+            <h3 class="case-item-title">VERTEX - FIBROSE CÍSTICA</h3>
           </div>
         </div>
 
-
-        <!-- 21. Sogesp 2025 -->
-        <div class="case-item case-item--large case-item--video" data-cat="tecnologia" data-title="Sogesp 2025"
-          data-client="Libbs" data-location="São Paulo, SP" data-tag="Tecnologia"
-          data-desc="Para a participação da Libbs no SOGESP 2025, desenvolvemos uma jornada de experiências interativas para transformar conteúdos científicos e institucionais em ativações mais dinâmicas e envolventes para o público médico.
-O estande reuniu diferentes soluções, como Holobox com MetaHumans, Mulher Vitruviana interativa, Feed de Notícias touch, Roleta de Conteúdo e integrações com RFID, criando uma experiência tecnológica completa e conectada aouniverso da saúde feminina."
-         data-techs="Holobox com MetaHumans, Mulher Vitruviana interativa, Feed de Notícias em tela touch, Roleta de Conteúdo, RFID, Holografia, Conteúdo científico interativo, Design e programação das experiências."
-          data-vimeo-id="1204618045">
-          <img src="assets/SEÇÃO PRINCIPAIS CASES/SOGESP 2025 - LIBBS/rs=w_1240,h_620,cg_true.webp" alt="Sogesp 2025"
+        <!-- 48. WindFree Samsung -->
+        <div class="case-item case-item--large case-item--video" data-cat="conteudo-audiovisual"
+          data-title="WindFree Samsung" data-client="Samsung" data-location="São Paulo, SP"
+          data-tag="Captação, Audiovisual"
+          data-desc="Para o lançamento do Samsung WindFree, a RSTCOM foi responsável pela produção audiovisual do evento, desenvolvendo conteúdos exclusivos e realizando a operação de transmissão para garantir uma experiência envolvente para o público presencial e remoto. O projeto foi concebido para valorizar os diferenciais do produto por meio de uma comunicação dinâmica e de uma cobertura audiovisual de alta qualidade."
+          data-challenge="O desafio era apresentar o lançamento de forma impactante, unindo conteúdos audiovisuais personalizados e uma transmissão estável para ampliar o alcance da apresentação. Para isso, a RSTCOM desenvolveu vídeos e vinhetas exclusivas para a programação do evento, realizou a captação multicâmera e a transmissão via streaming, além da produção do vídeo highlight com os principais momentos do lançamento."
+          data-techs="Desenvolvimento de vídeos, Vinhetas personalizadas, Vídeo Highlight, Captação multicâmera, Transmissão via streaming, Direção de transmissão, Coordenação audiovisual, Operação técnica, Gerenciamento de conteúdo"
+          data-vimeo-id="1010655254">
+          <img src="assets/SEÇÃO PRINCIPAIS CASES/WINDFREE SAMSUNG/CAPA.webp" alt="WindFree Samsung"
             class="case-item-img" loading="lazy" />
           <div class="case-video-container">
-            <iframe class="case-item-video" data-vimeo-id="1204618045" frameborder="0"
-              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="Sogesp 2025"></iframe>
+            <iframe class="case-item-video" data-vimeo-id="1010655254" frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="WindFree Samsung"></iframe>
           </div>
           <div class="case-item-overlay">
-            <span class="case-item-tag">Tecnologia</span>
-            <h3 class="case-item-title">Sogesp 2025</h3>
+            <h3 class="case-item-title">WindFree Samsung</h3>
           </div>
         </div>
 
-
-        <!-- 23. Rinvoq AbbVie -->
-        <div class="case-item case-item--video" data-cat="Eventos Corporativos" data-title="Rinvoq AbbVie"
-          data-client="AbbVie" data-location="São Paulo, SP" data-tag="Eventos Corporativos"
-          data-desc="Para o lançamento de Rinvoq®, desenvolvemos toda a frente de conteúdo audiovisual do evento, criando uma narrativa visual integrada para acompanhar os participantes em diferentes momentos da experiência. Produzimos vinhetas para plenária, motion graphics e conteúdos personalizados para estruturas especiais, como o
-corredor de LED 360°, a esfera de LED e as projeções
-mapeadas. Também realizamos a captação aérea com drone e produzimos o vídeo highlight oficial, ampliando a vida do projeto para além do evento. Toda a entrega envolveu planejamento, direção de conteúdo e coordenação técnica para garantir unidade entre os diferentes formatos e ambientes."
-          data-techs="Conteúdos audiovisuais, Vinhetas para plenária, Motion Graphics, Conteúdo para corredor de LED 360°, Conteúdo para esfera de LED, Projection Mapping, Vídeo Highlight
-Captação aérea com drone, Planejamento e direção de conteúdo, Coordenação técnica."
-          data-vimeo-id="1204618195">
-          <img src="assets/SEÇÃO PRINCIPAIS CASES/RINVOQ ABBVIE/rs=w_1240,h_620,cg_true,m.webp" alt="Rinvoq AbbVie"
-            class="case-item-img" loading="lazy" />
-          <div class="case-video-container">
-            <iframe class="case-item-video" data-vimeo-id="1204618195" frameborder="0"
-              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="Rinvoq AbbVie"></iframe>
-          </div>
-          <div class="case-item-overlay">
-            <span class="case-item-tag">Audiovisual</span>
-            <h3 class="case-item-title">Rinvoq AbbVie</h3>
-          </div>
-        </div>
-
-
-        <!-- 25. CBGO 2026 - Feira -->
-        <div class="case-item case-item--video" data-cat="fair" data-title="CBGO 2026" data-client="CBGO"
-          data-location="Minas Gerais, MG" data-tag="Feira"
-          data-desc="Para a participação da Libbs no CBGO 2026, desenvolvemos uma experiência imersiva para transformar o estande em um espaço de conteúdo, interação e aprendizado. A proposta integrou tecnologia, Inteligência Artificial e conteúdo científico em diferentes pontos da jornada do visitante.
-Também fomos responsáveis pela comunicação visual e institucional do espaço, além do desenvolvimento de conteúdos para painel curvo, experiências com RFID e três MetaHumans, criando uma presença mais dinâmica e conectada para a marca durante o congresso."
-          data-techs="Inteligência Artificial, RFID, 3 MetaHumans, Conteúdo audiovisual, Conteúdo para painel curvo, Comunicação visual e institucional, Experiência imersiva, Jornada interativa."
-          data-vimeo-id="1204618351" data-vimeo-hash="b957346352">
-          <img src="assets/SEÇÃO PRINCIPAIS CASES/CBGO 2026/capa.jpeg" alt="CBGO 2026" class="case-item-img"
-            loading="lazy" />
-          <div class="case-video-container">
-            <iframe class="case-item-video" data-vimeo-id="1204618351" data-vimeo-hash="b957346352" frameborder="0"
-              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="CBGO 2026"></iframe>
-          </div>
-          <div class="case-item-overlay">
-            <span class="case-item-tag">Feira, Tecnologia</span>
-            <h3 class="case-item-title">CBGO 2026</h3>
-          </div>
-        </div>
-
-        <!-- 26. FEICON 2025 - Feira -->
-        <div class="case-item" data-cat="fair" data-title="FEICON 2025" data-client="FEICON" data-date="2025"
-          data-location="São Paulo, SP" data-tag="Feira"
-          data-desc="Para a FEICON 2025, desenvolvemos uma série de experiências para estandes, combinando tecnologia, conteúdo e ambientação para criar espaços mais interativos e impactantes ao longo da feira.
-A entrega envolveu soluções como telas de LED interativas, projeções mapeadas, painéis touch screen, iluminação programada e estruturas modulares, integradas para manter a operação contínua e reforçar a presença das marcas no evento."
-          data-techs="Telas de LED interativas, Projeções mapeadas, Painéis touch screen, Iluminação programada, Estruturas modulares, Experiências imersivas, Operação integrada">
-          <img src="assets/SEÇÃO PRINCIPAIS CASES/FEICON 2025/CAPA.jpg" alt="FEICON 2025" class="case-item-img"
-            loading="lazy" />
-          <div class="case-item-overlay">
-            <span class="case-item-tag">Feira, Tecnologia</span>
-            <h3 class="case-item-title">FEICON 2025</h3>
-          </div>
-        </div>
-
-        <!-- 27. FEICON 2026 - Feira -->
-        <div class="case-item case-item--video" data-cat="fair" data-title="FEICON 2026"
-          data-client="Suvinil & Sherwin-Williams" data-location="São Paulo, SP" data-tag="Feira"
-          data-desc="Para a participação da Suvinil e da Sherwin-Williams na FEICON, desenvolvemos experiências interativas e conteúdos pensados para aproximar o público das marcas e valorizar seus produtos de forma mais envolvente.
-A entrega reuniu Inteligência Artificial, Photo Opportunity, experiências interativas, conteúdo para LED e comunicação visual, criando uma presença mais dinâmica e conectada durante toda a feira."
-          data-techs="Inteligência Artificial, Conteúdo para LED, Experiências interativas, Photo Opportunity, Comunicação visual, Experiência de marca."
-          data-vimeo-id="1204618523">
-          <img src="assets/SEÇÃO PRINCIPAIS CASES/FEICON 2026/RIVA1195.jpg" alt="FEICON 2026" class="case-item-img"
-            loading="lazy" />
-          <div class="case-video-container">
-            <iframe class="case-item-video" data-vimeo-id="1204618523" frameborder="0"
-              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="FEICON 2026"></iframe>
-          </div>
-          <div class="case-item-overlay">
-            <span class="case-item-tag">Feira, Tecnologia</span>
-            <h3 class="case-item-title">FEICON 2026</h3>
-          </div>
-        </div>
-
-        <!-- 28. HAUS DECOR 2025 - Feira -->
-        <div class="case-item case-item--video" data-cat="fair" data-title="HAUS DECOR 2025"
-          data-client="Sherwin-Williams" data-date="2025" data-location="São Paulo, SP" data-tag="Feira"
-          data-desc="Para a participação da Sherwin-Williams na Haus Decor 2025, desenvolvemos ativações e conteúdos para ampliar a presença da marca no estande e criar uma experiência mais envolvente para o público.
-A entrega combinou vinhetas, plataforma 360° , ativações interativas e conteúdos anamórficos, complementando a ação com a Jaguar Parade e criando diferentes pontos de contato entre marca, arte, tecnologia e experiência."
-          data-techs="Vinhetas, Plataforma 360°, Ativações interativas, Conteúdos anamórficos, Conteúdo audiovisual, Experiência de marca."
-          data-vimeo-id="1204618851">
-          <img src="assets/SEÇÃO PRINCIPAIS CASES/HAUS DECOR 2025/DSC08895.jpg" alt="HAUS DECOR 2025"
-            class="case-item-img" loading="lazy" />
-          <div class="case-video-container">
-            <iframe class="case-item-video" data-vimeo-id="1204618851" frameborder="0"
-              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="HAUS DECOR 2025"></iframe>
-          </div>
-          <div class="case-item-overlay">
-            <span class="case-item-tag">Feira, Tecnologia</span>
-            <h3 class="case-item-title">HAUS DECOR 2025</h3>
-          </div>
-        </div>
-
-        <!-- 29. HAUS DECOR 2026 - Feira -->
-        <div class="case-item" data-cat="fair" data-title="HAUS DECOR 2026" data-client="Suvinil & Sherwin-Williams"
-          data-location="São Paulo Expo - São Paulo, SP" data-tag="Feira"
-          data-desc="Para a participação da Suvinil e da Sherwin-Williams na Haus Decor 2026, desenvolvemos uma experiência interativa com Inteligência Artificial que transformava os visitantes em personagens ilustrados inspirados no universo das cores.
-A jornada começava com a captação de leads, seguia pela escolha da paleta de cores e registro da foto, e terminava com a criação de uma ilustração personalizada enviada automaticamente por e-mail, conectando tecnologia, personalização e experiência de marca."
-          data-techs="Inteligência Artificial, Photo Opportunity interativo, Transformação de fotos em ilustrações personalizadas, Captação de leads, Envio automático por e-mail, Experiência personalizada, Desenvolvimento da identidade da ativação">
-          <img src="assets/SEÇÃO PRINCIPAIS CASES/HAUS DECOR 2026/0E0A2943.jpg" alt="HAUS DECOR 2026"
-            class="case-item-img" loading="lazy" />
-          <div class="case-item-overlay">
-            <span class="case-item-tag">Feira, Tecnologia</span>
-            <h3 class="case-item-title">HAUS DECOR 2026</h3>
-          </div>
-        </div>
-        <!-- 30. GRUPO SC - Corporativo & B2B -->
-        <div class="case-item case-item--video case-item--large" data-cat="convenção audiovisual" data-title="GRUPO SC"
-          data-client="Grupo SC" data-location="Tauá, SP" data-tag="Convenção, Audiovisual"
-          data-desc="Uma parceria recorrente para transformar os principais momentos do evento em conteúdo audiovisual de impacto.
-A RSTCOM já realiza esse tipo de entrega para o Grupo Santa Cruz há diferentes edições do Protop, acompanhando a evolução do evento e mantendo uma operação audiovisual ágil e integrada.
-Durante o primeiro dia, realizamos a captação dos principais momentos da premiação e, na sequência, fazemos a edição e finalização do highlight, com entrega pronta para exibição já no segundo dia do evento."
-          data-techs="Capração audiovisual, cobertura dos principais momentos, edição expressa, finalização do highlight, entrega em curto prazo durante o evento, transmissã simultanea"
-          data-vimeo-id="1204619503">
-          <img src="assets/SEÇÃO PRINCIPAIS CASES/GRUPO SC/capa.jpg" alt="GRUPO SC" class="case-item-img"
-            loading="lazy" />
-          <div class="case-video-container">
-            <iframe class="case-item-video" data-vimeo-id="1204619503" frameborder="0"
-              allow="autoplay; fullscreen; picture-in-picture" style="border:none;" title="GRUPO SC"></iframe>
-          </div>
-          <div class="case-item-overlay">
-            <span class="case-item-tag">Convenção, Audiovisual, Tecnologia</span>
-            <h3 class="case-item-title">GRUPO SC</h3>
-          </div>
-        </div>
       </div>
     </div>
   </section>
 
   <!-- ===================== SECTION: O QUE FAZEMOS ===================== -->
-  <!-- ===================== SECTION 4: SERVIÇOS ===================== -->
+  <!-- ===================== SECTION 4: SERVIÇOS (ADAPTAÇÃO TWIST 100%) ===================== -->
+  <!-- ===================== SECTION 4: SERVIÇOS (100% TWIST FIDELITY) ===================== -->
+  <!-- ===================== SECTION 4: SERVIÇOS (100% TWIST FIDELITY — 4 PAINÉIS HORIZONTAIS) ===================== -->
   <section class="servicos" id="servicos">
 
+    <div class="servicos-pinned-wrapper" id="servicosPinnedWrapper">
+      <div class="servicos-pinned-viewport" id="servicosPinnedViewport">
+        <div class="servicos-horizontal-track" id="servicosHorizontalTrack">
 
-    <!-- Background Ambient Orb Lights -->
-    <div class="servicos-orb-light servicos-orb-1"></div>
-    <div class="servicos-orb-light servicos-orb-2"></div>
-
-    <div class="servicos-container">
-      <div class="servicos-header">
-        <div class="servicos-title-wrapper">
-          <div class="servicos-title-glow"></div>
-          <h2 class="servicos-title" data-text="SERVIÇOS">SERVIÇOS</h2>
-          <div class="servicos-title-orbit"></div>
-          <div class="orbit-dot-container">
-            <div class="orbit-dot"></div>
-          </div>
-        </div>
-      </div>
-
-      <p class="servicos-subtitle">Solu&#231;&#245;es que conectam estrat&#233;gia, criatividade, conte&#250;do e
-        tecnologia.</p>
-      <p class="servicos-subtitle-desc">Da ideia &#224; entrega, reunimos diferentes especialidades para transformar
-        desafios de comunica&#231;&#227;o em projetos relevantes, personalizados e capazes de ganhar vida em diferentes
-        telas, plataformas e experi&#234;ncias.</p>
-
-      <!-- ── CAROUSEL DE SERVIÇOS ── -->
-      <div class="servicos-carousel-wrapper">
-        <button class="carousel-arrow carousel-arrow--left" id="carouselPrev" aria-label="Anterior">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <polyline points="15 18 9 12 15 6" />
-          </svg>
-        </button>
-
-        <div class="servicos-carousel-viewport" id="carouselViewport">
-          <div class="servicos-carousel-track" id="carouselTrack">
-
-            <!-- Card 0: Estratégia & Comunicação -->
-            <div class="sc-card" data-index="0">
-              <div class="sc-card-icon">
-                <svg viewBox="0 0 40 40" fill="none">
-                  <circle cx="20" cy="20" r="13" stroke="currentColor" stroke-width="1.8" />
-                  <path d="M20 11V15M20 25V29M11 20H15M25 20H29" stroke="currentColor" stroke-width="1.8"
-                    stroke-linecap="round" />
-                  <circle cx="20" cy="20" r="3.5" stroke="currentColor" stroke-width="1.8" />
-                </svg>
+          <!-- ── PAINEL 1: HERO COM VÍDEO REEL DE FUNDO (TWIST REEL HERO) ── -->
+          <div class="servicos-panel servicos-panel--abertura" id="servicosPanelAbertura">
+            <div class="servicos-hero-card">
+              <div class="servicos-hero-video-wrap">
+                <iframe class="servicos-hero-video-bg"
+                  src="https://player.vimeo.com/video/1204618851?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;background=1&amp;autoplay=1&amp;loop=1&amp;muted=1"
+                  loading="eager" fetchpriority="high" frameborder="0"
+                  allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+                  referrerpolicy="strict-origin-when-cross-origin"
+                  title="highlight_xxxx_-_haus_decor_-_sw_v5_v2 (1080p)"></iframe>
               </div>
-              <h4 class="sc-card-title">Estrat&#233;gia &amp; Comunica&#231;&#227;o</h4>
-              <ul class="sc-card-list">
-                <li>Cria&#231;&#227;o conceitual;</li>
-                <li>Planejamento estrat&#233;gico;</li>
-                <li>Jornada do p&#250;blico;</li>
-                <li>Comunica&#231;&#227;o corporativa;</li>
-                <li>Branding e identidade visual;</li>
-                <li>Endomarketing;</li>
-                <li>Sites, landing pages e hotsites;</li>
-                <li>Gest&#227;o integrada de projetos.</li>
-              </ul>
-            </div>
+              <div class="servicos-hero-overlay"></div>
 
-            <!-- Card 1: Conteúdo & Audiovisual -->
-            <div class="sc-card" data-index="1">
-              <div class="sc-card-icon">
-                <svg viewBox="0 0 40 40" fill="none">
-                  <rect x="6" y="7" width="28" height="22" rx="3" stroke="currentColor" stroke-width="1.8" />
-                  <path d="M16 14l8 4-8 4V14z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
-                  <line x1="10" y1="33" x2="30" y2="33" stroke="currentColor" stroke-width="1.8"
-                    stroke-linecap="round" />
-                </svg>
-              </div>
-              <h4 class="sc-card-title">Conte&#250;do &amp; Audiovisual</h4>
-              <ul class="sc-card-list">
-                <li>V&#237;deos institucionais e de marca;</li>
-                <li>Filmes de abertura e encerramento;</li>
-                <li>Conte&#250;do para redes sociais;</li>
-                <li>Document&#225;rios e entrevistas;</li>
-                <li>Roteiro e storytelling;</li>
-                <li>Motion graphics e anima&#231;&#245;es;</li>
-                <li>Conte&#250;do para treinamentos.</li>
-              </ul>
-            </div>
+              <div class="servicos-hero-content">
+                <div class="servicos-hero-left">
+                  <!-- VÃ­deo 3D Transparente SERVIÃ‡OS -->
+                  <div class="servicos-3d-video-wrap" aria-label="SERVIÃ‡OS">
+                    <span class="servicos-word-accessible">SERVIÃ‡OS</span>
+                    <video class="servicos-3d-title-video" autoplay loop muted playsinline preload="auto">
+                      <source src="assets\SEÇÃO SERVIÇOS\servicos-3d-transparente (1).webm" type="video/webm">
+                    </video>
+                  </div>
 
-            <!-- Card 2: Motion, 3D & Design -->
-            <div class="sc-card" data-index="2">
-              <div class="sc-card-icon">
-                <svg viewBox="0 0 40 40" fill="none">
-                  <path d="M20 7L32 14V28L20 35L8 28V14L20 7Z" stroke="currentColor" stroke-width="1.8"
-                    stroke-linejoin="round" />
-                  <path d="M20 7V35M8 14L32 28M32 14L8 28" stroke="currentColor" stroke-width="1.5"
-                    stroke-linejoin="round" />
-                </svg>
-              </div>
-              <h4 class="sc-card-title">Motion, 3D &amp; Design</h4>
-              <ul class="sc-card-list">
-                <li>Motion Graphics;</li>
-                <li>Anima&#231;&#245;es 2D e 3D;</li>
-                <li>Conte&#250;dos anam&#243;rficos;</li>
-                <li>Modelagem 3D;</li>
-                <li>Identidade visual;</li>
-                <li>Apresenta&#231;&#245;es corporativas;</li>
-                <li>Conte&#250;do para LEDs e pain&#233;is.</li>
-              </ul>
-            </div>
+                  <p class="servicos-lead-subtitle"></p>
+                  <p class="servicos-lead-desc"></p>
+                </div>
 
-            <!-- Card 3: Tecnologia & Interatividade -->
-            <div class="sc-card" data-index="3">
-              <div class="sc-card-icon">
-                <svg viewBox="0 0 40 40" fill="none">
-                  <circle cx="20" cy="20" r="13" stroke="currentColor" stroke-width="1.8" />
-                  <circle cx="20" cy="20" r="4.5" stroke="currentColor" stroke-width="1.8" />
-                  <line x1="20" y1="7" x2="20" y2="3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
-                  <line x1="20" y1="33" x2="20" y2="37" stroke="currentColor" stroke-width="1.8"
-                    stroke-linecap="round" />
-                  <line x1="7" y1="20" x2="3" y2="20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
-                  <line x1="33" y1="20" x2="37" y2="20" stroke="currentColor" stroke-width="1.8"
-                    stroke-linecap="round" />
-                </svg>
-              </div>
-              <h4 class="sc-card-title">Tecnologia &amp; Interatividade</h4>
-              <ul class="sc-card-list">
-                <li>Intelig&#234;ncia Artificial;</li>
-                <li>MetaHumans e avatares digitais;</li>
-                <li>Realidade Aumentada;</li>
-                <li>Realidade Virtual e Mista;</li>
-                <li>Mapping e Proje&#231;&#227;o;</li>
-                <li>Gamifica&#231;&#227;o &amp; RFID;</li>
-                <li>Apps e interfaces interativas.</li>
-              </ul>
-            </div>
-
-            <!-- Card 4: Captação, Live & Streaming -->
-            <div class="sc-card" data-index="4">
-              <div class="sc-card-icon">
-                <svg viewBox="0 0 40 40" fill="none">
-                  <rect x="5" y="11" width="22" height="18" rx="2" stroke="currentColor" stroke-width="1.8" />
-                  <polygon points="27,16 36,11 36,29 27,24" stroke="currentColor" stroke-width="1.8"
-                    stroke-linejoin="round" fill="none" />
-                  <circle cx="12" cy="17" r="2" fill="currentColor" />
-                </svg>
-              </div>
-              <h4 class="sc-card-title">Capta&#231;&#227;o, Live &amp; Streaming</h4>
-              <ul class="sc-card-list">
-                <li>Capta&#231;&#227;o audiovisual;</li>
-                <li>Produ&#231;&#227;o multic&#226;mera;</li>
-                <li>Streaming e transmiss&#245;es ao vivo;</li>
-                <li>Webinars e Podcasts;</li>
-                <li>Eventos h&#237;bridos;</li>
-                <li>Cobertura e Highlights;</li>
-                <li>Edi&#231;&#227;o e p&#243;s-produ&#231;&#227;o.</li>
-              </ul>
-            </div>
-
-            <!-- Card 5: Experiência de Marca -->
-            <div class="sc-card" data-index="5">
-              <div class="sc-card-icon">
-                <svg viewBox="0 0 40 40" fill="none">
-                  <path
-                    d="M20 6L23.8 14.2L32.8 15.2L26 21.3L27.9 30.2L20 25.7L12.1 30.2L14 21.3L7.2 15.2L16.2 14.2L20 6Z"
-                    stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" fill="none" />
-                </svg>
-              </div>
-              <h4 class="sc-card-title">Experi&#234;ncia de Marca</h4>
-              <ul class="sc-card-list">
-                <li>Conven&#231;&#245;es corporativas;</li>
-                <li>Lan&#231;amentos de produtos;</li>
-                <li>Feiras e congressos;</li>
-                <li>Ativa&#231;&#245;es de marca;</li>
-                <li>Roadshows;</li>
-                <li>Hospitalidade;</li>
-                <li>Experi&#234;ncias imersivas.</li>
-              </ul>
-            </div>
-
-          </div>
-        </div>
-
-        <button class="carousel-arrow carousel-arrow--right" id="carouselNext" aria-label="Próximo">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <polyline points="9 18 15 12 9 6" />
-          </svg>
-        </button>
-      </div>
-
-      <div class="carousel-navigation-hint">
-        <span class="hint-line"></span>
-        <span class="hint-text">Role para o lado para ver nosso serviços &rarr;</span>
-        <span class="hint-line"></span>
-      </div>
-
-      <div class="servicos-action">
-        <a href="#contato" class="btn-contatar-servicos">Contatar nossos serviços</a>
-      </div>
-
-      <!-- ── SEÇÃO SOBRE & DETALHES DE SERVIÇOS ── -->
-      <div class="servicos-detalhes-section">
-        <div class="detalhes-sobre-card">
-          <p class="sobre-label">Sobre</p>
-          <h3 class="sobre-title">O que faz a diferença<br>em cada projeto.</h3>
-        </div>
-
-        <div class="detalhes-conteudo-grid">
-          <div class="detalhes-visual-container">
-            <div class="detalhes-visual-box">
-              <div class="preview-pane default-pane active"></div>
-              <div class="preview-pane webinars-pane"></div>
-              <div class="preview-pane estandes-pane"></div>
-              <div class="preview-pane realidade-pane"></div>
-              <div class="preview-pane mapping-pane"></div>
-              <div class="preview-pane led-pane"></div>
-              <div class="visual-effects-overlay"></div>
-            </div>
-          </div>
-
-          <div class="detalhes-lista-container">
-            <div class="detalhe-item" data-preview="webinars">
-              <div class="detalhe-item-info">
-                <h4 class="detalhe-item-title">Integração</h4>
-                <p class="detalhe-item-desc">Estratégia, criação, conteúdo, audiovisual, tecnologia e produção
-                  trabalhando de forma conectada.</p>
-              </div>
-              <div class="detalhe-item-action">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                  stroke-linejoin="round">
-                  <line x1="4" y1="9" x2="20" y2="9" />
-                  <line x1="4" y1="15" x2="20" y2="15" />
-                </svg>
-              </div>
-            </div>
-
-            <div class="detalhe-item" data-preview="estandes">
-              <div class="detalhe-item-info">
-                <h4 class="detalhe-item-title">Time Multidisciplinar</h4>
-                <p class="detalhe-item-desc">Profissionais especializados em criação, roteiro, design, motion, 3D,
-                  audiovisual, tecnologia e produção.</p>
-              </div>
-              <div class="detalhe-item-action">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                  stroke-linejoin="round">
-                  <line x1="4" y1="9" x2="20" y2="9" />
-                  <line x1="4" y1="15" x2="20" y2="15" />
-                </svg>
-              </div>
-            </div>
-
-            <div class="detalhe-item" data-preview="realidade">
-              <div class="detalhe-item-info">
-                <h4 class="detalhe-item-title">Tecnologia com propósito</h4>
-                <p class="detalhe-item-desc">Inovação aplicada para ampliar a mensagem, gerar interação e criar novas
-                  formas de conexão.</p>
-              </div>
-              <div class="detalhe-item-action">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                  stroke-linejoin="round">
-                  <line x1="4" y1="9" x2="20" y2="9" />
-                  <line x1="4" y1="15" x2="20" y2="15" />
-                </svg>
-              </div>
-            </div>
-
-            <div class="detalhe-item" data-preview="mapping">
-              <div class="detalhe-item-info">
-                <h4 class="detalhe-item-title">Gestão completa</h4>
-                <p class="detalhe-item-desc">Do briefing à entrega final, acompanhamos todas as etapas do projeto.</p>
-              </div>
-              <div class="detalhe-item-action">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                  stroke-linejoin="round">
-                  <line x1="4" y1="9" x2="20" y2="9" />
-                  <line x1="4" y1="15" x2="20" y2="15" />
-                </svg>
-              </div>
-            </div>
-
-            <div class="detalhe-item" data-preview="led">
-              <div class="detalhe-item-info">
-                <h4 class="detalhe-item-title">Escalabilidade</h4>
-                <p class="detalhe-item-desc">De uma peça de conteúdo a uma operação de grande escala. A solução se
-                  adapta ao desafio da marca.</p>
-              </div>
-              <div class="detalhe-item-action">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                  stroke-linejoin="round">
-                  <line x1="4" y1="9" x2="20" y2="9" />
-                  <line x1="4" y1="15" x2="20" y2="15" />
-                </svg>
+                <div class="servicos-hero-right">
+                  <div class="hero-twist-badge">
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+
+          <!-- ── PAINEL 2: FUNDO BRANCO TOTAL (#nos - Twist Slide 2) ── -->
+          <div class="servicos-panel servicos-panel--apresentacao" id="servicosPanelApresentacao">
+            <div class="servicos-apresentacao-container">
+              <h2 class="apresentacao-twist-titulo">Soluções que conectam estratégia, criatividade, conteúdo e
+                tecnologia.</h2>
+              <p class="apresentacao-twist-principal">Da ideia à entrega, reunimos diferentes especialidades para
+                transformar desafios de comunicação em projetos relevantes, personalizados e capazes de ganhar vida em
+                diferentes telas, plataformas e experiências.</p>
+
+            </div>
+          </div>
+
+          <!-- ── PAINEL 3: DIFERENCIAIS RSTCOM COM VÍDEO FULLSCREEN & SCROLL VERTICAL ── -->
+          <div class="servicos-panel servicos-panel--diferenciais" id="servicosPanelDiferenciais">
+            <!-- Vídeo de Fundo Fullscreen Local -->
+            <div class="diferenciais-fullscreen-bg">
+              <iframe class="diferencial-video-layer"
+                src="https://player.vimeo.com/video/1204618045?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;background=1&amp;autoplay=1&amp;loop=1&amp;muted=1"
+                loading="eager" fetchpriority="high" frameborder="0"
+                allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                title="12193_-_video_case_sogesp_libbs_rst_v1 (1080p)"></iframe>
+              <div class="diferenciais-fullscreen-overlay"></div>
+            </div>
+
+            <!-- Stage de Rolagem Vertical com TODOS os 5 Diferenciais da RSTCOM -->
+            <div class="diferenciais-vertical-stage" id="diffVerticalStage">
+              <div class="diferenciais-vertical-track" id="diffVerticalTrack">
+
+                <!-- 01: Integração -->
+                <div class="diff-vertical-item" data-index="0">
+                  <h2 class="diff-item-title">Integração</h2>
+                  <p class="diff-item-desc">Estratégia, criação, conteúdo, audiovisual, tecnologia e produção
+                    trabalhando de forma conectada.</p>
+                </div>
+
+                <!-- 02: Time Multidisciplinar -->
+                <div class="diff-vertical-item" data-index="1">
+                  <h2 class="diff-item-title">Time Multidisciplinar</h2>
+                  <p class="diff-item-desc">Profissionais especializados em criação, roteiro, design, motion, 3D,
+                    audiovisual, tecnologia e produção.</p>
+                </div>
+
+                <!-- 03: Tecnologia com propósito -->
+                <div class="diff-vertical-item" data-index="2">
+                  <h2 class="diff-item-title">Tecnologia com propósito</h2>
+                  <p class="diff-item-desc">Inovação aplicada para ampliar a mensagem, gerar interação e criar novas
+                    formas de conexão.</p>
+                </div>
+
+                <!-- 04: Gestão completa -->
+                <div class="diff-vertical-item" data-index="3">
+                  <h2 class="diff-item-title">Gestão completa</h2>
+                  <p class="diff-item-desc">Do briefing à entrega final, acompanhamos todas as etapas do projeto.</p>
+                </div>
+
+                <!-- 05: Escalabilidade -->
+                <div class="diff-vertical-item" data-index="4">
+                  <h2 class="diff-item-title">Escalabilidade</h2>
+                  <p class="diff-item-desc">De uma peça de conteúdo a uma operação de grande escala. A solução se adapta
+                    ao desafio da marca.</p>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Indicador lateral sutil da posição -->
+            <div class="diff-scroll-progress-dots">
+              <span class="diff-prog-dot active" data-dot="0"></span>
+              <span class="diff-prog-dot" data-dot="1"></span>
+              <span class="diff-prog-dot" data-dot="2"></span>
+              <span class="diff-prog-dot" data-dot="3"></span>
+              <span class="diff-prog-dot" data-dot="4"></span>
+            </div>
+          </div>
+
+          <!-- ── PAINEL 4: LISTA DE SERVIÇOS 3D COM FUNDO BRANCO TOTAL (#servicos Twist) ── -->
+          <div class="servicos-panel servicos-panel--servicos3d" id="servicosPanelServicos3D">
+            <div class="servicos-3d-layout">
+
+              <!-- Coluna Esquerda: Faixas com Giro 3D a 90° em X -->
+              <div class="servicos-strips-list" id="servicosStripsList">
+
+                <!-- 01: Estratégia & Comunicação -->
+                <div class="servicos-strip-item" tabindex="0" role="region" aria-label="Estratégia e Comunicação">
+                  <div class="servicos-strip-3d-box">
+                    <div class="strip-face strip-face--front">
+                      <div class="strip-face-left">
+                        <span class="strip-index">01</span>
+                        <h4 class="strip-category-name">Estrat&eacute;gia &amp; Comunica&ccedil;&atilde;o</h4>
+                      </div>
+                      <div class="strip-face-right">
+                        <span class="strip-peek">Ver servi&ccedil;os</span>
+                        <span class="strip-arrow">&darr;</span>
+                      </div>
+                    </div>
+                    <div class="strip-face--hover">
+                      <div class="strip-hover-content">
+                        <h4 class="strip-hover-title">Estrat&eacute;gia &amp; Comunica&ccedil;&atilde;o</h4>
+                        <span class="strip-hover-dot"></span>
+                        <p class="strip-hover-text">Cria&ccedil;&atilde;o conceitual, planejamento estrat&eacute;gico,
+                          jornada do p&uacute;blico, comunica&ccedil;&atilde;o corporativa, branding e identidade
+                          visual, endomarketing, sites, landing pages e hotsites, gest&atilde;o integrada de projetos
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 02: Conteúdo & Audiovisual -->
+                <div class="servicos-strip-item" tabindex="0" role="region" aria-label="Conteúdo e Audiovisual">
+                  <div class="servicos-strip-3d-box">
+                    <div class="strip-face strip-face--front">
+                      <div class="strip-face-left">
+                        <span class="strip-index">02</span>
+                        <h4 class="strip-category-name">Conte&uacute;do &amp; Audiovisual</h4>
+                      </div>
+                      <div class="strip-face-right">
+                        <span class="strip-peek">Ver servi&ccedil;os</span>
+                        <span class="strip-arrow">&darr;</span>
+                      </div>
+                    </div>
+                    <div class="strip-face--hover">
+                      <div class="strip-hover-content">
+                        <h4 class="strip-hover-title">Conte&uacute;do &amp; Audiovisual</h4>
+                        <span class="strip-hover-dot"></span>
+                        <p class="strip-hover-text">V&iacute;deos institucionais e de marca, filmes de abertura e
+                          encerramento, conte&uacute;do para redes sociais, document&aacute;rios e entrevistas, roteiro
+                          e storytelling, motion graphics e anima&ccedil;&otilde;es, conte&uacute;do para treinamentos
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 03: Motion, 3D & Design -->
+                <div class="servicos-strip-item" tabindex="0" role="region" aria-label="Motion, 3D e Design">
+                  <div class="servicos-strip-3d-box">
+                    <div class="strip-face strip-face--front">
+                      <div class="strip-face-left">
+                        <span class="strip-index">03</span>
+                        <h4 class="strip-category-name">Motion, 3D &amp; Design</h4>
+                      </div>
+                      <div class="strip-face-right">
+                        <span class="strip-peek">Ver servi&ccedil;os</span>
+                        <span class="strip-arrow">&darr;</span>
+                      </div>
+                    </div>
+                    <div class="strip-face--hover">
+                      <div class="strip-hover-content">
+                        <h4 class="strip-hover-title">Motion, 3D &amp; Design</h4>
+                        <span class="strip-hover-dot"></span>
+                        <p class="strip-hover-text">Motion Graphics, anima&ccedil;&otilde;es 2D e 3D, conte&uacute;dos
+                          anam&oacute;rficos, modelagem 3D, identidade visual, apresenta&ccedil;&otilde;es corporativas,
+                          conte&uacute;do para LEDs e pain&eacute;is</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 04: Tecnologia & Interatividade -->
+                <div class="servicos-strip-item" tabindex="0" role="region" aria-label="Tecnologia e Interatividade">
+                  <div class="servicos-strip-3d-box">
+                    <div class="strip-face strip-face--front">
+                      <div class="strip-face-left">
+                        <span class="strip-index">04</span>
+                        <h4 class="strip-category-name">Tecnologia &amp; Interatividade</h4>
+                      </div>
+                      <div class="strip-face-right">
+                        <span class="strip-peek">Ver servi&ccedil;os</span>
+                        <span class="strip-arrow">&darr;</span>
+                      </div>
+                    </div>
+                    <div class="strip-face--hover">
+                      <div class="strip-hover-content">
+                        <h4 class="strip-hover-title">Tecnologia &amp; Interatividade</h4>
+                        <span class="strip-hover-dot"></span>
+                        <p class="strip-hover-text">Intelig&ecirc;ncia Artificial, MetaHumans e avatares digitais,
+                          Realidade Aumentada, Realidade Virtual e Mista, Mapping e Proje&ccedil;&atilde;o,
+                          Gamifica&ccedil;&atilde;o &amp; RFID, apps e interfaces interativas</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 05: Captação, Live & Streaming -->
+                <div class="servicos-strip-item" tabindex="0" role="region" aria-label="Captação, Live e Streaming">
+                  <div class="servicos-strip-3d-box">
+                    <div class="strip-face strip-face--front">
+                      <div class="strip-face-left">
+                        <span class="strip-index">05</span>
+                        <h4 class="strip-category-name">Capta&ccedil;&atilde;o, Live &amp; Streaming</h4>
+                      </div>
+                      <div class="strip-face-right">
+                        <span class="strip-peek">Ver servi&ccedil;os</span>
+                        <span class="strip-arrow">&darr;</span>
+                      </div>
+                    </div>
+                    <div class="strip-face--hover">
+                      <div class="strip-hover-content">
+                        <h4 class="strip-hover-title">Capta&ccedil;&atilde;o, Live &amp; Streaming</h4>
+                        <span class="strip-hover-dot"></span>
+                        <p class="strip-hover-text">Capta&ccedil;&atilde;o audiovisual, produ&ccedil;&atilde;o
+                          multic&acirc;mera, streaming e transmiss&otilde;es ao vivo, webinars e podcasts, eventos
+                          h&iacute;bridos, cobertura e highlights, edi&ccedil;&atilde;o e
+                          p&oacute;s-produ&ccedil;&atilde;o, transmisão simultânea.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 06: Experiência de Marca -->
+                <div class="servicos-strip-item" tabindex="0" role="region" aria-label="Experiência de Marca">
+                  <div class="servicos-strip-3d-box">
+                    <div class="strip-face strip-face--front">
+                      <div class="strip-face-left">
+                        <span class="strip-index">06</span>
+                        <h4 class="strip-category-name">Experi&ecirc;ncia de Marca</h4>
+                      </div>
+                      <div class="strip-face-right">
+                        <span class="strip-peek">Ver servi&ccedil;os</span>
+                        <span class="strip-arrow">&darr;</span>
+                      </div>
+                    </div>
+                    <div class="strip-face--hover">
+                      <div class="strip-hover-content">
+                        <h4 class="strip-hover-title">Experi&ecirc;ncia de Marca</h4>
+                        <span class="strip-hover-dot"></span>
+                        <p class="strip-hover-text">Conven&ccedil;&otilde;es corporativas, lan&ccedil;amentos de
+                          produtos, feiras e congressos, ativa&ccedil;&otilde;es de marca, roadshows, hospitalidade,
+                          experi&ecirc;ncias imersivas</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Coluna Direita: Informações Institucionais Twist style -->
+              <div class="servicos-3d-side-info">
+
+                <h3 class="side-info-title">Do Conceito à Pós-Produção</h3>
+                <p class="side-info-desc">Da estratégia e criação ao audiovisual, design, motion e 3D, unimos conteúdo,
+                  transmissões ao vivo e tecnologias interativas para conectar marcas e pessoas em diferentes telas e
+                  experiências.</p>
+
+              </div>
+
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
+
   </section>
 
-  <!-- ===================== SECTION 2: QUEM SOMOS ===================== -->
-  <section class="quem-somos" id="sobre">
-    <div class="qs-container">
-      <div class="qs-left">
-        <p class="qs-tagline">Quem somos n&#243;s</p>
-        <h2 class="qs-title">Nascemos do audiovisual. Evolu&#237;mos com a tecnologia.</h2>
-        <div class="qs-body-text">
-          <p>H&#225; mais de uma d&#233;cada, a RSTCOM nasceu como uma produtora especializada em conte&#250;do
-            audiovisual. Ao longo dessa trajet&#243;ria, acompanhamos a evolu&#231;&#227;o dos formatos, das plataformas
-            e da tecnologia, ampliando nossa atua&#231;&#227;o para streaming, design, experi&#234;ncias interativas e
-            comunica&#231;&#227;o integrada.</p>
-          <p>Hoje, reunimos estrat&#233;gia, cria&#231;&#227;o, conte&#250;do, audiovisual, tecnologia e
-            produ&#231;&#227;o para transformar objetivos de comunica&#231;&#227;o em projetos que conectam pessoas e
-            marcas.</p>
-          <p><strong>De um v&#237;deo institucional a uma experi&#234;ncia imersiva.<br>De uma apresenta&#231;&#227;o
-              executiva a uma conven&#231;&#227;o de grande escala.</strong></p>
-          <p>Projetos de diferentes formatos e dimens&#245;es, sempre com o mesmo olhar estrat&#233;gico, criativo e
-            t&#233;cnico.</p>
-        </div>
-      </div>
-      <div class="qs-right">
-        <div class="qs-visual">
-          <div class="qs-block qs-block-dark"></div>
-          <div class="qs-stats">
-            <div class="qs-stat">
-              <span class="stat-num" data-target="500" data-prefix="+">+500</span>
-              <span class="stat-label">Projetos Realizados</span>
-              <div class="stat-bar">
-                <div class="stat-bar-fill" data-width="90"></div>
-              </div>
-            </div>
-            <div class="qs-stat">
-              <span class="stat-num" data-target="200" data-prefix="+">+200</span>
-              <span class="stat-label">Marcas Atendidas</span>
-              <div class="stat-bar">
-                <div class="stat-bar-fill" data-width="72"></div>
-              </div>
-            </div>
-            <div class="qs-stat">
-              <span class="stat-num" data-target="100" data-suffix="%">100%</span>
-              <span class="stat-label">Projetos personalizados</span>
-              <div class="stat-bar">
-                <div class="stat-bar-fill" data-width="55"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- ===================== SECTION 3: GRANDES MARCAS ===================== -->
   <section class="brand-authority" id="casos-av">
@@ -1244,280 +1423,99 @@ Durante o primeiro dia, realizamos a captação dos principais momentos da premi
   </section>
 
 
-  <!-- ===================== SECTION 5.5: RST NEWS (NEWSLETTER) ===================== -->
-  <section class="rst-news" id="rst-news">
-    <div class="news-ambient-glow"></div>
-    <div class="news-container">
-      <div class="news-grid">
-        <div class="news-left">
-          <p class="news-tagline">RST news</p>
-          <h2 class="news-title">CONTEÚDO QUE MOVE A <span class="news-highlight">COMUNICAÇÃO</span></h2>
-          <p class="news-description">
-            Tendências, projetos, bastidores e ideias sobre audiovisual, conteúdo, tecnologia e experiências que estão
-            transformando a maneira como marcas se comunicam.
-          </p>
-          <form class="news-form" id="newsForm" novalidate>
-            <div class="news-input-wrapper name-wrapper" style="margin-bottom: 12px;">
-              <input type="text" id="newsName" class="news-input" placeholder="Seu nome" required
-                style="width: 100%;" />
-            </div>
-            <div class="news-input-wrapper">
-              <input type="email" id="newsEmail" class="news-input" placeholder="Seu e-mail corporativo" required />
-              <button type="submit" class="news-submit-btn" id="newsSubmitBtn">
-                <span>Inscrever-se</span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="arrow-icon">
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                  <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
-              </button>
-            </div>
-            <p class="news-status-msg" id="newsStatusMsg"></p>
-          </form>
-          <div class="news-topics">
-            <span class="news-topic-badge" data-topic="tech"><span class="topic-dot"></span> Tecnologia &amp; LED</span>
-            <span class="news-topic-badge" data-topic="tech"><span class="topic-dot"></span> Tendências RSTcom</span>
-            <span class="news-topic-badge" data-topic="backstage"><span class="topic-dot"></span> Tecnologia &amp;
-              IA</span>
-            <span class="news-topic-badge" data-topic="trends"><span class="topic-dot"></span> Feiras &amp;
-              Eventos</span>
-          </div>
-        </div>
-        <div class="news-right">
-          <div class="news-deck-wrapper">
-            <div class="news-deck" id="newsDeck">
-              <!-- Card 0 — CBGO 2026 -->
-              <div class="news-card-edition active" data-index="0">
-                <span class="card-tag">Feiras</span>
-                <h4 class="card-edition-title">CBGO 2026: Tecnologia, narrativa e ambientação no estande da Libbs</h4>
-                <p class="card-edition-excerpt">Ao lado da Libbs, criamos soluções que uniram tecnologia, narrativa e
-                  ambientação estratégica no CBGO 2026. Projetamos ativações imersivas como Nextela, Zaila e Ciclos do
-                  Cuidado para transformar o estande em uma jornada de descoberta científica.</p>
-                <div class="card-edition-footer">
-                  <span class="card-date">Julho 2026</span>
-                  <span class="card-read-time" style="cursor:pointer;color:#d4a017;font-weight:600">📰 Abrir no
-                    leitor</span>
-                </div>
-              </div>
-              <!-- Card 1 — Experiências que transformam conteúdo científico em conexão -->
-              <div class="news-card-edition" data-index="1">
-                <span class="card-tag">Feiras</span>
-                <h4 class="card-edition-title">Experiências que transformam conteúdo científico em conexão</h4>
-                <p class="card-edition-excerpt">Entre os destaques do projeto esteve a experiência NEXTELA — TRÍADE DA
-                  INOVAÇÃO, desenvolvida a partir do conceito vitruviano para representar equilíbrio, evolução e
-                  inovação no cuidado feminino.</p>
-                <div class="card-edition-footer">
-                  <span class="card-date">Junho 2026</span>
-                  <span class="card-read-time" style="cursor:pointer;color:#d4a017;font-weight:600">📰 Abrir no
-                    leitor</span>
-                </div>
-              </div>
-              <!-- Card 2 — Como Transformar Comunicação em Experiências -->
-              <div class="news-card-edition" data-index="2">
-                <span class="card-tag">Tendências RSTcom</span>
-                <h4 class="card-edition-title">Como Transformar Comunicação em Experiências que Ninguém Esquece</h4>
-                <p class="card-edition-excerpt">Sabe aquela sensação de rolar o feed e não lembrar de nada do que você
-                  viu? Hoje, só "comunicar" já não dá conta. A RST explica como criar experiências que ficam na memória.
-                </p>
-                <div class="card-edition-footer">
-                  <span class="card-date">Maio 2026</span>
-                  <span class="card-read-time" style="cursor:pointer;color:#d4a017;font-weight:600">📰 Abrir no
-                    leitor</span>
-                </div>
-              </div>
-              <!-- Card 3 — Sua marca pode marcar pontos nesta Copa do Mundo -->
-              <div class="news-card-edition" data-index="2">
-                <span class="card-tag">Estratégia de Marca</span>
-                <h4 class="card-edition-title">Sua marca pode marcar pontos nesta Copa do Mundo ⚽</h4>
-                <p class="card-edition-excerpt">A RSTCOM ajuda sua marca a transformar projetos em experiências
-                  temáticas de sucesso. Veja como aproveitar o maior evento esportivo do mundo.</p>
-                <div class="card-edition-footer">
-                  <span class="card-date">Abril 2026</span>
-                  <span class="card-read-time" style="cursor:pointer;color:#d4a017;font-weight:600">📰 Abrir no
-                    leitor</span>
-                </div>
-              </div>
-              <!-- Card 4 — O tempo é o maior vilão ou aliado -->
-              <div class="news-card-edition" data-index="3">
-                <span class="card-tag">Estratégia</span>
-                <h4 class="card-edition-title">O tempo é o maior vilão (ou aliado) da sua empresa em 2026 ⏳</h4>
-                <p class="card-edition-excerpt">Raio-X da Retenção: Por que o timing errado é o maior vilão da sua
-                  comunicação em 2026. Entenda como usar o tempo a favor dos seus resultados.</p>
-                <div class="card-edition-footer">
-                  <span class="card-date">Março 2026</span>
-                  <span class="card-read-time" style="cursor:pointer;color:#d4a017;font-weight:600">📰 Abrir no
-                    leitor</span>
-                </div>
-              </div>
-              <!-- Card 5 — A Nova Era da Inteligência Artificial -->
-              <div class="news-card-edition" data-index="4">
-                <span class="card-tag">Inteligência Artificial</span>
-                <h4 class="card-edition-title">A Nova Era da Inteligência Artificial na Comunicação</h4>
-                <p class="card-edition-excerpt">O fim da comunicação genérica: A era dos Humanos Digitais chegou.
-                  Descubra como a IA está transformando a forma de se comunicar nos eventos.</p>
-                <div class="card-edition-footer">
-                  <span class="card-date">Fevereiro 2026</span>
-                  <span class="card-read-time" style="cursor:pointer;color:#d4a017;font-weight:600">📰 Abrir no
-                    leitor</span>
-                </div>
-              </div>
-              <!-- Card 6 — Sherwin-Williams na FEICON -->
-              <div class="news-card-edition" data-index="5">
-                <span class="card-tag">Feiras</span>
-                <h4 class="card-edition-title">Sherwin-Williams Brilha na FEICON: Inovação e Interatividade</h4>
-                <p class="card-edition-excerpt">A Sherwin-Williams marcou presença na FEICON com um estande que foi um
-                  verdadeiro show de inovação e experiência do visitante, unindo tecnologia e interatividade.</p>
-                <div class="card-edition-footer">
-                  <span class="card-date">Novembro 2025</span>
-                  <span class="card-read-time" style="cursor:pointer;color:#d4a017;font-weight:600">📰 Abrir no
-                    leitor</span>
-                </div>
-              </div>
-              <!-- Card 7 — Do Macro ao Micro -->
-              <div class="news-card-edition" data-index="6">
-                <span class="card-tag">Tendências RSTcom</span>
-                <h4 class="card-edition-title">Do Macro ao Micro: Como a Libbs Usa Tecnologia Interativa</h4>
-                <p class="card-edition-excerpt">Como a Libbs utiliza tecnologia interativa para dominar a comunicação em
-                  cenários distintos — da palestra de grande porte ao encontro íntimo com médicos.</p>
-                <div class="card-edition-footer">
-                  <span class="card-date">Setembro 2025</span>
-                  <span class="card-read-time" style="cursor:pointer;color:#d4a017;font-weight:600">📰 Abrir no
-                    leitor</span>
-                </div>
-              </div>
-              <!-- Card 8 — RFID em foco -->
-              <div class="news-card-edition" data-index="7">
-                <span class="card-tag">Tecnologia</span>
-                <h4 class="card-edition-title">RFID em Foco: Conectando Produtos e Inovações</h4>
-                <p class="card-edition-excerpt">A tecnologia RFID está revolucionando a forma como eventos são
-                  planejados, geridos e vivenciados, criando experiências mais fluidas e personalizadas.</p>
-                <div class="card-edition-footer">
-                  <span class="card-date">Junho 2025</span>
-                  <span class="card-read-time" style="cursor:pointer;color:#d4a017;font-weight:600">📰 Abrir no
-                    leitor</span>
-                </div>
-              </div>
-              <!-- Card 9 — Photo Opp -->
-              <div class="news-card-edition" data-index="8">
-                <span class="card-tag">Tendências RSTcom</span>
-                <h4 class="card-edition-title">Photo Opp: quando a experiência se transforma em uma lembrança</h4>
-                <p class="card-edition-excerpt">E se o seu próximo evento pudesse ser lembrado por muito mais do que o
-                  que aconteceu ao vivo? Descubra o poder do Photo Opportunity como ferramenta de branding.</p>
-                <div class="card-edition-footer">
-                  <span class="card-date">Abril 2025</span>
-                  <span class="card-read-time" style="cursor:pointer;color:#d4a017;font-weight:600">📰 Abrir no
-                    leitor</span>
-                </div>
-              </div>
-              <!-- Card 10 — Conteúdo Anamórfico -->
-              <div class="news-card-edition" data-index="none">
-                <span class="card-tag">Tendências RSTcom</span>
-                <h4 class="card-edition-title">Conteúdo Anamórfico: a revolução visual nos eventos corporativos</h4>
-                <p class="card-edition-excerpt">Você já ouviu falar em conteúdo anamórfico? Essa tecnologia cria ilusões
-                  3D impactantes e já está marcando presença em grandes eventos mundo afora.</p>
-                <div class="card-edition-footer">
-                  <span class="card-date">Agosto 2025</span>
-                  <span class="card-read-time" style="color:#666;font-weight:600;font-size:0.8rem">📰 Em breve</span>
-                </div>
-              </div>
-            </div>
+  <!-- ===================== SECTION 6: CONTATO ===================== -->
+  <section class="contato" id="contato" aria-label="Seção de contato">
 
-            <div class="news-deck-controls">
-              <button class="news-control-btn prev" id="newsPrevBtn" aria-label="Anterior">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <polyline points="15 18 9 12 15 6"></polyline>
-                </svg>
-              </button>
-              <div class="news-deck-dots" id="newsDeckDots">
-                <span class="deck-dot active" data-index="0"></span>
-                <span class="deck-dot" data-index="1"></span>
-                <span class="deck-dot" data-index="2"></span>
-                <span class="deck-dot" data-index="3"></span>
-                <span class="deck-dot" data-index="4"></span>
-                <span class="deck-dot" data-index="5"></span>
-                <span class="deck-dot" data-index="6"></span>
-                <span class="deck-dot" data-index="7"></span>
-                <span class="deck-dot" data-index="8"></span>
-                <span class="deck-dot" data-index="9"></span>
-              </div>
-              <button class="news-control-btn next" id="newsNextBtn" aria-label="Próximo">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
-              </button>
-            </div>
-          </div>
+    <!-- Coluna esquerda: vídeo de fundo + textos -->
+    <div class="contato-left">
+      <!-- VÍdeo de fundo -->
+      <video class="contato-video-bg" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+        <source
+          src="assets/SEÇÃO CONTATO/cameraman-silhouette-filming-in-moody-blue-light-2026-09-15-05-01-17-utc_1.mp4"
+          type="video/mp4">
+      </video>
+      <!-- Overlay escuro sobre o vídeo -->
+      <div class="contato-video-overlay" aria-hidden="true"></div>
+
+      <!-- Conteúdo sobre o vídeo -->
+      <div class="contato-left-content">
+        <div class="contato-left-titles">
+          <span class="contato-left-the">The</span>
+          <span class="contato-left-power">Power</span>
         </div>
+        <div class="contato-left-intro-block">
+          <p class="contato-left-intro-title">Introdução<br>RSTCOM</p>
+          <p class="contato-left-intro-text">Uma produtora tátil que gera impactos precisos. Inscreva-se para ter a
+            chance de experimentar um.</p>
+        </div>
+        <p class="contato-left-tagline">Segue ao lado</p>
       </div>
     </div>
-  </section>
 
-  <!-- ===================== SECTION 6: CONTATE-NOS ===================== -->
-  <section class="contato" id="contato">
-    <div class="contato-bg-svg" aria-hidden="true">
-      <img src="assets/SEÇÃO CONTATO/CONTATO.svg" alt="" />
-    </div>
-    <div class="contato-container">
-      <div class="contato-left">
-        <p class="contato-label">Fale com a gente</p>
-        <h2 class="contato-title">Vamos criar algo <br />incrível juntos</h2>
-        <div class="contato-info">
-          <a href="mailto:contato@rstcom.com.br" class="contato-info-item">
-            <div class="contato-info-icon">
-              <img src="assets/SEÇÃO CONTATO/o-email.png" alt="E-mail" />
-            </div>
-            <div>
-              <span class="contato-info-label">E-mail</span>
-              <span class="contato-info-value">contato@rstcom.com.br</span>
-            </div>
-          </a>
-          <a href="tel:+551134453980" class="contato-info-item">
-            <div class="contato-info-icon">
-              <img src="assets/SEÇÃO CONTATO/telefone.png" alt="Telefone" />
-            </div>
-            <div>
-              <span class="contato-info-label">Telefone</span>
-              <span class="contato-info-value">+55 (11) 3445-3980</span>
-            </div>
-          </a>
-        </div>
-      </div>
-      <div class="contato-right">
+    <!-- Coluna direita: fundo preto + formulário -->
+    <div class="contato-right">
+      <div class="contato-right-inner">
+        <p class="contato-right-label">Contato</p>
+        <p class="contato-right-subtitle">Interessado pelos nossos serviços? Entre em contato conosco.</p>
+
         <form class="contato-form" id="contatoForm" novalidate>
-          <div class="form-group">
-            <input type="text" id="formNome" name="nome" class="form-input" placeholder="Seu nome completo" required />
+
+          <!-- Linha 1: Nome + Telefone -->
+          <div class="contato-form-row">
+            <div class="contato-form-group">
+              <label for="formNome" class="contato-form-label">Nome</label>
+              <input type="text" id="formNome" name="nome" class="contato-form-input" placeholder="Seu nome completo"
+                required autocomplete="name" />
+            </div>
+            <div class="contato-form-group">
+              <label for="formTelefone" class="contato-form-label">Telefone</label>
+              <input type="tel" id="formTelefone" name="telefone" class="contato-form-input"
+                placeholder="(11) 9 9999-9999" autocomplete="tel" />
+            </div>
           </div>
-          <div class="form-group">
-            <input type="email" id="formEmail" name="email" class="form-input" placeholder="seu@email.com" required />
+
+          <!-- Linha 2: Email + Tipo de negócio -->
+          <div class="contato-form-row">
+            <div class="contato-form-group">
+              <label for="formEmail" class="contato-form-label">Email</label>
+              <input type="email" id="formEmail" name="email" class="contato-form-input" placeholder="seu@email.com"
+                required autocomplete="email" />
+            </div>
+            <div class="contato-form-group">
+              <label for="formNegocio" class="contato-form-label">Tipo de negócio</label>
+              <select id="formNegocio" name="negocio" class="contato-form-input contato-form-select">
+                <option value="" disabled selected>Selecione</option>
+                <option value="captacao">Captaçãoo</option>
+                <option value="corporativo">Corporativo &amp; B2B</option>
+                <option value="feira">Feiras</option>
+                <option value="convencao">Convenções</option>
+                <option value="tecnologia">Tecnologia</option>
+                <option value="audiovisual">Audiovisual</option>
+                <option value="estande">Estandes</option>
+                <option value="outro">Outro</option>
+              </select>
+            </div>
           </div>
-          <div class="form-group">
-            <input type="tel" id="formTelefone" name="telefone" class="form-input" placeholder="(11) 9 9999-9999" />
+
+          <!-- Mensagem -->
+          <div class="contato-form-group contato-form-group--full">
+            <label for="formMensagem" class="contato-form-label">Mensagem</label>
+            <textarea id="formMensagem" name="mensagem" class="contato-form-input contato-form-textarea"
+              placeholder="Conte-nos sobre o seu projeto..." rows="5"></textarea>
           </div>
-          <div class="form-group">
-            <select id="formNegocio" name="negocio" class="form-input form-select">
-              <option value="" disabled selected>Tipo de negócio</option>
-              <option value="captacao">Captação</option>
-              <option value="corporativo">Corporativo &amp; B2B</option>
-              <option value="feira">Feiras</option>
-              <option value="convencao">Convenções</option>
-              <option value="tecnologia">Tecnologia</option>
-              <option value="audiovisual">Audiovisual</option>
-              <option value="estande">Estandes</option>
-              <option value="outro">Outro</option>
-            </select>
+
+          <!-- Botãoo + feedback -->
+          <div class="contato-form-footer">
+            <button type="submit" class="contato-form-submit" id="formSubmitBtn"
+              aria-label="Enviar mensagem de contato">Enviar</button>
           </div>
-          <div class="form-group">
-            <textarea id="formMensagem" name="mensagem" class="form-input form-textarea"
-              placeholder="Conte-nos sobre o seu projeto..." rows="4"></textarea>
-          </div>
-          <button type="submit" class="form-submit" id="formSubmitBtn">Enviar mensagem</button>
-          <p class="form-success" id="formSuccess">✓ Seu e-mail foi preparado! Confirme o envio no seu cliente de
-            e-mail.</p>
+
+          <p class="form-success" id="formSuccess" role="status" aria-live="polite"></p>
         </form>
       </div>
     </div>
-  </section>
 
-  <!-- ===================== FOOTER ===================== -->
+  </section>
   <footer class="footer">
     <div class="footer-container">
       <div class="footer-brand">

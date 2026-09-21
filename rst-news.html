@@ -1,0 +1,247 @@
+﻿﻿<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RST News — Produtora Audiovisual & Tecnologia</title>
+  <meta name="description"
+    content="Notícias, processos criativos, tendências e bastidores de grandes experiências por RSTCOM.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/logo rstcom colorida.svg">
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Bebas+Neue&display=swap"
+    rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/news.css">
+</head>
+
+<body class="loaded">
+
+  <!-- ===================== 1. NAVBAR RSTCOM ===================== -->
+  <header>
+    <nav class="navbar" id="navbar">
+      <div class="nav-container">
+        <a href="index.html#home" class="nav-logo" aria-label="RSTCOM Home">
+          <img src="assets/logo rstcom colorida.svg" alt="RSTCOM" class="nav-logo-img" />
+        </a>
+
+        <ul class="nav-links" id="navLinks">
+          <li><a href="index.html#home" class="nav-link">Home</a></li>
+          <li><a href="index.html#cases" class="nav-link">Cases</a></li>
+          <li><a href="index.html#sobre" class="nav-link">Sobre</a></li>
+          <li><a href="index.html#servicos" class="nav-link">Serviços</a></li>
+          <li><a href="rst-news.html" class="nav-link active">RST news</a></li>
+          <li><a href="index.html#contato" class="nav-link">Contato</a></li>
+        </ul>
+
+        <button class="nav-hamburger" id="navHamburger" aria-label="Menu Mobile">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ===================== 2. HERO BANNER (Topo Escuro com Vídeo de Fundo) ===================== -->
+  <section class="loop-hero-banner" aria-label="Blog Header">
+    <!-- Vídeo de Fundo -->
+    <div class="loop-banner-video-wrap" aria-hidden="true">
+      <video class="loop-banner-video" autoplay loop muted playsinline preload="auto">
+        <source src="assets/Seção Newsletters/new york.mp4" type="video/mp4">
+      </video>
+      <div class="loop-banner-overlay"></div>
+    </div>
+
+    <!-- Arcos Geométricos de Fundo -->
+    <div class="loop-banner-arcs" aria-hidden="true">
+      <div class="loop-arc-1"></div>
+      <div class="loop-arc-2"></div>
+    </div>
+
+    <!-- Título Principal Centralizado -->
+    <div class="loop-banner-title">
+      <img
+        src="assets/Seção Newsletters/LOGO RSTNEWS.svg"
+        alt="RST News"
+        class="loop-banner-logo"
+      />
+    </div>
+  </section>
+
+  <!-- ===================== 3. MAIN EDITORIAL CONTENT (Grid 12-col Fiel) ===================== -->
+  <main class="loop-main-container">
+    <div class="loop-editorial-grid">
+
+      <!-- COLUNA ESQUERDA: PINNED (3 Itens com Thumbnail 72x72) -->
+      <aside class="pinned-column" aria-label="Matérias Fixadas">
+        <p class="col-header-label">Pinned</p>
+        <div class="pinned-items-list" id="pinnedList">
+          <!-- Renderizado via js/news.js -->
+        </div>
+      </aside>
+
+      <!-- COLUNA DIREITA: ARTICLES & FILTERS -->
+      <section class="articles-column" aria-label="Artigos e Publicações">
+
+        <!-- Header Bar: "Articles" + Pílulas de Filtro -->
+        <div class="articles-header-bar">
+          <p class="col-header-label">Articles</p>
+
+          <nav class="articles-filter-pills" aria-label="Filtro de Artigos">
+            <button type="button" class="filter-pill active" data-category="all">All Posts</button>
+            <button type="button" class="filter-pill" data-category="tendencias">Tendências</button>
+            <button type="button" class="filter-pill" data-category="tecnologia">Tecnologia</button>
+            <button type="button" class="filter-pill" data-category="feiras">Feiras</button>
+            <button type="button" class="filter-pill" data-category="interatividade">Interatividade</button>
+          </nav>
+        </div>
+
+        <!-- Articles Subgrid (Hero 2/3 + 2 Subcards duo, e Vertical 1/3) -->
+        <div class="articles-subgrid" id="articlesSubgrid">
+          <!-- Renderizado fielmente via js/news.js -->
+        </div>
+
+      </section>
+
+    </div>
+
+    <!-- 4. RESPIRO GENEROSO & WATERMARK -->
+    <div class="loop-whitespace-spacer" aria-hidden="true">
+      <div class="loop-watermark-dots"></div>
+    </div>
+
+    <!-- 5. FLOATING NEWSLETTER PILL (Exato à Referência) -->
+    <div class="loop-newsletter-card">
+      <div class="newsletter-left">
+        <!-- Ícone Estrela / Burst Colorido -->
+        <div class="newsletter-burst-icon" aria-hidden="true">
+          <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M50 0L58.5 25.5L85.3 14.7L74.5 41.5L100 50L74.5 58.5L85.3 85.3L58.5 74.5L50 100L41.5 74.5L14.7 85.3L25.5 58.5L0 50L25.5 41.5L14.7 14.7L41.5 25.5L50 0Z"
+              fill="#ff4d12" />
+          </svg>
+        </div>
+        <p class="newsletter-title">
+          Get the best of RSTCOM delivered to your inbox weekly
+        </p>
+      </div>
+
+      <div class="newsletter-right-wrap">
+        <form class="newsletter-right-form" id="loopNewsletterForm" novalidate>
+          <input type="email" id="loopNewsletterEmail" placeholder="Your email" class="newsletter-input" required
+            autocomplete="email" />
+          <button type="submit" id="loopNewsletterSubmitBtn" class="newsletter-submit-btn" aria-label="Inscrever-se">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </form>
+        <p class="loop-newsletter-status" id="loopNewsletterStatus" aria-live="polite"></p>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ===================== 6. MODAL LEITOR DE MATÉRIA ===================== -->
+  <div class="article-modal-backdrop" id="articleModalBackdrop" role="dialog" aria-modal="true"
+    aria-label="Leitor de Matéria">
+    <div class="article-modal">
+      <button class="article-modal-close" id="articleModalClose" aria-label="Fechar Matéria">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <div class="article-modal-content" id="articleModalContent">
+        <!-- Injetado dinamicamente -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== 7. FOOTER OFICIAL RSTCOM ===================== -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <span class="footer-logo"><span class="footer-rst">rst</span><span class="footer-com">com</span></span>
+        <p class="footer-desc">Produtora de comunicação que une estratégia, conteúdo, tecnologia e audiovisual para
+          criar experiências memoráveis.</p>
+      </div>
+
+      <div class="footer-links">
+        <h4 class="footer-col-title">Navegação</h4>
+        <ul>
+          <li><a href="index.html#home">Home</a></li>
+          <li><a href="index.html#sobre">Sobre</a></li>
+          <li><a href="index.html#cases">Cases</a></li>
+          <li><a href="index.html#servicos">Serviços</a></li>
+          <li><a href="rst-news.html">RST News</a></li>
+          <li><a href="index.html#contato">Contato</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links">
+        <h4 class="footer-col-title">Especialidades</h4>
+        <ul>
+          <li><a href="index.html#servicos">Produção Audiovisual</a></li>
+          <li><a href="index.html#servicos">Convenções & Plenárias</a></li>
+          <li><a href="index.html#servicos">Motion Graphics & 3D</a></li>
+          <li><a href="index.html#servicos">Transmissão ao Vivo</a></li>
+          <li><a href="index.html#servicos">Tecnologia & Interatividade</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-social">
+        <h4 class="footer-col-title">Redes Sociais</h4>
+        <div class="social-links">
+          <a href="https://www.instagram.com/rstcom/" class="social-link" id="socialInsta" aria-label="Instagram"
+            target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </a>
+          <a href="https://www.linkedin.com/company/rstcom/" class="social-link" id="socialLinkedin"
+            aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+              <rect x="2" y="9" width="4" height="12"></rect>
+              <circle cx="4" cy="4" r="2"></circle>
+            </svg>
+          </a>
+          <a href="https://vimeo.com/rstcom" class="social-link" id="socialVimeo" aria-label="Vimeo" target="_blank"
+            rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M22.8 6.6c-.2 3.6-2.7 8.5-7.4 14.6-4.9 6.3-9 9.5-12.4 9.5-2.1 0-3.9-1.9-5.3-5.8C-3.4 20.3-4.2 12.8-4.6 9c-.5-3.8-1.7-5.7-3.7-5.7-.5 0-1.7.4-3.7 1.2l-1.3 1.7C-11 5.3-9.5 4.3-8.8 3.3-7.4 1.4-5.4.4-2.8.4c3.4 0 5.5 2.2 6.3 6.6.9 5.3 1.5 8.7 1.9 10 .8 3.1 1.8 4.7 3 4.7.9 0 2.2-1.3 3.9-3.9 1.7-2.6 2.6-4.6 2.7-6 .2-2.1-.6-3.2-2.4-3.2-1 0-2 .2-3 .7 2.1-6.7 6-10 11.8-10 4.2 0 6.2 2.5 6.4 7.3z" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2026 RSTCOM — Produtora Audiovisual. Todos os direitos reservados.</p>
+      <p>Excelência técnica, criatividade e tecnologia.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/news-data.js"></script>
+  <script src="js/news.js"></script>
+</body>
+
+</html>
