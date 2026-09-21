@@ -238,6 +238,8 @@ function initVideoVisibilityObserver() {
       if (el.closest('#galleryLightbox') || el.closest('#caseModal')) return;
 
       if (el.tagName === 'VIDEO') {
+        el.muted = true;
+        el.volume = 0;
         if (inView) {
           if (el.paused && !el.ended) {
             el.play().catch(() => {});
@@ -251,14 +253,20 @@ function initVideoVisibilityObserver() {
         const player = getVimeo(el);
         if (inView) {
           if (player) {
+            player.setVolume(0).catch(() => {});
+            player.setMuted(true).catch(() => {});
             player.play().catch(() => {});
           } else {
+            el.contentWindow?.postMessage('{"method":"setVolume","value":0}', '*');
             el.contentWindow?.postMessage('{"method":"play"}', '*');
           }
         } else {
           if (player) {
+            player.setVolume(0).catch(() => {});
+            player.setMuted(true).catch(() => {});
             player.pause().catch(() => {});
           } else {
+            el.contentWindow?.postMessage('{"method":"setVolume","value":0}', '*');
             el.contentWindow?.postMessage('{"method":"pause"}', '*');
           }
         }
@@ -266,13 +274,13 @@ function initVideoVisibilityObserver() {
     });
   }, {
     root: null,
-    rootMargin: '140px 0px 140px 0px',
-    threshold: 0.02
+    rootMargin: '100px 0px 100px 0px',
+    threshold: 0.01
   });
 
-  // Observa todos os vídeos de fundo e cards
+  // Observa todos os vídeos de fundo, cards e seções pesadas
   const elementsToObserve = document.querySelectorAll(
-    'video.servicos-3d-title-video, video.contato-video-bg, .hero-v2__video-container iframe, .hero-v2__cards iframe'
+    'video.servicos-3d-title-video, video.contato-video-bg, .hero-v2__video-container iframe, .hero-v2__cards iframe, iframe.servicos-hero-video-bg, iframe.diferencial-video-layer'
   );
   elementsToObserve.forEach(el => videoObserver.observe(el));
 }
@@ -2792,7 +2800,7 @@ category: "convencao audiovisual"
         if (videoNode) { videoNode.pause(); videoNode.src = ''; videoNode.style.display = 'none'; }
 
         const hashParam = data.vimeoHash ? `?h=${data.vimeoHash}&` : '?';
-        const iframeSrc = `https://player.vimeo.com/video/${data.vimeoId}${hashParam}badge=0&autopause=1&autoplay=1&muted=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0`;
+        const iframeSrc = `https://player.vimeo.com/video/${data.vimeoId}${hashParam}badge=0&autopause=1&autoplay=1&muted=1&player_id=0&app_id=58479&title=0&byline=0&portrait=0`;
         const vimeoIframe = document.createElement('iframe');
         vimeoIframe.src = iframeSrc;
         vimeoIframe.className = 'vimeo-embed';
@@ -2820,6 +2828,8 @@ category: "convencao audiovisual"
           if (!videoNode.src.endsWith(targetSrc)) {
             videoNode.src = targetSrc;
           }
+          videoNode.muted = true;
+          videoNode.volume = 0;
           videoNode.currentTime = 0;
           videoNode.play().catch(err => console.log("Auto-play prevented", err));
         }
@@ -2862,7 +2872,12 @@ category: "convencao audiovisual"
     
     // Stop local video playback
     const videoNode = document.getElementById('caseModalHeroVideo');
-    if (videoNode) videoNode.pause();
+    if (videoNode) {
+      videoNode.pause();
+      videoNode.muted = true;
+      videoNode.currentTime = 0;
+      videoNode.src = '';
+    }
 
     // Remove Vimeo iframe to stop playback & free memory
     const vimeoIframe = caseModalHeroVideoWrapper ? caseModalHeroVideoWrapper.querySelector('iframe.vimeo-embed') : null;
@@ -3089,86 +3104,86 @@ category: "convencao audiovisual"
     });
   }
 
-  // Hover-to-play logic for video case cards in main grid
-  // O iframe do Vimeo é carregado UMA VEZ quando o card aparece na tela.
-  // Depois, usamos a API do Vimeo para pausar/tocar sem destruir o player.
+  // Hover-to-play logic for video case cards in main grid (Sob demanda - 1 vídeo ativo por vez)
   const videoCaseCards = document.querySelectorAll('.case-item--video');
-  // (vimeoPlayers e getOrCreateVimeoPlayer definidos centralizadamente no topo do escopo)
-
-  const videoVisibilityObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      const video = entry.target.querySelector('.case-item-video');
-      if (!video) return;
-
-      if (entry.isIntersecting) {
-        // Card entrou no viewport: carrega o iframe pela primeira vez (se ainda não carregou)
-        if (video.tagName === 'IFRAME' && !video.src) {
-          const vimeoId = video.dataset.vimeoId;
-          const vimeoHash = video.dataset.vimeoHash;
-          if (vimeoId) {
-            const hashParam = vimeoHash ? `h=${vimeoHash}&` : '';
-            video.src = `https://player.vimeo.com/video/${vimeoId}?${hashParam}background=1&autoplay=0&loop=1&muted=1`;
-          }
-        }
-        // Se o card está visível mas o mouse não está em cima, mantém pausado (já parou no mouseleave)
-      } else {
-        // Card saiu do viewport: pausa via API sem destruir o iframe
-        if (video.tagName === 'IFRAME' && video.src) {
-          const player = getOrCreateVimeoPlayer(video);
-          if (player) {
-            player.pause().catch(() => {});
-          }
-        }
-        entry.target.classList.remove('video-playing');
-      }
-    });
-  }, { threshold: 0, rootMargin: '150px 0px' });
+  let activeGridHoverTimeout = null;
+  let activeGridCard = null;
 
   videoCaseCards.forEach(item => {
     const video = item.querySelector('.case-item-video');
-    if (video) {
-      videoVisibilityObserver.observe(item);
+    if (!video) return;
 
-      item.addEventListener('mouseenter', () => {
+    item.addEventListener('mouseenter', () => {
+      // Debounce de 120ms para evitar requisições com movimento rápido do mouse
+      clearTimeout(activeGridHoverTimeout);
+      activeGridHoverTimeout = setTimeout(() => {
+        // Pausa card anterior caso outro estivesse ativo
+        if (activeGridCard && activeGridCard !== item) {
+          activeGridCard.classList.remove('video-playing');
+          const prevVideo = activeGridCard.querySelector('.case-item-video');
+          if (prevVideo) {
+            if (prevVideo.tagName === 'IFRAME' && prevVideo.src) {
+              const prevPlayer = getOrCreateVimeoPlayer(prevVideo);
+              if (prevPlayer) prevPlayer.pause().catch(() => {});
+              prevVideo.contentWindow?.postMessage('{"method":"pause"}', '*');
+            } else if (prevVideo.tagName === 'VIDEO') {
+              prevVideo.pause();
+            }
+          }
+        }
+
+        activeGridCard = item;
         item.classList.add('video-playing');
+
         if (video.tagName === 'IFRAME') {
           const vimeoId = video.dataset.vimeoId || video.getAttribute('data-vimeo-id');
           const vimeoHash = video.dataset.vimeoHash || video.getAttribute('data-vimeo-hash');
           if (vimeoId) {
             const hashParam = vimeoHash ? `h=${vimeoHash}&` : '';
-            const targetSrc = `https://player.vimeo.com/video/${vimeoId}?${hashParam}background=1&autoplay=1&loop=1&muted=1&autopause=0`;
-            if (!video.src || video.src === 'about:blank' || !video.src.includes('autoplay=1')) {
+            const targetSrc = `https://player.vimeo.com/video/${vimeoId}?${hashParam}background=1&autoplay=1&loop=1&muted=1&autopause=0&quality=540p`;
+            if (!video.src || video.src === 'about:blank' || !video.src.includes(vimeoId)) {
               video.src = targetSrc;
             }
             const player = getOrCreateVimeoPlayer(video);
             if (player) {
-              player.setMuted(true).then(() => player.play()).catch(() => {
-                video.src = targetSrc;
+              player.setMuted(true).then(() => {
+                player.setVolume(0).catch(() => {});
+                return player.play();
+              }).catch(() => {
+                if (!video.src || video.src === 'about:blank') video.src = targetSrc;
               });
             }
           }
-        } else {
+        } else if (video.tagName === 'VIDEO') {
           const videoSrc = video.dataset.videoSrc || video.getAttribute('data-video-src');
           if (videoSrc && !video.src) video.src = videoSrc;
+          video.muted = true;
+          video.volume = 0;
           video.play().catch(err => console.log('Grid video play interrupted', err));
         }
-      });
+      }, 120);
+    });
 
-      item.addEventListener('mouseleave', () => {
-        item.classList.remove('video-playing');
-        if (video.tagName === 'IFRAME' && video.src) {
-          // Pausa via API sem destruir o iframe
-          const player = getOrCreateVimeoPlayer(video);
-          if (player) {
-            player.pause().catch(() => {});
-            player.setCurrentTime(0).catch(() => {});
-          }
-        } else if (video.tagName !== 'IFRAME') {
-          video.pause();
-          video.currentTime = 0;
+    item.addEventListener('mouseleave', () => {
+      clearTimeout(activeGridHoverTimeout);
+      item.classList.remove('video-playing');
+      if (video.tagName === 'IFRAME' && video.src) {
+        const player = getOrCreateVimeoPlayer(video);
+        if (player) {
+          player.setVolume(0).catch(() => {});
+          player.setMuted(true).catch(() => {});
+          player.pause().catch(() => {});
+          player.setCurrentTime(0).catch(() => {});
         }
-      });
-    }
+        video.contentWindow?.postMessage('{"method":"pause"}', '*');
+      } else if (video.tagName === 'VIDEO') {
+        video.pause();
+        video.currentTime = 0;
+      }
+      if (activeGridCard === item) {
+        activeGridCard = null;
+      }
+    });
   });
 
   // Old deck video hover handlers removed
