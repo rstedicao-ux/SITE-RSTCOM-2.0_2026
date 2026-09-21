@@ -711,7 +711,16 @@ function init() {
     'feiras-experiencias': 'Criamos experiências para feiras, congressos e espaços de marca, integrando conteúdo, tecnologia, comunicação e ativações. Projetos pensados para transformar estandes em pontos de interação, relacionamento e conexão entre marcas e públicos.'
   };
 
-  const casesSubtitleEl = document.getElementById('casesSubtitle');
+  let casesSubtitleEl = document.getElementById('casesSubtitle');
+  if (!casesSubtitleEl) {
+    const filterContainer = document.querySelector('.cases-filter');
+    if (filterContainer) {
+      casesSubtitleEl = document.createElement('p');
+      casesSubtitleEl.className = 'cases-subtitle';
+      casesSubtitleEl.id = 'casesSubtitle';
+      filterContainer.parentNode.insertBefore(casesSubtitleEl, filterContainer.nextSibling);
+    }
+  }
 
   const filterBtns = document.querySelectorAll('.filter-btn');
   const caseItems  = document.querySelectorAll('.case-item');
