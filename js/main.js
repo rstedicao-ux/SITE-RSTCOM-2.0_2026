@@ -26,11 +26,11 @@ function runPreloader() {
   document.body.style.overflow = 'hidden';
 
   const startTime = Date.now();
-  const MIN_DISPLAY_MS = 2500; // Garante tempo para buffer real e transição elegante
-  const MAX_WAIT_MS = 6500;    // Limite máximo de segurança
+  const MIN_DISPLAY_MS = 1600; // Tempo ágil e elegante
+  const MAX_WAIT_MS = 4500;    // Limite máximo de segurança
 
   let currentPercent = 0;
-  let targetPercent = 25;
+  let targetPercent = 35;
   let allReady = false;
   let isFinished = false;
 
@@ -40,11 +40,11 @@ function runPreloader() {
     }
   }
 
-  // Animação suave e fluida da barra de porcentagem
+  // Animação fluida da barra de progresso
   const progressTimer = setInterval(() => {
     if (currentPercent < targetPercent) {
       const diff = targetPercent - currentPercent;
-      const step = Math.max(1, Math.ceil(diff * 0.16));
+      const step = Math.max(1, Math.ceil(diff * 0.18));
       currentPercent = Math.min(100, currentPercent + step);
       if (bar) bar.style.width = currentPercent + '%';
       if (percentText) percentText.textContent = currentPercent + '%';
@@ -62,23 +62,35 @@ function runPreloader() {
     if (bar) bar.style.width = '100%';
     if (percentText) percentText.textContent = '100%';
 
-    // Ativa todos os vídeos HTML5 nativos
-    const htmlVideos = document.querySelectorAll('video');
-    htmlVideos.forEach(v => {
-      v.muted = true;
-      v.play().catch(() => {});
+    // Silencia e inicia APENAS os vídeos visíveis da dobra inicial (Hero)
+    const heroIframes = document.querySelectorAll('.hero-v2 iframe');
+    heroIframes.forEach(iframe => {
+      try {
+        iframe.contentWindow?.postMessage('{"method":"setVolume","value":0}', '*');
+        iframe.contentWindow?.postMessage('{"method":"play"}', '*');
+        if (window.Vimeo && window.Vimeo.Player) {
+          const p = new Vimeo.Player(iframe);
+          p.setVolume(0).catch(() => {});
+          p.setMuted(true).catch(() => {});
+          p.play().catch(() => {});
+        }
+      } catch(e) {}
     });
 
-    // Ativa todos os vídeos Vimeo em iframe
-    if (window.Vimeo && window.Vimeo.Player) {
-      const vimeoIframes = document.querySelectorAll('iframe[src*="vimeo.com"]');
-      vimeoIframes.forEach(iframe => {
-        try {
-          const player = new Vimeo.Player(iframe);
-          player.play().catch(() => {});
-        } catch(e) {}
-      });
-    }
+    // Pausa e silencia rigorosamente todos os vídeos fora da tela
+    const offscreenIframes = document.querySelectorAll('iframe.servicos-hero-video-bg, iframe.diferencial-video-layer, .case-item-video');
+    offscreenIframes.forEach(iframe => {
+      try {
+        iframe.contentWindow?.postMessage('{"method":"setVolume","value":0}', '*');
+        iframe.contentWindow?.postMessage('{"method":"pause"}', '*');
+        if (window.Vimeo && window.Vimeo.Player) {
+          const p = new Vimeo.Player(iframe);
+          p.setVolume(0).catch(() => {});
+          p.setMuted(true).catch(() => {});
+          p.pause().catch(() => {});
+        }
+      } catch(e) {}
+    });
 
     setTimeout(() => {
       preloader.classList.add('fade-out');
@@ -94,101 +106,44 @@ function runPreloader() {
     }, 280);
   }
 
-  // -------------------------------------------------------------
-  // MONITORAMENTO DO BUFFER DOS VÍDEOS (HTML5 + VIMEO)
-  // -------------------------------------------------------------
-  const itemsToTrack = [];
-
-  // 1. Vídeos HTML5 (contato, etc.)
-  const htmlVideos = Array.from(document.querySelectorAll('video'));
-  htmlVideos.forEach(v => {
-    v.preload = 'auto';
-    v.muted = true;
-    itemsToTrack.push({
-      type: 'html5',
-      element: v,
-      ready: v.readyState >= 3
-    });
-  });
-
-  // 2. Iframes do Vimeo (Hero e Cards)
-  const vimeoIframes = Array.from(document.querySelectorAll('iframe[src*="vimeo.com"]'));
-  vimeoIframes.forEach(iframe => {
-    itemsToTrack.push({
-      type: 'vimeo',
-      element: iframe,
-      ready: false
-    });
-  });
-
-  const totalItems = itemsToTrack.length;
-
-  function checkItemReady() {
-    const readyCount = itemsToTrack.filter(item => item.ready).length;
-    const ratio = totalItems > 0 ? readyCount / totalItems : 1;
-    updateTarget(30 + Math.round(ratio * 65));
-
-    if (readyCount >= totalItems) {
-      updateTarget(100);
-      allReady = true;
-    }
-  }
-
-  itemsToTrack.forEach(item => {
-    if (item.type === 'html5') {
-      const v = item.element;
-      if (v.readyState >= 3) {
-        item.ready = true;
-      } else {
-        const onCanPlay = () => {
-          item.ready = true;
-          checkItemReady();
-          v.removeEventListener('canplay', onCanPlay);
-          v.removeEventListener('playing', onCanPlay);
-          v.removeEventListener('loadeddata', onCanPlay);
-        };
-        v.addEventListener('canplay', onCanPlay);
-        v.addEventListener('playing', onCanPlay);
-        v.addEventListener('loadeddata', onCanPlay);
+  // Monitora com exclusividade o carregamento do vídeo principal da primeira dobra (Hero)
+  const heroMainIframe = document.querySelector('.hero-v2__video-container iframe');
+  if (heroMainIframe) {
+    let heroDone = false;
+    const markHeroDone = () => {
+      if (!heroDone) {
+        heroDone = true;
+        updateTarget(100);
+        allReady = true;
       }
-    } else if (item.type === 'vimeo') {
-      const iframe = item.element;
+    };
 
-      const markVimeoDone = () => {
-        if (!item.ready) {
-          item.ready = true;
-          checkItemReady();
-        }
-      };
+    heroMainIframe.addEventListener('load', () => {
+      setTimeout(markHeroDone, 400);
+    });
 
-      iframe.addEventListener('load', () => {
-        setTimeout(markVimeoDone, 500);
-      });
-
-      if (window.Vimeo && window.Vimeo.Player) {
-        try {
-          const player = new Vimeo.Player(iframe);
-          player.ready().then(() => {
-            player.on('play', markVimeoDone);
-            player.on('loaded', markVimeoDone);
-            player.on('bufferend', markVimeoDone);
-            player.play().catch(() => {});
-          }).catch(markVimeoDone);
-        } catch(e) {
-          iframe.addEventListener('load', markVimeoDone);
-        }
+    if (window.Vimeo && window.Vimeo.Player) {
+      try {
+        const player = new Vimeo.Player(heroMainIframe);
+        player.setVolume(0).catch(() => {});
+        player.setMuted(true).catch(() => {});
+        player.ready().then(() => {
+          player.setVolume(0).catch(() => {});
+          player.setMuted(true).catch(() => {});
+          markHeroDone();
+        }).catch(markHeroDone);
+      } catch(e) {
+        setTimeout(markHeroDone, 600);
       }
+    } else {
+      setTimeout(markHeroDone, 800);
     }
-  });
-
-  checkItemReady();
-
-  if (totalItems === 0) {
+  } else {
     updateTarget(100);
     allReady = true;
   }
 
-  // Fallback seguro caso conexão externa demore
+  // Fallback de segurança caso conexão demore
   setTimeout(() => {
     updateTarget(100);
     allReady = true;
