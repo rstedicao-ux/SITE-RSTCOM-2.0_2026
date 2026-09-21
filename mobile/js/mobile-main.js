@@ -310,7 +310,13 @@ document.addEventListener('DOMContentLoaded', () => {
     modalDate.textContent = date;
     modalLocation.textContent = location;
     modalDesc.textContent = desc;
-    modalChallenge.textContent = challenge;
+    if (modalChallenge) {
+      modalChallenge.textContent = challenge;
+      const challengeSec = document.getElementById('modalChallengeSection');
+      if (challengeSec) {
+        challengeSec.style.display = challenge ? 'block' : 'none';
+      }
+    }
 
     // Ajusta cores da tag
     const catColors = {
