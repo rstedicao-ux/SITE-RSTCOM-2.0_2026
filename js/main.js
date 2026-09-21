@@ -1,12 +1,27 @@
 function runPreloader() {
-  const preloader = document.getElementById('sitePreloader');
+  let preloader = document.getElementById('sitePreloader');
+  if (!preloader) {
+    preloader = document.createElement('div');
+    preloader.className = 'site-preloader';
+    preloader.id = 'sitePreloader';
+    preloader.innerHTML = `
+      <div class="preloader-content">
+        <img src="assets/logo rstcom colorida.svg" alt="RSTCOM" class="preloader-logo" />
+        <div class="preloader-bar-wrap">
+          <div class="preloader-bar" id="preloaderBar"></div>
+        </div>
+        <div class="preloader-status">
+          <span class="preloader-text">CARREGANDO EXPERIÊNCIA</span>
+          <span class="preloader-percent" id="preloaderPercent">0%</span>
+        </div>
+      </div>
+    `;
+    if (document.body) {
+      document.body.prepend(preloader);
+    }
+  }
   const bar = document.getElementById('preloaderBar');
   const percentText = document.getElementById('preloaderPercent');
-  if (!preloader) {
-    window.preloaderFinished = true;
-    document.body.classList.add('loaded');
-    return;
-  }
 
   document.body.style.overflow = 'hidden';
 
