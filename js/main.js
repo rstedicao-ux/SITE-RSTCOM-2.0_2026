@@ -658,21 +658,26 @@ function init() {
   const navLinksContainer = document.getElementById('navLinks');
 
   if (hamburger) {
-    hamburger.addEventListener('click', () =>
-      navLinksContainer.classList.toggle('open')
-    );
+    hamburger.addEventListener('click', () => {
+      navLinksContainer.classList.toggle('open');
+      hamburger.classList.toggle('open');
+    });
   }
-  navLinksContainer.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () =>
-      navLinksContainer.classList.remove('open')
-    );
-  });
+  if (navLinksContainer) {
+    navLinksContainer.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinksContainer.classList.remove('open');
+        if (hamburger) hamburger.classList.remove('open');
+      });
+    });
+  }
 
   // Fechar menu ao clicar fora do navbar
   document.addEventListener('click', (e) => {
     const navbar = document.getElementById('navbar');
     if (navbar && !navbar.contains(e.target)) {
-      navLinksContainer.classList.remove('open');
+      if (navLinksContainer) navLinksContainer.classList.remove('open');
+      if (hamburger) hamburger.classList.remove('open');
     }
   });
 

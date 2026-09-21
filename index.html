@@ -71,15 +71,7 @@
     gtag('config', 'G-XXXXXXXXXX');
   </script>
   -->
-  <script>
-    (function () {
-      var isMobile = window.innerWidth <= 768 || /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
-      var noRedirect = sessionStorage.getItem('noMobileRedirect');
-      if (isMobile && !noRedirect) {
-        window.location.replace('mobile/index.html');
-      }
-    })();
-  </script>
+  <!-- Mobile responsivo integrado diretamente via css/responsive-mobile.css -->
 </head>
 
 <body>
