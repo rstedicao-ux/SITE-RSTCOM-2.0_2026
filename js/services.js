@@ -18,12 +18,7 @@
     const diffItems = Array.from(document.querySelectorAll('.diff-vertical-item'));
     const progDots = Array.from(document.querySelectorAll('.diff-prog-dot'));
 
-    // Garantir reprodução imediata de todos os vídeos de background
-    const allVideos = Array.from(servicosSection.querySelectorAll('video'));
-    allVideos.forEach(v => {
-      v.muted = true;
-      v.play().catch(() => {});
-    });
+    // Vídeos gerenciados sob demanda via IntersectionObserver
 
     let isDesktop = window.innerWidth >= 992;
     let ticking = false;
@@ -37,6 +32,13 @@
       if (!isDesktop) {
         horizontalTrack.style.transform = 'none';
         if (diffVerticalTrack) diffVerticalTrack.style.transform = 'none';
+        ticking = false;
+        return;
+      }
+      const scrollY = window.scrollY;
+      const sTop = servicosSection.offsetTop;
+      const sHeight = servicosSection.offsetHeight;
+      if (scrollY < sTop - window.innerHeight - 100 || scrollY > sTop + sHeight + 100) {
         ticking = false;
         return;
       }

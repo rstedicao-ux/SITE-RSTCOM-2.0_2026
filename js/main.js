@@ -26,7 +26,7 @@ function runPreloader() {
   document.body.style.overflow = 'hidden';
 
   const startTime = Date.now();
-  const MIN_DISPLAY_MS = 1600; // Tempo ágil e elegante
+  const MIN_DISPLAY_MS = 2200; // Tempo ágil e elegante
   const MAX_WAIT_MS = 4500;    // Limite máximo de segurança
 
   let currentPercent = 0;
@@ -229,7 +229,7 @@ function initVideoVisibilityObserver() {
     });
   }, {
     root: null,
-    rootMargin: '100px 0px 100px 0px',
+    rootMargin: '20px 0px 20px 0px',
     threshold: 0.01
   });
 
@@ -509,16 +509,28 @@ function init() {
      ════════════════════════════════════════════ */
   function addMagneticEffect(selector, strength = 0.3) {
     document.querySelectorAll(selector).forEach(card => {
+      let rect = null;
+      let ticking = false;
+      card.addEventListener('mouseenter', () => { rect = card.getBoundingClientRect(); });
       card.addEventListener('mousemove', (e) => {
         if (window.innerWidth <= 900) return;
-        const rect = card.getBoundingClientRect();
-        const cx = rect.left + rect.width  / 2;
-        const cy = rect.top  + rect.height / 2;
-        const dx = (e.clientX - cx) * strength;
-        const dy = (e.clientY - cy) * strength;
-        card.style.transform = `translate(${dx}px, ${dy}px) scale(1.03)`;
+        if (!rect) rect = card.getBoundingClientRect();
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(() => {
+            if (rect) {
+              const cx = rect.left + rect.width  / 2;
+              const cy = rect.top  + rect.height / 2;
+              const dx = (e.clientX - cx) * strength;
+              const dy = (e.clientY - cy) * strength;
+              card.style.transform = `translate(${dx}px, ${dy}px) scale(1.03)`;
+            }
+            ticking = false;
+          });
+        }
       });
       card.addEventListener('mouseleave', () => {
+        rect = null;
         card.style.transform = '';
         card.style.transition = 'transform .5s cubic-bezier(.34,1.56,.64,1)';
         setTimeout(() => { card.style.transition = ''; }, 500);
@@ -538,17 +550,28 @@ function init() {
      Local: Cases — CTA section
      ════════════════════════════════════════════ */
   document.querySelectorAll('.cta-3d-card').forEach(card => {
+    let rect = null;
+    let ticking = false;
+    card.addEventListener('mouseenter', () => { rect = card.getBoundingClientRect(); });
     card.addEventListener('mousemove', (e) => {
       if (window.innerWidth <= 900) return;
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width  / 2;
-      const y = e.clientY - rect.top  - rect.height / 2;
-      const rotX = (-y / rect.height) * 18;
-      const rotY = ( x / rect.width)  * 18;
-      card.style.transform =
-        `perspective(800px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.08)`;
+      if (!rect) rect = card.getBoundingClientRect();
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(() => {
+          if (rect) {
+            const x = e.clientX - rect.left - rect.width  / 2;
+            const y = e.clientY - rect.top  - rect.height / 2;
+            const rotX = (-y / rect.height) * 18;
+            const rotY = ( x / rect.width)  * 18;
+            card.style.transform = `perspective(800px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.08)`;
+          }
+          ticking = false;
+        });
+      }
     });
     card.addEventListener('mouseleave', () => {
+      rect = null;
       card.style.transform = '';
     });
   });
@@ -921,503 +944,10 @@ function init() {
   });
 
   /* ════════════════════════════════════════════
-     ANIMAÇÃO EXTRA — 3D COVERFLOW CAROUSEL
+     ANIMAÇÕES OBSOLETAS REMOVIDAS PARA PERFORMANCE MÁXIMA
+     (Coverflow e Carrossel antigo substituídos pelo novo layout nativo)
      ════════════════════════════════════════════ */
-  const track = document.getElementById('carouselTrack');
-  const cards = Array.from(document.querySelectorAll('.sc-card'));
-  const btnPrev = document.getElementById('carouselPrev');
-  const btnNext = document.getElementById('carouselNext');
 
-  if (track && cards.length > 0) {
-    const n = cards.length;
-    let targetProgress = 2; // center on idx 2
-    let currentProgress = 2;
-    let dragStartProgress = 2;
-    let dragStartX = 0;
-    let isDragging = false;
-    let animationFrameId = null;
-    let autoPlayTimer = null;
-
-    // Layout configuration values
-    const baseTranslateX = 200;
-    const extraTranslateX = 175;
-
-    function getCardStyles(diff) {
-      const absDiff = Math.abs(diff);
-      const sign = Math.sign(diff);
-
-      let tx = 0;
-      let tz = -300;
-      let scale = 0.7;
-      let opacity = 0;
-      let zIndex = 0;
-      let pointerEvents = 'none';
-
-      if (absDiff < 1) {
-        const t = absDiff;
-        tx = diff * baseTranslateX;
-        tz = 50 - t * 120; // 50px to -70px
-        scale = 1.08 - t * 0.13; // 1.08 to 0.95
-        opacity = 1 - t * 0.4; // 1.0 to 0.6
-        zIndex = Math.round(10 - t * 5);
-        pointerEvents = 'auto';
-      } else if (absDiff < 2) {
-        const t = absDiff - 1; // 0 to 1
-        tx = sign * (baseTranslateX + t * extraTranslateX);
-        tz = -70 - t * 80; // -70px to -150px
-        scale = 0.95 - t * 0.1;
-        opacity = 0.6 - t * 0.35;
-        zIndex = Math.round(5 - t * 3);
-        pointerEvents = 'auto';
-      } else if (absDiff < 2.5) {
-        const t = (absDiff - 2) * 2; // 0 to 1
-        tx = sign * (baseTranslateX + extraTranslateX + t * 40);
-        tz = -150 - t * 50;
-        scale = 0.85 - t * 0.15;
-        opacity = 0.25 - t * 0.25;
-        zIndex = 1;
-        pointerEvents = 'none';
-      }
-
-      // Compute final Y-rotation
-      const finalRotateY = -diff * 25;
-
-      return {
-        transform: `translateX(${tx}px) translateZ(${tz}px) rotateY(${finalRotateY}deg) scale(${scale})`,
-        opacity: Math.max(0, Math.min(1, opacity)),
-        zIndex: zIndex,
-        pointerEvents: pointerEvents
-      };
-    }
-
-    function render() {
-      // Loop currentProgress to range [0, n]
-      let normProgress = currentProgress % n;
-      if (normProgress < 0) normProgress += n;
-
-      cards.forEach((card, i) => {
-        let diff = i - normProgress;
-        while (diff > n / 2) diff -= n;
-        while (diff < -n / 2) diff += n;
-
-        const styles = getCardStyles(diff);
-        card.style.transform = styles.transform;
-        card.style.opacity = styles.opacity;
-        card.style.zIndex = styles.zIndex;
-        card.style.pointerEvents = styles.pointerEvents;
-
-        if (Math.abs(diff) < 0.5) {
-          card.classList.add('active');
-        } else {
-          card.classList.remove('active');
-        }
-      });
-    }
-
-    function animate() {
-      if (isDragging) {
-        currentProgress += (targetProgress - currentProgress) * 0.18;
-      } else {
-        currentProgress += (targetProgress - currentProgress) * 0.08;
-      }
-
-      render();
-
-      if (Math.abs(targetProgress - currentProgress) > 0.001 || isDragging) {
-        animationFrameId = requestAnimationFrame(animate);
-      } else {
-        currentProgress = targetProgress;
-        render();
-        animationFrameId = null;
-      }
-    }
-
-    function startAnimation() {
-      if (!animationFrameId) {
-        animationFrameId = requestAnimationFrame(animate);
-      }
-    }
-
-    function snapToNearest() {
-      targetProgress = Math.round(targetProgress);
-      targetProgress = (targetProgress % n + n) % n;
-      currentProgress = (currentProgress % n + n) % n;
-      startAnimation();
-    }
-
-    // Auto-rotation timer (cycles every 3.8s automatically)
-    function startAutoPlay() {
-      stopAutoPlay();
-      autoPlayTimer = setInterval(() => {
-        if (!isDragging) {
-          targetProgress = Math.round(targetProgress) + 1;
-          startAnimation();
-        }
-      }, 3800);
-    }
-
-    function stopAutoPlay() {
-      if (autoPlayTimer) {
-        clearInterval(autoPlayTimer);
-        autoPlayTimer = null;
-      }
-    }
-
-    // Render immediately on script load, window load, and resize
-    render();
-    startAnimation();
-    startAutoPlay();
-
-    window.addEventListener('load', () => {
-      render();
-      startAnimation();
-    });
-
-    window.addEventListener('resize', () => {
-      render();
-    });
-
-    // Touch/Drag events
-    const viewport = document.getElementById('carouselViewport');
-    let carouselDragMoved = false;
-    if (viewport) {
-      const handleStart = (e) => {
-        if (e.type === 'mousedown') {
-          e.preventDefault();
-        }
-        isDragging = true;
-        stopAutoPlay();
-        dragStartX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
-        carouselDragMoved = false;
-        dragStartProgress = targetProgress;
-        viewport.style.cursor = 'grabbing';
-        startAnimation();
-      };
-
-      const handleMove = (e) => {
-        if (!isDragging) return;
-        const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
-        const deltaX = clientX - dragStartX;
-        if (Math.abs(deltaX) > 6) {
-          carouselDragMoved = true;
-        }
-
-        const sensitivity = 450; // pixels to scroll 1 slide
-        targetProgress = dragStartProgress - (deltaX / sensitivity);
-      };
-
-      const handleEnd = () => {
-        if (!isDragging) return;
-        isDragging = false;
-        viewport.style.cursor = 'grab';
-        snapToNearest();
-        startAutoPlay();
-      };
-
-      viewport.addEventListener('mousedown', handleStart);
-      window.addEventListener('mousemove', handleMove);
-      window.addEventListener('mouseup', handleEnd);
-
-      viewport.addEventListener('touchstart', handleStart, { passive: true });
-      viewport.addEventListener('touchmove', handleMove, { passive: true });
-      viewport.addEventListener('touchend', handleEnd);
-      viewport.style.cursor = 'grab';
-
-      viewport.addEventListener('mouseenter', stopAutoPlay);
-      viewport.addEventListener('mouseleave', startAutoPlay);
-    }
-
-    // Prev/Next buttons
-    if (btnNext) {
-      btnNext.addEventListener('click', () => {
-        stopAutoPlay();
-        targetProgress = Math.round(targetProgress) + 1;
-        startAnimation();
-        startAutoPlay();
-      });
-    }
-    if (btnPrev) {
-      btnPrev.addEventListener('click', () => {
-        stopAutoPlay();
-        targetProgress = Math.round(targetProgress) - 1;
-        startAnimation();
-        startAutoPlay();
-      });
-    }
-
-    // Clicking slide to center it
-    cards.forEach((card, idx) => {
-      card.addEventListener('click', (e) => {
-        if (carouselDragMoved) {
-          e.preventDefault();
-          e.stopPropagation();
-          return;
-        }
-        stopAutoPlay();
-        let diff = idx - (targetProgress % n);
-        while (diff > n / 2) diff -= n;
-        while (diff < -n / 2) diff += n;
-
-        targetProgress = targetProgress + diff;
-        startAnimation();
-        startAutoPlay();
-      });
-    });
-
-    // Mouse wheel support
-    let lastWheelTime = 0;
-    if (viewport) {
-      viewport.addEventListener('wheel', (e) => {
-        e.preventDefault();
-        const now = performance.now();
-        if (now - lastWheelTime < 250) return;
-
-        lastWheelTime = now;
-        stopAutoPlay();
-        if (e.deltaX > 10 || e.deltaY > 10) {
-          targetProgress = Math.round(targetProgress) + 1;
-        } else if (e.deltaX < -10 || e.deltaY < -10) {
-          targetProgress = Math.round(targetProgress) - 1;
-        }
-        startAnimation();
-        startAutoPlay();
-      }, { passive: false });
-    }
-
-    // 3D Tilt on active card
-    document.addEventListener('mousemove', (e) => {
-      if (window.innerWidth <= 900) return;
-      if (isDragging) return;
-      const activeCard = document.querySelector('.sc-card.active');
-      if (!activeCard) return;
-
-      const rect = activeCard.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-
-      if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
-        const rotX = -((y - rect.height / 2) / rect.height) * 15;
-        const rotY = ((x - rect.width / 2) / rect.width) * 15;
-        activeCard.style.transform = `translateX(0) translateZ(50px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.1)`;
-      } else {
-        if (Math.abs(targetProgress - currentProgress) < 0.01) {
-          activeCard.style.transform = `translateX(0) translateZ(50px) rotateY(0deg) scale(1.08)`;
-        }
-      }
-    });
-
-    // Interactive details list hovers (Dynamic Visual Preview Panel)
-    // With dual-image crossfade: after hovering for 2.5s, switches to 2nd image and keeps cycling
-    const detalheItems = document.querySelectorAll('.detalhe-item');
-    const previewPanes = document.querySelectorAll('.preview-pane');
-
-    // Map each service to its two images (relative paths from css/ — corrected to root-relative)
-    const serviceImages = {
-      webinars: [
-        "assets/SEÇÃO SERVIÇOS/webinar e eventos híbridos/rs=w_1280,h_720.webp",
-        "assets/SEÇÃO SERVIÇOS/webinar e eventos híbridos/rs=w_1240,h_620,cg_true.webp"
-      ],
-      estandes: [
-        "assets/SEÇÃO SERVIÇOS/Confecção de Estande/rs=w_1280,h_853.webp",
-        "assets/SEÇÃO SERVIÇOS/Confecção de Estande/rs=w_1280,h_853 (1).webp"
-      ],
-      realidade: [
-        "assets/SEÇÃO SERVIÇOS/Realidade Aumentada/download (2).webp",
-        "assets/SEÇÃO SERVIÇOS/Realidade Aumentada/download (3).webp"
-      ],
-      mapping: [
-        "assets/SEÇÃO SERVIÇOS/Mapping/cr=w_1240,h_620.webp",
-        "assets/SEÇÃO SERVIÇOS/Mapping/rs=w_984,h_984 (2).webp"
-      ],
-      led: [
-        "assets/SEÇÃO SERVIÇOS/Telas de led/rs=w_1240,h_620,cg_true.webp",
-        "assets/SEÇÃO SERVIÇOS/Telas de led/5.jpg"
-      ]
-    };
-
-    let currentSwitchTimer = null;
-    let currentCycleTimer = null;
-
-    function stopImageCycle() {
-      if (currentSwitchTimer) { clearTimeout(currentSwitchTimer); currentSwitchTimer = null; }
-      if (currentCycleTimer) { clearInterval(currentCycleTimer); currentCycleTimer = null; }
-    }
-
-    function startImageCycle(pane, images) {
-      // Show image 1 as base
-      pane.style.backgroundImage = `url('${images[0]}')`;
-      pane.style.setProperty('--after-bg', `url('${images[1]}')`);
-      pane.classList.remove('img-switching');
-
-      let showingSecond = false;
-
-      function toggleImage() {
-        showingSecond = !showingSecond;
-        if (showingSecond) {
-          // Crossfade to image 2 via ::after
-          pane.style.setProperty('--after-bg', `url('${images[1]}')`);
-          pane.classList.add('img-switching');
-        } else {
-          // Crossfade back to image 1
-          pane.classList.remove('img-switching');
-          // After transition finishes, swap base so ::after can re-enter
-          setTimeout(() => {
-            pane.style.backgroundImage = `url('${images[0]}')`;
-          }, 700);
-        }
-      }
-
-      // Start switching after 2.5s, then cycle every 2.5s
-      currentSwitchTimer = setTimeout(() => {
-        toggleImage();
-        currentCycleTimer = setInterval(toggleImage, 2500);
-      }, 2500);
-    }
-
-    // Auto-rotation variables
-    const serviceIds = ['webinars', 'estandes', 'realidade', 'mapping', 'led'];
-    let autoRotateIndex = 0;
-    let autoRotateInterval = null;
-    let resumeAutoRotateTimeout = null;
-
-    function showService(previewId) {
-      // Stop current image cycle
-      stopImageCycle();
-
-      // Deactivate all panes
-      previewPanes.forEach(pane => {
-        pane.classList.remove('active', 'img-switching');
-      });
-      const defaultPane = document.querySelector('.default-pane');
-      if (defaultPane) defaultPane.classList.remove('active');
-
-      // Highlight text item
-      detalheItems.forEach(item => {
-        if (item.dataset.preview === previewId) {
-          item.classList.add('active-highlight');
-        } else {
-          item.classList.remove('active-highlight');
-        }
-      });
-
-      // Activate preview pane
-      const targetPane = document.querySelector(`.${previewId}-pane`);
-      if (targetPane) {
-        targetPane.classList.add('active');
-
-        // Start image cycle if images exist
-        const images = serviceImages[previewId];
-        if (images && images.length >= 2) {
-          startImageCycle(targetPane, images);
-        }
-      }
-    }
-
-    function startAutoRotation() {
-      stopAutoRotation();
-      autoRotateInterval = setInterval(() => {
-        autoRotateIndex = (autoRotateIndex + 1) % serviceIds.length;
-        showService(serviceIds[autoRotateIndex]);
-      }, 4500); // 4.5 seconds per service rotation
-    }
-
-    function stopAutoRotation() {
-      if (autoRotateInterval) { clearInterval(autoRotateInterval); autoRotateInterval = null; }
-      if (resumeAutoRotateTimeout) { clearTimeout(resumeAutoRotateTimeout); resumeAutoRotateTimeout = null; }
-    }
-
-    detalheItems.forEach(item => {
-      item.addEventListener('mouseenter', () => {
-        const previewId = item.dataset.preview;
-        if (!previewId) return;
-
-        // Stop auto rotation and show hovered item immediately
-        stopAutoRotation();
-        
-        // Sync index so we resume from the hovered one
-        const idx = serviceIds.indexOf(previewId);
-        if (idx !== -1) autoRotateIndex = idx;
-
-        showService(previewId);
-      });
-    });
-
-    // Resume auto-rotation when mouse leaves list container
-    const listContainer = document.querySelector('.detalhes-lista-container');
-    if (listContainer) {
-      listContainer.addEventListener('mouseleave', () => {
-        stopAutoRotation();
-        resumeAutoRotateTimeout = setTimeout(() => {
-          startAutoRotation();
-        }, 2000); // Resume auto-rotation after 2 seconds of inactivity
-      });
-    }
-
-    // Start auto-rotation on load
-    showService(serviceIds[0]);
-    startAutoRotation();
-  }
-
-  /* ════════════════════════════════════════════
-     CASES CTA — CONTROLE DOS CARDS DE SERVIÇO
-     ════════════════════════════════════════════ */
-  const ctaViewport = document.getElementById('casesCtaViewport');
-  const ctaCards = Array.from(document.querySelectorAll('.cta-service-card, .cta-3d-card'));
-  const ctaPrevBtn = document.getElementById('casesCtaPrev');
-  const ctaNextBtn = document.getElementById('casesCtaNext');
-  const ctaDots = Array.from(document.querySelectorAll('#casesCtaDots .cta-dot'));
-
-  if (ctaCards.length > 0) {
-    const N = ctaCards.length;
-    let activeIndex = 2; // Default: Eventos Corporativos (Card index 2)
-
-    function setActiveCtaCard(idx) {
-      activeIndex = (idx % N + N) % N;
-      ctaCards.forEach((card, i) => {
-        if (i === activeIndex) {
-          card.classList.add('active', 'cta-service-card--featured');
-        } else {
-          card.classList.remove('active', 'cta-service-card--featured');
-        }
-      });
-
-      ctaDots.forEach((dot, i) => {
-        if (i === activeIndex) {
-          dot.classList.add('active');
-        } else {
-          dot.classList.remove('active');
-        }
-      });
-    }
-
-    if (ctaPrevBtn) {
-      ctaPrevBtn.addEventListener('click', () => {
-        setActiveCtaCard(activeIndex - 1);
-      });
-    }
-
-    if (ctaNextBtn) {
-      ctaNextBtn.addEventListener('click', () => {
-        setActiveCtaCard(activeIndex + 1);
-      });
-    }
-
-    ctaDots.forEach((dot, i) => {
-      dot.addEventListener('click', () => {
-        setActiveCtaCard(i);
-      });
-    });
-
-    ctaCards.forEach((card, i) => {
-      card.addEventListener('click', () => {
-        setActiveCtaCard(i);
-      });
-    });
-  }
-
-  /* ════════════════════════════════════════════
-     RST NEWS - INTERACTIVE NEWSLETTER
-     ════════════════════════════════════════════ */
   const newsForm = document.getElementById('newsForm');
   const newsEmailInput = document.getElementById('newsEmail');
   const newsStatusMsg = document.getElementById('newsStatusMsg');
@@ -2979,33 +2509,37 @@ category: "convencao audiovisual"
       card.appendChild(img);
       grid.appendChild(card);
 
-      // 3D Perspective Tilt & Parallax Mouse Move Event
+      // 3D Perspective Tilt & Parallax com RAF throttling
+      let tiltTicking = false;
+      let cardRect = null;
+
+      card.addEventListener('mouseenter', () => {
+        cardRect = card.getBoundingClientRect();
+      });
+
       card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-
-        const xc = rect.width / 2;
-        const yc = rect.height / 2;
-        const dx = (x - xc) / xc; // Range: -1 to 1
-        const dy = (y - yc) / yc; // Range: -1 to 1
-
-        // Max rotation: 10 degrees
-        const rotateX = (-dy * 10).toFixed(2);
-        const rotateY = (dx * 10).toFixed(2);
-
-        // Apply 3D tilt style
-        card.style.transform = 'perspective(1000px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) translateY(-5px) scale(1.03)';
-        
-        // Dynamic shadow shift opposite to the mouse
-        card.style.boxShadow = (-dx * 12).toFixed(2) + 'px ' + (-dy * 12).toFixed(2) + 'px 32px rgba(0,0,0,0.06), 0 12px 24px rgba(0,0,0,0.02)';
-
-        // Inner logo depth translation (Parallax)
-        const baseTransform = brand.style ? brand.style + ' ' : '';
-        img.style.transform = baseTransform + 'translate3d(' + (dx * 8).toFixed(2) + 'px, ' + (dy * 8).toFixed(2) + 'px, 30px) scale(1.06)';
-
-        // Spotlight glow follow
-        glow.style.background = 'radial-gradient(150px circle at ' + x + 'px ' + y + 'px, ' + brand.color + '1c, transparent 80%)';
+        if (!cardRect) cardRect = card.getBoundingClientRect();
+        if (!tiltTicking) {
+          tiltTicking = true;
+          requestAnimationFrame(() => {
+            if (cardRect) {
+              const x = e.clientX - cardRect.left;
+              const y = e.clientY - cardRect.top;
+              const xc = cardRect.width / 2;
+              const yc = cardRect.height / 2;
+              const dx = (x - xc) / xc;
+              const dy = (y - yc) / yc;
+              const rotateX = (-dy * 10).toFixed(2);
+              const rotateY = (dx * 10).toFixed(2);
+              card.style.transform = 'perspective(1000px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) translateY(-5px) scale(1.03)';
+              card.style.boxShadow = (-dx * 12).toFixed(2) + 'px ' + (-dy * 12).toFixed(2) + 'px 32px rgba(0,0,0,0.06), 0 12px 24px rgba(0,0,0,0.02)';
+              const baseTransform = brand.style ? brand.style + ' ' : '';
+              img.style.transform = baseTransform + 'translate3d(' + (dx * 8).toFixed(2) + 'px, ' + (dy * 8).toFixed(2) + 'px, 30px) scale(1.06)';
+              glow.style.background = 'radial-gradient(150px circle at ' + x + 'px ' + y + 'px, ' + brand.color + '1c, transparent 80%)';
+            }
+            tiltTicking = false;
+          });
+        }
       });
 
       card.addEventListener('mouseleave', () => {
