@@ -350,7 +350,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const hashParam = vimeoHash ? `?h=${vimeoHash}&` : '?';
       
       const iframe = document.createElement('iframe');
-      iframe.src = `https://player.vimeo.com/video/${vimeoId}${hashParam}fullscreen=1&autoplay=1&muted=0&playsinline=1&title=0&byline=0&portrait=0`;
+      iframe.src = `https://player.vimeo.com/video/${vimeoId}${hashParam}fullscreen=1&autoplay=1&muted=1&playsinline=1&title=0&byline=0&portrait=0`;
       iframe.frameBorder = '0';
       iframe.allow = 'autoplay; fullscreen; picture-in-picture';
       modalHeroVideoWrapper.appendChild(iframe);

@@ -208,8 +208,78 @@ function runPreloader() {
    8. Parallax suave no Hero
    ============================================= */
 
+
+/* ════════════════════════════════════════════
+   SMART VIDEO VISIBILITY OBSERVER (GPU/CPU Saver)
+   Pausa automaticamente vídeos fora da tela e retoma quando entram no viewport
+   ════════════════════════════════════════════ */
+function initVideoVisibilityObserver() {
+  if (!('IntersectionObserver' in window)) return;
+
+  const vimeoMap = new WeakMap();
+  function getVimeo(iframe) {
+    if (!window.Vimeo || !window.Vimeo.Player) return null;
+    if (!vimeoMap.has(iframe)) {
+      try {
+        vimeoMap.set(iframe, new Vimeo.Player(iframe));
+      } catch (e) {
+        return null;
+      }
+    }
+    return vimeoMap.get(iframe);
+  }
+
+  const videoObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const el = entry.target;
+      const inView = entry.isIntersecting;
+
+      // Não interferir no lightbox ou modal de cases abertos
+      if (el.closest('#galleryLightbox') || el.closest('#caseModal')) return;
+
+      if (el.tagName === 'VIDEO') {
+        if (inView) {
+          if (el.paused && !el.ended) {
+            el.play().catch(() => {});
+          }
+        } else {
+          if (!el.paused) {
+            el.pause();
+          }
+        }
+      } else if (el.tagName === 'IFRAME' && el.src && el.src.includes('vimeo.com')) {
+        const player = getVimeo(el);
+        if (inView) {
+          if (player) {
+            player.play().catch(() => {});
+          } else {
+            el.contentWindow?.postMessage('{"method":"play"}', '*');
+          }
+        } else {
+          if (player) {
+            player.pause().catch(() => {});
+          } else {
+            el.contentWindow?.postMessage('{"method":"pause"}', '*');
+          }
+        }
+      }
+    });
+  }, {
+    root: null,
+    rootMargin: '140px 0px 140px 0px',
+    threshold: 0.02
+  });
+
+  // Observa todos os vídeos de fundo e cards
+  const elementsToObserve = document.querySelectorAll(
+    'video.servicos-3d-title-video, video.contato-video-bg, .hero-v2__video-container iframe, .hero-v2__cards iframe'
+  );
+  elementsToObserve.forEach(el => videoObserver.observe(el));
+}
+
 function init() {
   runPreloader();
+  initVideoVisibilityObserver();
 
   // Load hero background video (loads Vimeo iframe for fast streaming)
   const heroVideoBg = document.getElementById('heroVideoBg');
@@ -351,9 +421,10 @@ function init() {
     function animateParticles() {
       if (!isAnimating || !window.preloaderFinished) return;
       
-      // Pause particle calculations when hero section is scrolled out of view
+      // Completely stop RAF loop when hero section is scrolled out of view
       if (window.scrollY > (heroCanvas.height || window.innerHeight)) {
-        animId = requestAnimationFrame(animateParticles);
+        isAnimating = false;
+        animId = null;
         return;
       }
 
@@ -698,9 +769,17 @@ function init() {
      ════════════════════════════════════════════ */
   const heroHolo = document.querySelector('.hero-holographic');
   if (heroHolo) {
+    let ticking = false;
     window.addEventListener('scroll', () => {
-      const scrollY = window.scrollY;
-      heroHolo.style.transform = `translateY(${scrollY * 0.12}px)`;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          if (window.scrollY < window.innerHeight) {
+            heroHolo.style.transform = `translateY(${window.scrollY * 0.12}px)`;
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
     }, { passive: true });
   }
 
@@ -3149,18 +3228,35 @@ category: "convencao audiovisual"
       galleryLightbox.classList.remove('active');
       document.body.style.overflow = '';
       
-      // Stop any playing videos or Vimeo iframes
+      // Interrompe imediatamente qualquer vídeo ou áudio ativo
       if (galleryLightboxVideo) {
-        galleryLightboxVideo.pause();
-        galleryLightboxVideo.src = '';
+        try {
+          galleryLightboxVideo.pause();
+          galleryLightboxVideo.muted = true;
+          galleryLightboxVideo.currentTime = 0;
+          galleryLightboxVideo.src = '';
+        } catch (e) {}
         galleryLightboxVideo.style.display = 'none';
+        galleryLightboxVideo.classList.remove('active');
       }
       if (galleryLightboxIframe) {
-        galleryLightboxIframe.src = '';
+        try {
+          const p = getOrCreateVimeoPlayer(galleryLightboxIframe);
+          if (p) {
+            p.setMuted(true).catch(() => {});
+            p.pause().catch(() => {});
+            p.unload().catch(() => {});
+          }
+          galleryLightboxIframe.contentWindow?.postMessage('{"method":"pause"}', '*');
+          galleryLightboxIframe.contentWindow?.postMessage('{"method":"setVolume","value":0}', '*');
+        } catch (e) {}
+        galleryLightboxIframe.src = 'about:blank';
         galleryLightboxIframe.style.display = 'none';
+        galleryLightboxIframe.classList.remove('active');
       }
       if (galleryLightboxImg) {
         galleryLightboxImg.style.display = 'none';
+        galleryLightboxImg.classList.remove('active');
       }
       
       document.removeEventListener('keydown', handleLightboxKeyboard);
@@ -3174,10 +3270,35 @@ category: "convencao audiovisual"
     lightboxCurrentIndex = index;
     const mediaItem = lightboxMediaArray[index];
 
-    // Hide all 3 media elements first
-    if (galleryLightboxImg) { galleryLightboxImg.classList.remove('active'); galleryLightboxImg.style.display = 'none'; }
-    if (galleryLightboxVideo) { galleryLightboxVideo.classList.remove('active'); galleryLightboxVideo.style.display = 'none'; galleryLightboxVideo.pause(); galleryLightboxVideo.src = ''; }
-    if (galleryLightboxIframe) { galleryLightboxIframe.classList.remove('active'); galleryLightboxIframe.style.display = 'none'; galleryLightboxIframe.src = ''; }
+    // Hide all 3 media elements and pause/silence prior audio first
+    if (galleryLightboxImg) {
+      galleryLightboxImg.classList.remove('active');
+      galleryLightboxImg.style.display = 'none';
+    }
+    if (galleryLightboxVideo) {
+      try {
+        galleryLightboxVideo.pause();
+        galleryLightboxVideo.muted = true;
+        galleryLightboxVideo.currentTime = 0;
+        galleryLightboxVideo.src = '';
+      } catch (e) {}
+      galleryLightboxVideo.classList.remove('active');
+      galleryLightboxVideo.style.display = 'none';
+    }
+    if (galleryLightboxIframe) {
+      try {
+        const p = getOrCreateVimeoPlayer(galleryLightboxIframe);
+        if (p) {
+          p.setMuted(true).catch(() => {});
+          p.pause().catch(() => {});
+          p.unload().catch(() => {});
+        }
+        galleryLightboxIframe.contentWindow?.postMessage('{"method":"pause"}', '*');
+      } catch (e) {}
+      galleryLightboxIframe.src = 'about:blank';
+      galleryLightboxIframe.classList.remove('active');
+      galleryLightboxIframe.style.display = 'none';
+    }
 
     const isVimeoObj = typeof mediaItem === 'object' && mediaItem !== null && mediaItem.type === 'vimeo';
     const isVimeoUrl = typeof mediaItem === 'string' && mediaItem.includes('vimeo.com');
@@ -3195,6 +3316,9 @@ category: "convencao audiovisual"
     } else if (isVideoFile) {
       if (galleryLightboxVideo) {
         galleryLightboxVideo.src = mediaItem;
+        galleryLightboxVideo.muted = false; // Áudio ativado intencionalmente pelo usuário no modal
+        galleryLightboxVideo.volume = 1;
+        galleryLightboxVideo.controls = true; // Controles de reprodução, volume e tela cheia acessíveis
         galleryLightboxVideo.classList.add('active');
         galleryLightboxVideo.style.display = 'block';
         galleryLightboxVideo.play().catch(err => console.log("Lightbox video play prevented", err));
